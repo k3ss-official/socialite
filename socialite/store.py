@@ -153,6 +153,16 @@ def set_status(lead_id: str, status: str) -> None:
     log_event("ledger", f"status:{status}", "ok", lead_id)
 
 
+def advance_status(lead_id: str, status: str) -> None:
+    """Forward-only: a pipeline stage may pull a lead up to its stage, never push it
+    back (a rebuild must not regress a pitched or signed lead). Manual moves in the
+    dashboard use set_status and can go anywhere."""
+    lead = get_lead(lead_id)
+    order = LEAD_STATUSES.index
+    if lead["status"] != "rejected" and order(status) > order(lead["status"]):
+        set_status(lead_id, status)
+
+
 # ---------- clients & service ledger ----------
 
 def sign_lead(lead_id: str, rung_keys: list[str], monthly_values: dict[str, float],

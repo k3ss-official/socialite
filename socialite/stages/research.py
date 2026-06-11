@@ -49,9 +49,13 @@ def _image_urls(soup: BeautifulSoup, base_url: str) -> list[str]:
     return urls
 
 
-def harvest(lead_id: str) -> dict:
+def harvest(lead_id: str, force: bool = False) -> dict:
     lead = store.get_lead(lead_id)
     raw = store.lead_dir(lead_id) / "raw"
+    if (raw / "research.json").exists() and not force:
+        store.log_event("research", "reuse_existing", "skipped", lead_id,
+                        reason="raw bundle present; pass --force to re-harvest")
+        return store.load_json(raw / "research.json")
     (raw / "pages").mkdir(parents=True, exist_ok=True)
     (raw / "images").mkdir(parents=True, exist_ok=True)
     name = lead["name"]

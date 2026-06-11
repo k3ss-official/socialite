@@ -65,12 +65,25 @@ def generate(lead_id: str, bible_version: int | None = None) -> dict:
     if best_tier is not None:
         tiers[best_tier]["recommended"] = True
 
-    version = store.next_version(store.lead_dir(lead_id) / "pitch", "v*.json")
+    pdir = store.lead_dir(lead_id) / "pitch"
     pitch = {"lead_id": lead_id, "bible_version": bible_version, "generated_at": store.now(),
              "currency": lead["locale"]["currency"], "gap_summary": gap_summary,
              "rungs": rungs, "tiers": tiers}
     contracts.validate(pitch, "pitch")
-    pdir = store.lead_dir(lead_id) / "pitch"
+
+    # identical content (minus timestamp) -> reuse latest version
+    latest = store.latest_version(pdir)
+    if latest:
+        prior = store.load_json(pdir / f"v{latest}.json")
+        strip = lambda d: {k: v for k, v in d.items() if k not in ("generated_at", "version")}
+        if strip(prior) == strip(pitch):
+            store.advance_status(lead_id, "pitched")
+            store.log_event("pitch", "reuse_existing", "skipped", lead_id, version=latest)
+            prior.setdefault("version", latest)
+            return prior
+
+    version = store.next_version(pdir, "v*.json")
+    pitch["version"] = version
     store.save_json(pdir / f"v{version}.json", pitch)
 
     env = Environment(loader=FileSystemLoader(ROOT / "templates" / "pitch"), autoescape=True)
@@ -78,7 +91,7 @@ def generate(lead_id: str, bible_version: int | None = None) -> dict:
         pitch=pitch, bible=bible, lead=lead, locale=loc,
         rung_by_key={r["key"]: r for r in rungs})
     (pdir / f"v{version}.html").write_text(html)
-    store.set_status(lead_id, "pitched")
+    store.advance_status(lead_id, "pitched")
     store.log_event("pitch", "generated", "ok", lead_id, version=version,
                     artifact=f"data/leads/{lead_id}/pitch/v{version}.html",
                     open_gaps=sorted(open_keys))

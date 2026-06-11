@@ -23,6 +23,22 @@ def build(lead_id: str, bible_version: int | None = None, theme: str | None = No
 
     theme_dir = ROOT / "templates" / "site" / theme
     sdir = store.lead_dir(lead_id) / "site"
+
+    # identical inputs -> identical bundle; don't spam versions
+    h0 = hashlib.sha256((bdir / f"v{bible_version}.json").read_bytes())
+    for tpl in sorted(theme_dir.rglob("*")):
+        if tpl.is_file():
+            h0.update(tpl.read_bytes())
+    inputs_hash = h0.hexdigest()[:16]
+    latest = store.latest_version(sdir)
+    if latest:
+        prior = store.load_json(sdir / f"v{latest}" / "build-manifest.json")
+        if prior.get("inputs_hash") == inputs_hash and prior.get("theme") == theme:
+            store.advance_status(lead_id, "built")
+            store.log_event("build", "reuse_existing", "skipped", lead_id, version=latest,
+                            reason="bible + theme unchanged")
+            return prior
+
     version = store.next_version(sdir)
     out = sdir / f"v{version}"
     (out / "assets" / "img").mkdir(parents=True, exist_ok=True)
@@ -52,17 +68,13 @@ def build(lead_id: str, bible_version: int | None = None, theme: str | None = No
         shutil.copytree(static, out / "assets", dirs_exist_ok=True)
     files += [f"assets/img/{p['path'].split('/')[-1]}" for p in photos]
 
-    h = hashlib.sha256((bdir / f"v{bible_version}.json").read_bytes())
-    for tpl in sorted(theme_dir.rglob("*")):
-        if tpl.is_file():
-            h.update(tpl.read_bytes())
     manifest = {"lead_id": lead_id, "bible_version": bible_version, "theme": theme,
-                "built_at": store.now(), "inputs_hash": h.hexdigest()[:16],
+                "built_at": store.now(), "inputs_hash": inputs_hash,
                 "output_dir": str(out.relative_to(ROOT)), "files": sorted(files),
                 "site_version": version}
     contracts.validate(manifest, "build-manifest")
     store.save_json(out / "build-manifest.json", manifest)
-    store.set_status(lead_id, "built")
+    store.advance_status(lead_id, "built")
     store.log_event("build", "site_built", "ok", lead_id, artifact=manifest["output_dir"],
                     version=version, bible_version=bible_version, theme=theme)
     return manifest

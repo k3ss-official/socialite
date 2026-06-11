@@ -130,6 +130,26 @@ def find_single(query: str, locale_key: str) -> dict:
     if not candidates:
         evidence.append(_evidence("website_check", "no candidate own-domain website in search results"))
 
+    # DDG result variance means a re-run can miss things we already found and
+    # verified — never let a rerun silently downgrade known evidence
+    status, address, category = "found", None, ""
+    try:
+        prior = store.get_lead(lead_id)
+        status = prior["status"]  # re-finding must not regress pipeline position
+        address, category = prior.get("address"), prior.get("category", "")
+        if website["verdict"] == "none" and prior["website"]["verdict"] != "none":
+            website = prior["website"]
+            evidence.append(_evidence(
+                "website_check",
+                f"kept prior verdict '{website['verdict']}' for {website['url']} (search variance this run)",
+                website["url"]))
+        for s in prior.get("socials", []):  # union socials across runs
+            socials.setdefault(s["platform"], s["url"])
+        for k, v in prior.get("contact", {}).items():  # never lose a found contact
+            contact[k] = contact.get(k) or v
+    except FileNotFoundError:
+        pass
+
     if socials.get("facebook"):
         contact["messenger"] = socials["facebook"]
     score = 0
@@ -141,14 +161,14 @@ def find_single(query: str, locale_key: str) -> dict:
                        for r in results) else 0
 
     lead = {
-        "id": lead_id, "name": name, "category": "",
+        "id": lead_id, "name": name, "category": category,
         "locale": {"key": loc["key"], "country": loc["country"], "language": loc["language"],
                    "currency": loc["currency"], "contact_channel": loc["contact_channel"]},
-        "address": None, "contact": contact,
+        "address": address, "contact": contact,
         "socials": [{"platform": p, "url": u, "active": None} for p, u in socials.items()],
         "website": website,
         "qualification": {"score": min(score, 100), "evidence": evidence},
-        "status": "found", "created_at": store.now(), "updated_at": store.now(),
+        "status": status, "created_at": store.now(), "updated_at": store.now(),
     }
     contracts.validate(lead, "lead")
     store.upsert_lead(lead)

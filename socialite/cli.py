@@ -36,7 +36,7 @@ def cmd_run(args) -> None:
     print(f"[build]  {m['output_dir']}")
     p = pitch.generate(lid)
     rec = next(t for t in p["tiers"] if t.get("recommended"))
-    print(f"[pitch]  v{p['bible_version']}  recommended tier: {rec['name']} "
+    print(f"[pitch]  v{p.get('version', '?')}  recommended tier: {rec['name']} "
           f"({p['currency']} {rec['monthly_low']}-{rec['monthly_high']}/mo)")
     print("\n[provision --dry-run]")
     print(_provision_dry_run(lid))
@@ -70,7 +70,7 @@ def main() -> None:
     for name in ("research", "bible", "build", "pitch"):
         p = sub.add_parser(name)
         p.add_argument("lead_id")
-        if name == "bible":
+        if name in ("research", "bible"):
             p.add_argument("--force", action="store_true")
         if name == "build":
             p.add_argument("--bible-version", type=int, default=None)
@@ -89,7 +89,7 @@ def main() -> None:
         for l in leads:
             print(f"{l['qualification']['score']:>3}  {l['id']:<40} website={l['website']['verdict']}")
     elif args.cmd == "research":
-        research.harvest(args.lead_id)
+        research.harvest(args.lead_id, force=args.force)
     elif args.cmd == "bible":
         print(json.dumps(bible.generate(args.lead_id, force=args.force), indent=2)[:2000])
     elif args.cmd == "build":
