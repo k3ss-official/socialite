@@ -1,0 +1,280 @@
+{
+  "lead_id": "scran-away-chorley",
+  "version": 1,
+  "generated_at": "2026-06-11T20:48:00+00:00",
+  "inputs_hash": "ce17e20ce5fc403e",
+  "generator": "session-agent-fallback (claude CLI 401, see notes/LESSONS.md)",
+  "alerts": [
+    "CLOSED 27 May 2026: owner Janine announced on Facebook that Scran Away will not reopen at Bolton Street with the current pairing; she plans to relaunch independently at a new location. PITCH ANGLE: walk in with the relaunch site ready — perfect timing, but confirm her plans before pitching the old address.",
+    "Two phone numbers in the wild: 01257 824763 (painted on the shopfront sign and on their current template site) vs +44 1257 576084 (Facebook-sourced directory mirror). Confirm in person.",
+    "Their current site (dogonapc.com) is our own earlier Socialite demo build — canned reviews, borrowed domain. Classified 'template' by FIND, correctly."
+  ],
+  "identity": {
+    "name": "Scran Away",
+    "tagline": "Good scran. Wicked spot. End of.",
+    "category": "sandwich shop & cafe",
+    "story": "Scran Away started as a food stall on Chorley market and earned its stripes the hard way — proper breakfasts, butties and pies that turned first-timers into regulars at 73 Bolton Street. A perfect 5.0 on Google and a 5/5 hygiene rating tell you everything: small kitchen, big standards, zero shortcuts."
+  },
+  "brand_voice": {
+    "tone": "cheeky, proper Lancashire, zero pretence — talks like a mate, delivers like a pro",
+    "keywords": [
+      "scran",
+      "proper",
+      "banging",
+      "butty",
+      "fresh",
+      "no nonsense",
+      "local"
+    ]
+  },
+  "palette": {
+    "primary": "#7E2A1E",
+    "secondary": "#44604F",
+    "accent": "#BC4A1C",
+    "background": "#FFF8F0",
+    "text": "#2B2118",
+    "mode": "light",
+    "rationale": "Warm brick red and cream pulled from the shopfront signage and bacon-butty warmth; sage secondary keeps it from shouting. AA contrast on cream."
+  },
+  "typography": {
+    "heading": "Fraunces",
+    "body": "Inter"
+  },
+  "photos": [
+    {
+      "path": "images/img00.webp",
+      "use": "hero",
+      "caption": "The shop on Bolton Street",
+      "source": "dogonapc.com"
+    },
+    {
+      "path": "images/img01.webp",
+      "use": "gallery",
+      "caption": "The full breakfast",
+      "source": "dogonapc.com"
+    },
+    {
+      "path": "images/img02.webp",
+      "use": "gallery",
+      "caption": "Bacon barm, done right",
+      "source": "dogonapc.com"
+    },
+    {
+      "path": "images/img03.webp",
+      "use": "menu",
+      "caption": "Tuna melt toastie",
+      "source": "dogonapc.com"
+    },
+    {
+      "path": "images/img04.webp",
+      "use": "gallery",
+      "caption": "Proper coffee",
+      "source": "dogonapc.com"
+    },
+    {
+      "path": "images/img05.webp",
+      "use": "about",
+      "caption": "Pie, chips and mushy peas",
+      "source": "dogonapc.com"
+    },
+    {
+      "path": "images/img06.webp",
+      "use": "gallery",
+      "caption": "Loaded jacket",
+      "source": "dogonapc.com"
+    }
+  ],
+  "usps": [
+    "5.0 stars on Google — every one of 16 reviews",
+    "5/5 food hygiene, FSA inspected March 2025",
+    "Made fresh that morning, every morning",
+    "Catering platters for offices and events"
+  ],
+  "reviews": [
+    {
+      "quote": "I can report the scran was banging",
+      "author": null,
+      "rating": 5,
+      "source": "Facebook",
+      "url": "https://www.findglocal.com/GB/Chorley/110724224833283/Scran-away"
+    },
+    {
+      "quote": "Mythical — spotless AND the best of the best",
+      "author": null,
+      "rating": 5,
+      "source": "UnicornEats (FSA + Google data)",
+      "url": "https://unicorneats.co.uk/chorley/scran-away"
+    }
+  ],
+  "services": [
+    {
+      "name": "Full Breakfast",
+      "description": "The works, till 2pm every day",
+      "price": null
+    },
+    {
+      "name": "Hot Sandwiches & Toasties",
+      "description": "Bacon, sausage, melts — on barms or toast",
+      "price": null
+    },
+    {
+      "name": "Paninis",
+      "description": "Pressed fresh to order",
+      "price": null
+    },
+    {
+      "name": "Jacket Potatoes",
+      "description": "Loaded how you like them",
+      "price": null
+    },
+    {
+      "name": "Pies",
+      "description": "With chips, gravy and mushy peas",
+      "price": null
+    },
+    {
+      "name": "Cold Sandwiches & Treats",
+      "description": "Made-up fresh, plus cakes and drinks",
+      "price": null
+    },
+    {
+      "name": "Catering Platters",
+      "description": "Breakfast and sandwich platters for meetings and events — call for a quote",
+      "price": null
+    }
+  ],
+  "hours": {
+    "Mon–Sat": "7:30am – 2:30pm",
+    "Sun": "9am – 2pm"
+  },
+  "location": {
+    "address": "73 Bolton Street, Chorley PR7 3AG",
+    "maps_query": "Scran Away, 73 Bolton Street, Chorley PR7 3AG"
+  },
+  "competitors": [
+    {
+      "name": "Kings Castle (Eaves Lane)",
+      "website": null,
+      "strengths": [
+        "New venture with launch buzz",
+        "Online ordering live on Just Eat"
+      ],
+      "features": {
+        "no_website": false,
+        "no_online_menu": true,
+        "no_branded_email": false,
+        "no_booking": true,
+        "low_social_cadence": true,
+        "weak_reviews_display": false,
+        "no_competitor_intel": false,
+        "no_seasonal_marketing": false,
+        "stale_brand": true
+      }
+    },
+    {
+      "name": "Vujon Indian Dining Room",
+      "website": null,
+      "strengths": [
+        "Established sit-down restaurant",
+        "Strong TripAdvisor presence"
+      ],
+      "features": {
+        "no_website": true,
+        "no_online_menu": true,
+        "no_branded_email": false,
+        "no_booking": true,
+        "low_social_cadence": true,
+        "weak_reviews_display": true,
+        "no_competitor_intel": false,
+        "no_seasonal_marketing": false,
+        "stale_brand": false
+      }
+    }
+  ],
+  "gap_matrix": [
+    {
+      "gap_key": "no_website",
+      "label": "No real website",
+      "prospect_has": false,
+      "competitors_with": 1,
+      "note": "Current site is a template demo on a borrowed domain (dogonapc.com)"
+    },
+    {
+      "gap_key": "no_online_menu",
+      "label": "No online menu with prices",
+      "prospect_has": false,
+      "competitors_with": 2,
+      "note": "Menu categories exist on the demo site but no prices anywhere they own"
+    },
+    {
+      "gap_key": "no_branded_email",
+      "label": "No branded email",
+      "prospect_has": false,
+      "competitors_with": 0,
+      "note": "Running on Scran-away2025@outlook.com"
+    },
+    {
+      "gap_key": "no_booking",
+      "label": "No online ordering",
+      "prospect_has": false,
+      "competitors_with": 2,
+      "note": "Not on Just Eat; rivals are"
+    },
+    {
+      "gap_key": "low_social_cadence",
+      "label": "Social posting irregular",
+      "prospect_has": true,
+      "competitors_with": 2,
+      "note": "Page was genuinely active until closure — cadence was fine"
+    },
+    {
+      "gap_key": "weak_reviews_display",
+      "label": "Great reviews nobody sees",
+      "prospect_has": false,
+      "competitors_with": 1,
+      "note": "5.0 on Google (16 reviews) displayed nowhere they own"
+    },
+    {
+      "gap_key": "no_competitor_intel",
+      "label": "No eyes on competitors",
+      "prospect_has": false,
+      "competitors_with": 0
+    },
+    {
+      "gap_key": "no_seasonal_marketing",
+      "label": "No seasonal campaigns",
+      "prospect_has": false,
+      "competitors_with": 0
+    },
+    {
+      "gap_key": "stale_brand",
+      "label": "Brand in flux",
+      "prospect_has": false,
+      "competitors_with": 1,
+      "note": "Relaunch pending under new identity — annual refresh rung is the natural fit"
+    }
+  ],
+  "site_copy": {
+    "headline": "Chorley's five-star butty shop",
+    "subheadline": "Breakfasts, butties, paninis, jackets and pies on Bolton Street — five stars on Google, 5/5 hygiene, made fresh every morning.",
+    "about_heading": "Us, in a nutshell",
+    "about": "We started flogging butties on Chorley market and never looked back. No freezer shortcuts, no fancy nonsense — just proper scran made fresh each morning, a brew done right, and a 5/5 hygiene score we're dead proud of. Sixteen Google reviews, sixteen five-stars. That's not luck, that's graft.",
+    "menu_heading": "What's cooking",
+    "reviews_heading": "Don't take our word for it",
+    "visit_heading": "Come say hello",
+    "cta_primary": {
+      "label": "Call to order",
+      "type": "phone",
+      "value": "+441257824763"
+    },
+    "footer_line": "Everything always made with love. End of."
+  },
+  "sources": [
+    "https://dogonapc.com/",
+    "https://www.facebook.com/scranaway/",
+    "https://www.instagram.com/scranawaychorley/",
+    "https://www.findglocal.com/GB/Chorley/110724224833283/Scran-away",
+    "https://unicorneats.co.uk/chorley/scran-away",
+    "https://ratings.food.gov.uk/business/1796323"
+  ]
+}

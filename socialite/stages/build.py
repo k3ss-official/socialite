@@ -40,7 +40,7 @@ def build(lead_id: str, bible_version: int | None = None, theme: str | None = No
 
     env = Environment(loader=FileSystemLoader(theme_dir), autoescape=True)
     ctx = {"bible": bible, "lead": lead, "locale": loc, "photos": photos, "hero": hero,
-           "gallery": [p for p in photos if p is not hero]}
+           "gallery": [p for p in photos if p["use"] in ("gallery", "menu") and p is not hero]}
     files = []
     for tpl in theme_dir.glob("*.j2"):
         rendered = env.get_template(tpl.name).render(**ctx)

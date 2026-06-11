@@ -57,12 +57,19 @@
     <div class="meta">Prepared {{ pitch.generated_at[:10] }}<br>bible v{{ pitch.bible_version }} · internal</div>
   </div>
 
+  {% if bible.alerts %}
+  <h2>⚠ Rep briefing — read before you knock</h2>
+  {% for a in bible.alerts %}
+  <p style="background:#fff7e6;border-left:4px solid #e8a13c;padding:.7rem .9rem;margin-bottom:.5rem;font-size:.88rem">{{ a }}</p>
+  {% endfor %}
+  {% endif %}
+
   <h2>What they're losing right now</h2>
   {% for g in pitch.gap_summary %}
   <div class="gap">
     <div class="n">{{ loop.index }}</div>
     <div>
-      <b>{{ g.label }}{% if g.competitors_with %} — {{ g.competitors_with }} local rival{{ 's' if g.competitors_with != 1 }} have it{% endif %}</b>
+      <b>{{ g.label }}{% if g.competitors_with %} — {{ g.competitors_with }} local rival{{ 's have' if g.competitors_with != 1 else ' has' }} it{% endif %}</b>
       <span class="say">Say it like this: “{{ g.sell_line }}”</span>
       <div class="fix">Fixed by: {{ rung_by_key[g.rung_key].name }}</div>
     </div>
