@@ -5,11 +5,17 @@ Why: already installed, billed to the existing plan, no extra SaaS, and
 from __future__ import annotations
 
 import json
+import os
 import re
 import subprocess
 
 from . import contracts, store
 from .config import settings
+
+# When the pipeline runs nested inside a Claude Code session, harness env vars
+# (proxy base URL, session creds) leak in and 401 the CLI. Scrub them.
+_SCRUB_ENV = ("ANTHROPIC_BASE_URL", "ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN",
+              "CLAUDECODE", "CLAUDE_CODE_ENTRYPOINT", "CLAUDE_CODE_SESSION_ID")
 
 
 def _extract_json(text: str) -> dict:
@@ -34,10 +40,14 @@ def _extract_json(text: str) -> dict:
 def _call(prompt: str, timeout: int = 600) -> tuple[str, float]:
     cfg = settings()["llm"]
     cmd = [cfg["cli"], "-p", "--output-format", "json", "--model", cfg["model"]]
-    proc = subprocess.run(cmd, input=prompt, capture_output=True, text=True, timeout=timeout)
+    env = {k: v for k, v in os.environ.items() if k not in _SCRUB_ENV}
+    proc = subprocess.run(cmd, input=prompt, capture_output=True, text=True,
+                          timeout=timeout, env=env)
     if proc.returncode != 0:
         raise RuntimeError(f"claude CLI failed (rc={proc.returncode}): {proc.stderr[:500]}")
     envelope = json.loads(proc.stdout)
+    if envelope.get("is_error"):
+        raise RuntimeError(f"claude CLI error: {str(envelope.get('result'))[:300]}")
     return envelope.get("result", ""), float(envelope.get("total_cost_usd") or 0.05)
 
 

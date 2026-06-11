@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Events{% endblock %}
+{% block content %}
+<div class="page-head"><h1>Events</h1><span class="muted">last 200</span></div>
+<section class="panel">
+  {% if events %}
+  <table>
+    <thead><tr><th>Time</th><th>Lead</th><th>Stage</th><th>Action</th><th>Status</th><th class="num">Cost</th></tr></thead>
+    <tbody>
+      {% for e in events %}
+      <tr>
+        <td class="muted">{{ e['ts'] | ts }}</td>
+        <td>{% if e['lead_id'] %}<a href="{{ url_for('lead_detail', lead_id=e['lead_id']) }}">{{ e['lead_id'] }}</a>{% else %}—{% endif %}</td>
+        <td>{{ e['stage'] }}</td>
+        <td>{{ e['action'] }}</td>
+        <td>{{ e['status'] }}</td>
+        <td class="num">{% if e['cost_usd'] %}${{ e['cost_usd'] | money }}{% else %}—{% endif %}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}<p class="empty">No pipeline activity yet.</p>{% endif %}
+</section>
+{% endblock %}

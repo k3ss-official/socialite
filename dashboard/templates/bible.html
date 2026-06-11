@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block title %}Bible v{{ v }} · {{ bible.identity.name if bible.identity else lead_id }}{% endblock %}
+{% block content %}
+<p><a href="{{ url_for('lead_detail', lead_id=lead_id) }}">&larr; back to lead</a></p>
+<div class="page-head">
+  <h1>{{ bible.identity.name if bible.identity else lead_id }}</h1>
+  <span class="tag">bible v{{ v }}</span>
+  <span class="muted">{{ bible.generated_at | ts }}</span>
+</div>
+
+{% if bible.identity %}
+<section class="panel">
+  <h2>Identity</h2>
+  {% if bible.identity.tagline %}<p class="tagline">“{{ bible.identity.tagline }}”</p>{% endif %}
+  <p class="muted">{{ bible.identity.category }}</p>
+  <p>{{ bible.identity.story }}</p>
+</section>
+{% endif %}
+
+{% if bible.brand_voice %}
+<section class="panel">
+  <h2>Brand voice</h2>
+  <p>{{ bible.brand_voice.tone }}</p>
+  <p>{% for k in bible.brand_voice.keywords %}<span class="tag">{{ k }}</span> {% endfor %}</p>
+</section>
+{% endif %}
+
+{% if swatches %}
+<section class="panel">
+  <h2>Palette</h2>
+  <div class="swatches">
+    {% for name, hex in swatches %}
+    <div class="swatch">
+      <span class="chip" style="background: {{ hex }}"></span>
+      <span class="swatch-label">{{ name }}<br><code>{{ hex }}</code></span>
+    </div>
+    {% endfor %}
+  </div>
+  {% if bible.palette.rationale %}<p class="muted">{{ bible.palette.rationale }}</p>{% endif %}
+</section>
+{% endif %}
+
+{% if photos %}
+<section class="panel">
+  <h2>Photos</h2>
+  <div class="photo-grid">
+    {% for ph in photos %}
+    <figure>
+      <img src="{{ url_for('raw_image', lead_id=lead_id, p=ph.rel) }}" alt="{{ ph.caption or ph.use }}">
+      <figcaption><span class="tag">{{ ph.use }}</span> {{ ph.caption or '' }}</figcaption>
+    </figure>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if bible.usps %}
+<section class="panel">
+  <h2>USPs</h2>
+  <ul>{% for u in bible.usps %}<li>{{ u }}</li>{% endfor %}</ul>
+</section>
+{% endif %}
+
+{% if bible.reviews %}
+<section class="panel">
+  <h2>Review pull-quotes</h2>
+  {% for r in bible.reviews %}
+  <blockquote>
+    “{{ r.quote }}”
+    <footer>— {{ r.author or 'anonymous' }}{% if r.rating %}, {{ r.rating }}★{% endif %}
+      <span class="muted">({{ r.source }})</span></footer>
+  </blockquote>
+  {% endfor %}
+</section>
+{% endif %}
+
+{% if bible.services %}
+<section class="panel">
+  <h2>Services</h2>
+  <table>
+    <thead><tr><th>Name</th><th>Description</th><th>Price</th></tr></thead>
+    <tbody>
+      {% for s in bible.services %}
+      <tr><td>{{ s.name }}</td><td>{{ s.description or '—' }}</td><td>{{ s.price or '—' }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endif %}
+
+{% if bible.competitors %}
+<section class="panel">
+  <h2>Competitors</h2>
+  {% for c in bible.competitors %}
+  <div class="competitor">
+    <strong>{{ c.name }}</strong>
+    {% if c.website %}<a href="{{ c.website }}" target="_blank" rel="noopener" class="muted">{{ c.website }}</a>{% endif %}
+    {% if c.strengths %}<ul>{% for s in c.strengths %}<li>{{ s }}</li>{% endfor %}</ul>{% endif %}
+  </div>
+  {% endfor %}
+</section>
+{% endif %}
+
+{% if bible.gap_matrix %}
+<section class="panel">
+  <h2>Gap matrix</h2>
+  <table>
+    <thead><tr><th>Gap</th><th>Prospect has</th><th>Competitors with it</th><th>Note</th></tr></thead>
+    <tbody>
+      {% for g in bible.gap_matrix %}
+      <tr>
+        <td>{{ g.label }}</td>
+        <td class="{{ 'ok' if g.prospect_has else 'bad' }}">{{ '✓' if g.prospect_has else '✗' }}</td>
+        <td>{{ g.competitors_with }}</td>
+        <td class="muted">{{ g.note or '' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endif %}
+{% endblock %}

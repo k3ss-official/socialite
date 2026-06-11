@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Clients{% endblock %}
+{% block content %}
+<div class="page-head"><h1>Clients</h1></div>
+
+<section class="panel">
+  <h2>MRR rollup</h2>
+  {% if rollup %}
+  {% for currency, r in rollup.items() %}
+  <div class="rollup">
+    <div class="rollup-head">
+      <strong>{{ currency }} {{ r.mrr | money }}</strong>
+      <span class="muted">/ month · {{ r.active_services }} active service{{ 's' if r.active_services != 1 }}</span>
+    </div>
+    <table class="proj">
+      <thead><tr><th>Year</th><th>Projected MRR (~10%/yr attrition)</th><th></th></tr></thead>
+      <tbody>
+        {% for val in r.projection %}
+        <tr>
+          <td>Y{{ loop.index0 }}</td>
+          <td class="num">{{ currency }} {{ val | money }}</td>
+          <td class="barcell">
+            <div class="bar" style="width: {{ (val / r.projection[0] * 100) if r.projection[0] else 0 }}%"></div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endfor %}
+  {% else %}<p class="empty">No active services yet — sign a lead to start the ledger.</p>{% endif %}
+</section>
+
+{% for c in clients %}
+<section class="panel">
+  <h2><a href="{{ url_for('lead_detail', lead_id=c.lead_id) }}">{{ c.name }}</a>
+      <span class="muted">signed {{ c.signed_at | ts }}</span></h2>
+  {% if c.services %}
+  <table>
+    <thead><tr><th>Rung</th><th class="num">Monthly</th><th>Start</th><th>Renewal</th><th>Status</th></tr></thead>
+    <tbody>
+      {% for s in c.services %}
+      <tr>
+        <td>{{ s['name'] }}</td>
+        <td class="num">{{ s['currency'] }} {{ s['monthly_value'] | money }}</td>
+        <td class="muted">{{ s['start_date'] }}</td>
+        <td class="muted">{{ s['renewal_date'] }}</td>
+        <td><span class="pill pill-{{ 'signed' if s['status'] == 'active' else 'rejected' }}">{{ s['status'] }}</span></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td><strong>Monthly total</strong></td>
+        <td class="num"><strong>
+          {% for cur, total in c.totals.items() %}{{ cur }} {{ total | money }}{% if not loop.last %} + {% endif %}{% else %}—{% endfor %}
+        </strong></td>
+        <td colspan="3"></td>
+      </tr>
+    </tfoot>
+  </table>
+  {% else %}<p class="empty">No services on ledger.</p>{% endif %}
+</section>
+{% else %}
+<section class="panel"><p class="empty">No clients yet.</p></section>
+{% endfor %}
+{% endblock %}

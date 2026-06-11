@@ -1,0 +1,135 @@
+{#- Theme: classic. Context: bible, lead, locale, photos, hero, gallery (see build.py). -#}
+{%- set c = bible.site_copy -%}
+{%- set heading_font = bible.typography.heading | default('Fraunces', true) -%}
+{%- set body_font = bible.typography.body | default('Inter', true) -%}
+{%- macro cta_href(cta) -%}
+  {%- if cta.type == 'phone' -%}tel:{{ cta.value | replace(' ', '') }}
+  {%- elif cta.type == 'whatsapp' -%}https://wa.me/{{ cta.value | replace('+','') | replace(' ','') }}
+  {%- elif cta.type == 'email' -%}mailto:{{ cta.value }}
+  {%- elif cta.type == 'maps' -%}https://maps.google.com/?q={{ cta.value | urlencode }}
+  {%- else -%}{{ cta.value }}
+  {%- endif -%}
+{%- endmacro -%}
+{%- set ratings = bible.reviews | selectattr('rating') | map(attribute='rating') | list -%}
+<!doctype html>
+<html lang="{{ lead.locale.language.split('-')[0] }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ bible.identity.name }}{% if bible.identity.tagline %} — {{ bible.identity.tagline }}{% endif %}</title>
+<meta name="description" content="{{ c.subheadline }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family={{ heading_font | replace(' ', '+') }}:wght@500;600;700&family={{ body_font | replace(' ', '+') }}:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <span class="wordmark">{{ bible.identity.name }}</span>
+  <a class="btn btn-primary btn-sm" href="{{ cta_href(c.cta_primary) }}">{{ c.cta_primary.label }}</a>
+</header>
+
+<section class="hero{% if not hero %} hero--plain{% endif %}" {% if hero %}style="background-image:linear-gradient(180deg, rgba(8,8,12,.30) 0%, rgba(8,8,12,.62) 100%), url('{{ hero.path }}')"{% endif %}>
+  <div class="hero-inner">
+    {% if bible.identity.tagline %}<p class="eyebrow">{{ bible.identity.tagline }}</p>{% endif %}
+    <h1>{{ c.headline }}</h1>
+    <p class="sub">{{ c.subheadline }}</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="{{ cta_href(c.cta_primary) }}">{{ c.cta_primary.label }}</a>
+      {% if bible.services %}<a class="btn btn-ghost" href="#menu">{{ c.menu_heading or 'Menu' }}</a>{% endif %}
+    </div>
+    {% if ratings %}
+    <p class="rating-badge" aria-label="rating">
+      <span class="stars">{% for _ in range((((ratings | sum) / (ratings | length)) | round) | int) %}★{% endfor %}</span>
+      {{ '%.1f' | format((ratings | sum) / (ratings | length)) }} from real reviews
+    </p>
+    {% endif %}
+  </div>
+</section>
+
+{% if bible.usps %}
+<section class="usps">
+  {% for u in bible.usps[:4] %}<div class="usp">{{ u }}</div>{% endfor %}
+</section>
+{% endif %}
+
+<section class="section about" id="about">
+  <div class="section-head"><p class="eyebrow">{{ c.about_heading }}</p></div>
+  <div class="about-grid{% if not (photos | selectattr('use','equalto','about') | list) %} about-grid--solo{% endif %}">
+    <p class="about-text">{{ c.about }}</p>
+    {% set about_photo = (photos | selectattr('use','equalto','about') | list | first) %}
+    {% if about_photo %}<img src="{{ about_photo.path }}" alt="{{ about_photo.caption or bible.identity.name }}" loading="lazy">{% endif %}
+  </div>
+</section>
+
+{% if bible.services %}
+<section class="section" id="menu">
+  <div class="section-head"><p class="eyebrow">{{ c.menu_heading or 'What we make' }}</p></div>
+  <div class="cards">
+    {% for s in bible.services %}
+    <div class="card">
+      <div class="card-top"><h3>{{ s.name }}</h3>{% if s.price %}<span class="price">{{ s.price }}</span>{% endif %}</div>
+      {% if s.description %}<p>{{ s.description }}</p>{% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if bible.reviews %}
+<section class="section reviews-band">
+  <div class="section-head"><p class="eyebrow">{{ c.reviews_heading or 'Word gets around' }}</p></div>
+  <div class="reviews">
+    {% for r in bible.reviews %}
+    <figure class="review">
+      {% if r.rating %}<div class="stars">{% for _ in range(r.rating | round | int) %}★{% endfor %}</div>{% endif %}
+      <blockquote>“{{ r.quote }}”</blockquote>
+      <figcaption>{{ r.author or 'Verified review' }} · {{ r.source }}</figcaption>
+    </figure>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if gallery %}
+<section class="section">
+  <div class="gallery">
+    {% for p in gallery %}<img src="{{ p.path }}" alt="{{ p.caption or bible.identity.name }}" loading="lazy">{% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<section class="section visit" id="visit">
+  <div class="section-head"><p class="eyebrow">{{ c.visit_heading or 'Find us' }}</p></div>
+  <div class="visit-grid">
+    <div class="visit-info">
+      {% if bible.location.address %}<p class="address">{{ bible.location.address }}</p>{% endif %}
+      {% if bible.hours %}
+      <table class="hours">
+        {% for day, h in bible.hours.items() %}<tr><td>{{ day }}</td><td>{{ h }}</td></tr>{% endfor %}
+      </table>
+      {% endif %}
+      <div class="cta-row">
+        <a class="btn btn-primary" href="{{ cta_href(c.cta_primary) }}">{{ c.cta_primary.label }}</a>
+        {% for s in lead.socials %}<a class="btn btn-ghost" href="{{ s.url }}" rel="noopener">{{ s.platform | title }}</a>{% endfor %}
+      </div>
+    </div>
+    {% if bible.location.maps_query %}
+    <div class="map"><iframe title="map" src="https://maps.google.com/maps?q={{ bible.location.maps_query | urlencode }}&output=embed" loading="lazy"></iframe></div>
+    {% endif %}
+  </div>
+</section>
+
+<footer>
+  <span class="wordmark">{{ bible.identity.name }}</span>
+  {% if c.footer_line %}<p>{{ c.footer_line }}</p>{% endif %}
+  <p class="fineprint">© {{ bible.generated_at[:4] }} {{ bible.identity.name }}</p>
+</footer>
+
+<div class="sticky-cta">
+  <a class="btn btn-primary" href="{{ cta_href(c.cta_primary) }}">{{ c.cta_primary.label }}</a>
+</div>
+
+</body>
+</html>

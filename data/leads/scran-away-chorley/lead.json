@@ -1,0 +1,79 @@
+{
+  "id": "scran-away-chorley",
+  "name": "Scran Away",
+  "category": "",
+  "locale": {
+    "key": "uk",
+    "country": "GB",
+    "language": "en-GB",
+    "currency": "GBP",
+    "contact_channel": "phone"
+  },
+  "address": null,
+  "contact": {
+    "phone": "+44 1257 824763",
+    "whatsapp": null,
+    "email": "Scran-away2025@outlook.com",
+    "messenger": "https://www.facebook.com/scranaway/"
+  },
+  "socials": [
+    {
+      "platform": "facebook",
+      "url": "https://www.facebook.com/scranaway/",
+      "active": null
+    },
+    {
+      "platform": "instagram",
+      "url": "https://www.instagram.com/scranawaychorley/",
+      "active": null
+    }
+  ],
+  "website": {
+    "verdict": "template",
+    "url": "https://dogonapc.com/"
+  },
+  "qualification": {
+    "score": 90,
+    "evidence": [
+      {
+        "check": "web_search",
+        "result": "15 unique results for 'Scran Away Chorley, UK'",
+        "url": null,
+        "timestamp": "2026-06-11T20:26:14+00:00"
+      },
+      {
+        "check": "social:facebook",
+        "result": "found: Scran away | Chorley | Facebook",
+        "url": "https://www.facebook.com/scranaway/",
+        "timestamp": "2026-06-11T20:26:14+00:00"
+      },
+      {
+        "check": "contact:phone",
+        "result": "'+44 1257 824763' from search snippet",
+        "url": "https://www.facebook.com/scranaway/",
+        "timestamp": "2026-06-11T20:26:14+00:00"
+      },
+      {
+        "check": "contact:email",
+        "result": "Scran-away2025@outlook.com",
+        "url": "https://www.facebook.com/scranaway/",
+        "timestamp": "2026-06-11T20:26:14+00:00"
+      },
+      {
+        "check": "social:instagram",
+        "result": "found: Scran away (@scranawaychorley)",
+        "url": "https://www.instagram.com/scranawaychorley/",
+        "timestamp": "2026-06-11T20:26:14+00:00"
+      },
+      {
+        "check": "website_check",
+        "result": "template: title: Scran Away Chorley | Good Scran. Wicked Spot. End of.; substantive page (2459 chars of text); domain 'dogonapc.com' unrelated to business name — template/freebie deployment",
+        "url": "https://dogonapc.com/",
+        "timestamp": "2026-06-11T20:26:16+00:00"
+      }
+    ]
+  },
+  "status": "found",
+  "created_at": "2026-06-11T20:26:16+00:00",
+  "updated_at": "2026-06-11T20:26:16+00:00"
+}
