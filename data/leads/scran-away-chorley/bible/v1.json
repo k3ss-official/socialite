@@ -5,9 +5,9 @@
   "inputs_hash": "ce17e20ce5fc403e",
   "generator": "session-agent-fallback (claude CLI 401, see notes/LESSONS.md)",
   "alerts": [
-    "CLOSED 27 May 2026: owner Janine announced on Facebook that Scran Away will not reopen at Bolton Street with the current pairing; she plans to relaunch independently at a new location. PITCH ANGLE: walk in with the relaunch site ready — perfect timing, but confirm her plans before pitching the old address.",
-    "Two phone numbers in the wild: 01257 824763 (painted on the shopfront sign and on their current template site) vs +44 1257 576084 (Facebook-sourced directory mirror). Confirm in person.",
-    "Their current site (dogonapc.com) is our own earlier Socialite demo build — canned reviews, borrowed domain. Classified 'template' by FIND, correctly."
+    "RE-ENGAGEMENT, NOT A COLD CALL: dogonapc.com is OUR OWN demo (Tony built and showed it; the deal went cold). They've already seen a Socialite site once — lead with what's new (real reviews pulled in, their actual photos, the relaunch angle), not the same demo twice.",
+    "CLOSED 27 May 2026: owner Janine announced on Facebook that Scran Away will not reopen at Bolton Street with the current pairing; she plans to relaunch independently at a new location. PITCH ANGLE: the relaunch site, ready on day one — confirm her plans before pitching the old address.",
+    "Two phone numbers in the wild: 01257 824763 (shopfront sign + demo site) vs +44 1257 576084 (Facebook-sourced directory mirror). Confirm in person."
   ],
   "identity": {
     "name": "Scran Away",

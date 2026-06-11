@@ -81,6 +81,12 @@
         "result": "kept prior verdict 'template' for https://dogonapc.com/ (search variance this run)",
         "url": "https://dogonapc.com/",
         "timestamp": "2026-06-11T20:59:51+00:00"
+      },
+      {
+        "check": "website_check",
+        "result": "CONFIRMED by Tony: dogonapc.com is our own demo build shown during a prior pitch that went cold — re-engagement lead, not a cold call",
+        "url": "https://dogonapc.com/",
+        "timestamp": "2026-06-11T21:34:27+00:00"
       }
     ]
   },

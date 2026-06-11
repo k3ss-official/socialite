@@ -55,3 +55,5 @@
 {"ts": "2026-06-11T20:59:51+00:00", "lead_id": "scran-away-chorley", "stage": "build", "action": "reuse_existing", "status": "skipped", "cost_usd": 0.0, "artifact": null, "version": 3, "details": {"reason": "bible + theme unchanged"}}
 {"ts": "2026-06-11T20:59:51+00:00", "lead_id": "scran-away-chorley", "stage": "pitch", "action": "reuse_existing", "status": "skipped", "cost_usd": 0.0, "artifact": null, "version": 3, "details": {}}
 {"ts": "2026-06-11T20:59:51+00:00", "lead_id": "scran-away-chorley", "stage": "provision", "action": "dry_run", "status": "ok", "cost_usd": 0.0, "artifact": null, "version": null, "details": {}}
+{"ts": "2026-06-11T21:34:27+00:00", "lead_id": "scran-away-chorley", "stage": "bible", "action": "alerts_corrected", "status": "ok", "cost_usd": 0.0, "artifact": null, "version": 1, "details": {"reason": "owner confirmed dogonapc.com is our own cold-pitch demo"}}
+{"ts": "2026-06-11T21:34:27+00:00", "lead_id": "scran-away-chorley", "stage": "pitch", "action": "rerendered", "status": "ok", "cost_usd": 0.0, "artifact": null, "version": 3, "details": {"reason": "bible alerts corrected"}}

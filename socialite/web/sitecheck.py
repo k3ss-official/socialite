@@ -10,6 +10,9 @@ UA = ("Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.
 
 PARKED_MARKERS = ("domain is for sale", "buy this domain", "sedoparking", "parked free",
                   "godaddy.com/forsale", "this domain has expired", "hugedomains")
+# our own demo builds carry this credit — finding one means the prospect was
+# already pitched and went cold: a re-engagement lead, not a competitor site
+OUR_MARKERS = ("socialite.design", "socialite design")
 TEMPLATE_GENERATORS = ("wix.com", "weebly", "site123", "godaddy website builder",
                        "jimdo", "webnode", "mobirise", "duda")
 
@@ -39,6 +42,11 @@ def check(url: str, timeout: int = 12) -> dict:
     out["text_sample"] = text[:1500]
     out["signals"].append(f"title: {title[:80]}")
 
+    for m in OUR_MARKERS:
+        if m in low:
+            out["verdict"] = "template"
+            out["signals"].append("OUR OWN DEMO BUILD (Socialite credit in page) — prior pitch went cold; re-engagement lead")
+            return out
     for m in PARKED_MARKERS:
         if m in low:
             out["verdict"] = "dead"
