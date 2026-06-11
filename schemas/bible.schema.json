@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Bible",
+  "description": "Output of BIBLE. One research document per prospect; drives BUILD and UPSELL. Versioned, reproducible from inputs_hash.",
+  "type": "object",
+  "required": ["lead_id", "version", "generated_at", "inputs_hash", "identity", "brand_voice", "palette", "usps", "reviews", "competitors", "gap_matrix", "site_copy"],
+  "properties": {
+    "lead_id": { "type": "string" },
+    "version": { "type": "integer", "minimum": 1 },
+    "generated_at": { "type": "string" },
+    "inputs_hash": { "type": "string", "description": "sha256 of raw research bundle + prompt template version" },
+    "identity": {
+      "type": "object",
+      "required": ["name", "category", "story"],
+      "properties": {
+        "name": { "type": "string" },
+        "tagline": { "type": ["string", "null"] },
+        "category": { "type": "string" },
+        "story": { "type": "string", "description": "2-4 sentence narrative of who they are" }
+      }
+    },
+    "brand_voice": {
+      "type": "object",
+      "required": ["tone", "keywords"],
+      "properties": {
+        "tone": { "type": "string" },
+        "keywords": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "palette": {
+      "type": "object",
+      "required": ["primary", "accent", "background", "text"],
+      "properties": {
+        "primary": { "type": "string" },
+        "secondary": { "type": "string" },
+        "accent": { "type": "string" },
+        "background": { "type": "string" },
+        "text": { "type": "string" },
+        "mode": { "enum": ["light", "dark"] },
+        "rationale": { "type": "string" }
+      }
+    },
+    "typography": {
+      "type": "object",
+      "properties": {
+        "heading": { "type": "string" },
+        "body": { "type": "string" }
+      }
+    },
+    "photos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "use"],
+        "properties": {
+          "path": { "type": "string", "description": "relative path under the lead's raw/images/ dir" },
+          "use": { "enum": ["hero", "gallery", "menu", "about"] },
+          "caption": { "type": ["string", "null"] },
+          "source": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "usps": { "type": "array", "items": { "type": "string" } },
+    "reviews": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["quote", "source"],
+        "properties": {
+          "quote": { "type": "string" },
+          "author": { "type": ["string", "null"] },
+          "rating": { "type": ["number", "null"] },
+          "source": { "type": "string" },
+          "url": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "services": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": ["string", "null"] },
+          "price": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "hours": { "type": ["object", "null"], "description": "day -> opening string, as found" },
+    "location": {
+      "type": "object",
+      "properties": {
+        "address": { "type": ["string", "null"] },
+        "maps_query": { "type": ["string", "null"] }
+      }
+    },
+    "competitors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "features"],
+        "properties": {
+          "name": { "type": "string" },
+          "website": { "type": ["string", "null"] },
+          "strengths": { "type": "array", "items": { "type": "string" } },
+          "features": {
+            "type": "object",
+            "description": "feature key -> boolean, keys match gap_matrix gap_key set",
+            "additionalProperties": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "gap_matrix": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["gap_key", "label", "prospect_has", "competitors_with"],
+        "properties": {
+          "gap_key": { "type": "string", "description": "canonical key from config/ladder.yaml gaps" },
+          "label": { "type": "string" },
+          "prospect_has": { "type": "boolean" },
+          "competitors_with": { "type": "integer", "description": "how many surveyed competitors have it" },
+          "note": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "site_copy": {
+      "type": "object",
+      "required": ["headline", "subheadline", "about_heading", "about", "cta_primary"],
+      "properties": {
+        "headline": { "type": "string" },
+        "subheadline": { "type": "string" },
+        "about_heading": { "type": "string" },
+        "about": { "type": "string" },
+        "menu_heading": { "type": ["string", "null"] },
+        "reviews_heading": { "type": ["string", "null"] },
+        "visit_heading": { "type": ["string", "null"] },
+        "cta_primary": {
+          "type": "object",
+          "required": ["label", "type", "value"],
+          "properties": {
+            "label": { "type": "string" },
+            "type": { "enum": ["phone", "whatsapp", "messenger", "email", "maps"] },
+            "value": { "type": "string" }
+          }
+        },
+        "footer_line": { "type": ["string", "null"] }
+      }
+    },
+    "sources": { "type": "array", "items": { "type": "string" }, "description": "URLs the research drew from" }
+  }
+}

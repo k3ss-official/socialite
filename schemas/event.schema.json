@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Event",
+  "description": "One structured pipeline action, appended to data/events.jsonl. Phase 2 orchestrator food.",
+  "type": "object",
+  "required": ["ts", "lead_id", "stage", "action", "status"],
+  "properties": {
+    "ts": { "type": "string" },
+    "lead_id": { "type": ["string", "null"] },
+    "stage": { "enum": ["find", "research", "bible", "build", "pitch", "provision", "dashboard", "ledger"] },
+    "action": { "type": "string" },
+    "status": { "enum": ["ok", "error", "skipped", "capped"] },
+    "cost_usd": { "type": "number" },
+    "artifact": { "type": ["string", "null"], "description": "path to the artifact this action produced" },
+    "version": { "type": ["integer", "null"] },
+    "details": { "type": "object" }
+  }
+}

@@ -1,0 +1,26 @@
+# Locale pack: Pokhara, Nepal — the MVP-proper market.
+key: np-pokhara
+country: NP
+language: en          # tourist-facing English first; ne available for copy on request
+currency: NPR
+currency_symbol: "रू"
+phone_country_code: "+977"
+contact_channel: whatsapp     # WhatsApp is how business happens here
+secondary_contact: messenger
+maps_provider: google
+
+# Monthly price bands per rung, NPR
+prices:
+  r1_foundation:    { low: 3000,  high: 5000 }
+  r2_social_launch: { low: 8000,  high: 12000 }
+  r3_social_growth: { low: 15000, high: 22000 }
+  r4_social_pro:    { low: 25000, high: 35000 }
+  s1_competitor_watch: { low: 4000, high: 6500 }
+  s2_seasonal_push:    { low: 3000, high: 5000 }
+  s3_annual_upscale:   { low: 2500, high: 4000 }
+
+discovery:
+  area_name: "Pokhara Lakeside, Nepal"
+  overpass_amenities: [restaurant, cafe, bar]
+  overpass_tourism: [hotel, guest_house]
+  search_terms: ["lakeside cafe", "lakeside hotel", "trekking agency", "rafting"]

@@ -1,0 +1,133 @@
+# The residual ladder. Structure + copy only — prices live in each locale pack
+# under `prices:` keyed by rung key. Everything sold is monthly recurring or a
+# zero-priced gift folded into a rung. One-time builds cost us minutes; their
+# job is to lift the monthly.
+
+rungs:
+  r1_foundation:
+    name: "Online Foundation"
+    kind: core
+    term_months: 12
+    includes:
+      - "Hosting on managed infrastructure, SSL, daily backups"
+      - "Maintenance and content edits (hours, prices, photos)"
+      - "Branded email mailbox (you@yourbusiness.com)"
+    gifts:
+      - "Hand-crafted website — built free, yours while hosted"
+      - "Digital menu / services page"
+    gaps: [no_website, no_online_menu, no_branded_email]
+
+  r2_social_launch:
+    name: "Social Launch"
+    kind: managed_social
+    term_months: 12
+    includes:
+      - "Social profile rebuild (Facebook + Instagram), brand-matched"
+      - "First promotional campaign, designed and posted"
+      - "12 months of managed posting (4 posts/month)"
+    gifts:
+      - "Online booking / order-ahead widget"
+    gaps: [low_social_cadence, no_booking]
+
+  r3_social_growth:
+    name: "Social Growth"
+    kind: managed_social
+    term_months: 12
+    includes:
+      - "Everything in Social Launch, at 8 posts/month"
+      - "Review responses handled within 48h"
+      - "Monthly performance summary in plain English"
+    gifts:
+      - "Live review widget on the website"
+    gaps: [weak_reviews_display, low_social_cadence]
+
+  r4_social_pro:
+    name: "Social Pro"
+    kind: managed_social
+    term_months: 12
+    includes:
+      - "Daily-cadence content, stories and reels included"
+      - "Community management (comments + DMs triaged)"
+      - "Ad campaign setup and management (ad spend separate)"
+    gifts: []
+    gaps: [low_social_cadence]
+
+  s1_competitor_watch:
+    name: "Competitor Watch"
+    kind: scheduled
+    cadence_per_year: 3
+    includes:
+      - "Continuous monitoring of your named local rivals"
+      - "3 attack campaigns per year, timed to rival weaknesses"
+    gifts: []
+    gaps: [no_competitor_intel]
+
+  s2_seasonal_push:
+    name: "Seasonal Push"
+    kind: scheduled
+    cadence_per_year: 3
+    includes:
+      - "3 seasonal campaigns per year (local calendar aware)"
+    gifts: []
+    gaps: [no_seasonal_marketing]
+
+  s3_annual_upscale:
+    name: "Annual Upscale"
+    kind: scheduled
+    cadence_per_year: 1
+    includes:
+      - "Full site + socials refresh once a year: new photos, copy, design pass"
+    gifts: []
+    gaps: [stale_brand]
+
+# Named tiers a rep can sell in one conversation. Line items stay separate
+# underneath so attrition on one rung doesn't take the account.
+tiers:
+  t1_foundation:
+    name: "Foundation"
+    pitch_line: "Get found, look professional, own your own corner of the internet."
+    rungs: [r1_foundation]
+  t2_presence:
+    name: "Presence"
+    pitch_line: "Foundation plus your socials rebuilt and run for you."
+    rungs: [r1_foundation, r2_social_launch]
+  t3_growth:
+    name: "Growth"
+    pitch_line: "Serious cadence, reviews worked for you, seasonal pushes on the calendar."
+    rungs: [r1_foundation, r3_social_growth, s2_seasonal_push]
+  t4_dominate:
+    name: "Dominate"
+    pitch_line: "Everything, plus we watch your rivals and hit back three times a year."
+    rungs: [r1_foundation, r4_social_pro, s1_competitor_watch, s2_seasonal_push, s3_annual_upscale]
+
+# Canonical gap keys. BIBLE writes these into gap_matrix; PITCH maps them here.
+# sell_line: one plain-English sentence a rep can say out loud. {n} = number of
+# competitors that have it.
+gaps:
+  no_website:
+    label: "No real website"
+    sell_line: "Right now anyone who Googles you finds nothing you control — {n} of your local rivals have a site doing that job for them."
+  no_online_menu:
+    label: "No online menu / services list"
+    sell_line: "People check the menu before they ever walk in — if they can't see it, they pick somewhere they can."
+  no_branded_email:
+    label: "No branded email"
+    sell_line: "A business running on a personal Gmail or Facebook messages looks temporary — a branded address fixes that overnight."
+  no_booking:
+    label: "No online booking / ordering"
+    sell_line: "Every customer who can't book or order while you're busy or closed is money straight to a competitor who lets them."
+  low_social_cadence:
+    label: "Social posting is irregular"
+    sell_line: "Your page goes quiet for weeks at a time — quiet pages read as closed, and the algorithm buries them."
+  weak_reviews_display:
+    label: "Great reviews nobody sees"
+    sell_line: "You've earned reviews that sit buried on other people's platforms — put them where every visitor sees them in the first five seconds."
+  no_competitor_intel:
+    label: "No eyes on competitors"
+    sell_line: "Your rivals change prices and run offers and you find out from customers — we find out first and counter it."
+  no_seasonal_marketing:
+    label: "No seasonal campaigns"
+    sell_line: "The busiest weeks of the year are decided weeks in advance — businesses that campaign for them take the bookings."
+  stale_brand:
+    label: "Look and photos aging"
+    sell_line: "Photos and pages age faster than people think — an annual refresh keeps you looking like the newest place in town."

@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Lead",
+  "description": "Output of FIND. One qualified prospect with evidence for the no-real-website verdict.",
+  "type": "object",
+  "required": ["id", "name", "locale", "status", "website", "qualification", "created_at"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "name": { "type": "string" },
+    "category": { "type": "string", "description": "e.g. takeaway, cafe, hotel, trekking-operator" },
+    "locale": {
+      "type": "object",
+      "required": ["key", "country", "language", "currency", "contact_channel"],
+      "properties": {
+        "key": { "type": "string" },
+        "country": { "type": "string" },
+        "language": { "type": "string" },
+        "currency": { "type": "string" },
+        "contact_channel": { "enum": ["whatsapp", "phone", "contact_form", "messenger"] }
+      }
+    },
+    "address": { "type": ["string", "null"] },
+    "contact": {
+      "type": "object",
+      "properties": {
+        "phone": { "type": ["string", "null"] },
+        "whatsapp": { "type": ["string", "null"] },
+        "email": { "type": ["string", "null"] },
+        "messenger": { "type": ["string", "null"] }
+      }
+    },
+    "socials": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["platform", "url"],
+        "properties": {
+          "platform": { "enum": ["facebook", "instagram", "tiktok", "other"] },
+          "url": { "type": "string" },
+          "active": { "type": ["boolean", "null"], "description": "null = could not verify anonymously" }
+        }
+      }
+    },
+    "website": {
+      "type": "object",
+      "required": ["verdict"],
+      "properties": {
+        "verdict": { "enum": ["none", "dead", "broken", "template", "real"] },
+        "url": { "type": ["string", "null"] }
+      }
+    },
+    "qualification": {
+      "type": "object",
+      "required": ["score", "evidence"],
+      "properties": {
+        "score": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["check", "result", "timestamp"],
+            "properties": {
+              "check": { "type": "string" },
+              "result": { "type": "string" },
+              "url": { "type": ["string", "null"] },
+              "timestamp": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "status": { "enum": ["found", "bible", "built", "pitched", "signed", "rejected"] },
+    "created_at": { "type": "string" },
+    "updated_at": { "type": "string" }
+  }
+}

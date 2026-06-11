@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BuildManifest",
+  "description": "Output of BUILD. Records exactly which bible version and theme produced which site bundle.",
+  "type": "object",
+  "required": ["lead_id", "bible_version", "theme", "built_at", "inputs_hash", "output_dir", "files"],
+  "properties": {
+    "lead_id": { "type": "string" },
+    "bible_version": { "type": "integer" },
+    "theme": { "type": "string" },
+    "built_at": { "type": "string" },
+    "inputs_hash": { "type": "string", "description": "sha256 of bible json + theme template files" },
+    "output_dir": { "type": "string" },
+    "files": { "type": "array", "items": { "type": "string" } },
+    "site_version": { "type": "integer", "minimum": 1 }
+  }
+}
