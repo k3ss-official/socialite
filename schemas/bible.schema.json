@@ -149,6 +149,11 @@
         "footer_line": { "type": ["string", "null"] }
       }
     },
+    "alerts": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Rep briefing: anything a salesperson must know before walking in (closures, ownership changes, contact discrepancies, prior pitches). Rendered prominently on the pitch sheet."
+    },
     "sources": { "type": "array", "items": { "type": "string" }, "description": "URLs the research drew from" }
   }
 }

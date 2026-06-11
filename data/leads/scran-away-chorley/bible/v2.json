@@ -1,0 +1,348 @@
+{
+  "lead_id": "scran-away-chorley",
+  "version": 2,
+  "generated_at": "2026-06-11T21:40:11+00:00",
+  "inputs_hash": "ce17e20ce5fc403e",
+  "identity": {
+    "name": "Scran Away",
+    "tagline": "Good Scran. Wicked Spot. End of.",
+    "category": "Sandwich shop / café",
+    "story": "Scran Away opened at 73 Bolton Street in Chorley town centre, serving breakfast, hot and cold sandwiches, paninis, jacket potatoes, and pies to the morning and lunchtime crowd. Within its first year it earned a 5/5 food hygiene rating from Chorley Council and five stars across 16 Google reviews — placing it above both the local and national café averages. The business also runs a catering arm for offices and events. As of late May 2026, the founding partnership between Janine and Debbie is dissolving, with Janine planning to reopen independently at a new location; the reputation for honest, fairly priced food is the legacy it carries forward."
+  },
+  "brand_voice": {
+    "tone": "Direct, warm, and proudly Northern — talks straight, doesn't oversell, sounds like someone who has actually cooked your breakfast.",
+    "keywords": [
+      "proper",
+      "fresh",
+      "fair prices",
+      "Chorley",
+      "catering",
+      "five-star",
+      "local",
+      "Bolton Street",
+      "breakfast",
+      "panini",
+      "no-fuss"
+    ]
+  },
+  "palette": {
+    "primary": "#C84B2F",
+    "secondary": "#8B2500",
+    "accent": "#F5A623",
+    "background": "#FDF8F0",
+    "text": "#1C1C1C",
+    "mode": "light",
+    "rationale": "Terracotta red anchors the brand to warming, hearty food; amber pulls from golden bread crusts and a fresh mug of tea; warm cream background keeps it approachable. All foreground/background pairings clear WCAG AA contrast."
+  },
+  "typography": {
+    "heading": "Zilla Slab",
+    "body": "Inter"
+  },
+  "photos": [
+    {
+      "path": "images/img00.webp",
+      "use": "hero",
+      "caption": "Fresh from the kitchen — Scran Away, Bolton Street",
+      "source": null
+    },
+    {
+      "path": "images/img01.webp",
+      "use": "gallery",
+      "caption": null,
+      "source": null
+    },
+    {
+      "path": "images/img02.webp",
+      "use": "menu",
+      "caption": null,
+      "source": null
+    },
+    {
+      "path": "images/img03.webp",
+      "use": "gallery",
+      "caption": null,
+      "source": null
+    },
+    {
+      "path": "images/img04.webp",
+      "use": "menu",
+      "caption": null,
+      "source": null
+    },
+    {
+      "path": "images/img05.webp",
+      "use": "gallery",
+      "caption": null,
+      "source": null
+    },
+    {
+      "path": "images/img06.webp",
+      "use": "about",
+      "caption": "The team at Scran Away",
+      "source": null
+    },
+    {
+      "path": "images/img07.jpg",
+      "use": "gallery",
+      "caption": null,
+      "source": null
+    }
+  ],
+  "usps": [
+    "5/5 food hygiene rating — Chorley Council inspection, March 2025",
+    "Five stars on Google across 16 reviews — above both the local Chorley average (4.82) and the national café/restaurant average (4.59)",
+    "Catering for offices, meetings, and events: breakfast platters, sandwich platters, and hot food brought to your venue",
+    "Full daytime menu under one roof: breakfast, hot and cold sandwiches, paninis, jacket potatoes, pies, and drinks",
+    "Town-centre location on Bolton Street — minutes from Chorley rail station",
+    "Value for money consistently called out across independent reviews"
+  ],
+  "reviews": [
+    {
+      "quote": "Really good price and the food is definitely worth a try.",
+      "author": null,
+      "rating": null,
+      "source": "Facebook",
+      "url": "https://www.facebook.com/groups/2158568994223296/posts/9739454789467974/"
+    },
+    {
+      "quote": "I can report the scran was banging.",
+      "author": null,
+      "rating": null,
+      "source": "Facebook",
+      "url": "https://www.findglocal.com/GB/Chorley/110724224833283/Scran-away"
+    },
+    {
+      "quote": "Food hygiene 5/5 and 5★ on Google — mythical. Spotless and the best of the best.",
+      "author": "UnicornEats",
+      "rating": 5.0,
+      "source": "UnicornEats",
+      "url": "https://unicorneats.co.uk/chorley/scran-away"
+    }
+  ],
+  "services": [
+    {
+      "name": "Breakfast",
+      "description": "Full breakfast served from opening",
+      "price": null
+    },
+    {
+      "name": "Hot Sandwiches",
+      "description": null,
+      "price": null
+    },
+    {
+      "name": "Cold Sandwiches",
+      "description": null,
+      "price": null
+    },
+    {
+      "name": "Paninis",
+      "description": null,
+      "price": null
+    },
+    {
+      "name": "Jacket Potatoes",
+      "description": null,
+      "price": null
+    },
+    {
+      "name": "Pies",
+      "description": null,
+      "price": null
+    },
+    {
+      "name": "Drinks & Treats",
+      "description": null,
+      "price": null
+    },
+    {
+      "name": "Catering",
+      "description": "Breakfast platters, sandwich platters, and hot food options brought to your venue for meetings, events, and special occasions. Enquire by phone.",
+      "price": null
+    }
+  ],
+  "hours": {
+    "monday": "7:30am – 2:30pm",
+    "tuesday": "7:30am – 2:30pm",
+    "wednesday": "7:30am – 2:30pm",
+    "thursday": "7:30am – 2:30pm",
+    "friday": "7:30am – 2:30pm",
+    "saturday": "7:30am – 2:30pm",
+    "sunday": "9am – 2pm"
+  },
+  "location": {
+    "address": "73 Bolton Street, Chorley, PR7 3AG",
+    "maps_query": "Scran Away, 73 Bolton Street, Chorley, PR7 3AG"
+  },
+  "competitors": [
+    {
+      "name": "Good Boyz",
+      "website": null,
+      "strengths": [
+        "Immediately adjacent at 48 Bolton Street — captures passing trade"
+      ],
+      "features": {
+        "no_website": true,
+        "no_online_menu": true,
+        "no_branded_email": true,
+        "no_booking": true,
+        "low_social_cadence": true,
+        "weak_reviews_display": true,
+        "no_competitor_intel": true,
+        "no_seasonal_marketing": true,
+        "stale_brand": true
+      }
+    },
+    {
+      "name": "Marios Food House",
+      "website": null,
+      "strengths": [
+        "Established local takeaway on Bolton Street with loyal following"
+      ],
+      "features": {
+        "no_website": true,
+        "no_online_menu": true,
+        "no_branded_email": true,
+        "no_booking": true,
+        "low_social_cadence": true,
+        "weak_reviews_display": true,
+        "no_competitor_intel": true,
+        "no_seasonal_marketing": true,
+        "stale_brand": true
+      }
+    },
+    {
+      "name": "Pall Mall Chippy",
+      "website": null,
+      "strengths": [
+        "Established fish and chip trade, loyal local daytime custom"
+      ],
+      "features": {
+        "no_website": true,
+        "no_online_menu": true,
+        "no_branded_email": true,
+        "no_booking": true,
+        "low_social_cadence": true,
+        "weak_reviews_display": true,
+        "no_competitor_intel": true,
+        "no_seasonal_marketing": true,
+        "stale_brand": false
+      }
+    },
+    {
+      "name": "Subway Chorley",
+      "website": "https://www.subway.com",
+      "strengths": [
+        "National brand recognition",
+        "Online ordering via app and Just Eat",
+        "Loyalty programme",
+        "High social media footprint",
+        "Seasonal promotions"
+      ],
+      "features": {
+        "no_website": false,
+        "no_online_menu": false,
+        "no_branded_email": false,
+        "no_booking": false,
+        "low_social_cadence": false,
+        "weak_reviews_display": false,
+        "no_competitor_intel": true,
+        "no_seasonal_marketing": false,
+        "stale_brand": false
+      }
+    }
+  ],
+  "gap_matrix": [
+    {
+      "gap_key": "no_website",
+      "label": "No website",
+      "prospect_has": false,
+      "competitors_with": 3,
+      "note": "Scran Away has a live website (dogonapc.com, built by Socialite); three of four local competitors have none."
+    },
+    {
+      "gap_key": "no_online_menu",
+      "label": "No online menu",
+      "prospect_has": false,
+      "competitors_with": 3,
+      "note": "Menu categories published on own site; three local independents have nothing online."
+    },
+    {
+      "gap_key": "no_branded_email",
+      "label": "No branded email",
+      "prospect_has": false,
+      "competitors_with": 3,
+      "note": "Scran Away uses [email protected]; three local competitors rely on no published email or generic addresses."
+    },
+    {
+      "gap_key": "no_booking",
+      "label": "No online booking or pre-ordering",
+      "prospect_has": true,
+      "competitors_with": 3,
+      "note": "No pre-order or booking widget on own site; catering enquiries routed via phone. Just Eat listing referenced in a May 2026 Facebook post but not surfaced prominently on own site."
+    },
+    {
+      "gap_key": "low_social_cadence",
+      "label": "Low social media cadence",
+      "prospect_has": false,
+      "competitors_with": 3,
+      "note": "Active Facebook page posting into April–May 2026; TikTok account (@scranaway2025) with 168 followers. Three local independents show no social presence in the bundle."
+    },
+    {
+      "gap_key": "weak_reviews_display",
+      "label": "Weak reviews display on site",
+      "prospect_has": false,
+      "competitors_with": 3,
+      "note": "Reviews section, 5★ Google rating, and 5/5 FSA hygiene certificate are all displayed on own website. Three competitors show no reviews on their web presence."
+    },
+    {
+      "gap_key": "no_competitor_intel",
+      "label": "No competitor intelligence on site",
+      "prospect_has": true,
+      "competitors_with": 4,
+      "note": "No comparison or differentiation copy on current template. All four surveyed competitors share this gap."
+    },
+    {
+      "gap_key": "no_seasonal_marketing",
+      "label": "No seasonal marketing",
+      "prospect_has": true,
+      "competitors_with": 3,
+      "note": "No evidence of seasonal specials, holiday promotions, or event-tied campaigns in the bundle. Subway is the only exception among competitors surveyed."
+    },
+    {
+      "gap_key": "stale_brand",
+      "label": "Stale brand",
+      "prospect_has": false,
+      "competitors_with": 2,
+      "note": "Scran Away brand is recent; website built by Socialite in 2025 with fresh visual identity. Good Boyz and Marios Food House show absent or stale branding."
+    }
+  ],
+  "site_copy": {
+    "headline": "Proper Scran. Right Here in Chorley.",
+    "subheadline": "Breakfast, hot sandwiches, paninis, pies, and jacket spuds — all made fresh, all worth every penny. Bolton Street's five-star sandwich shop.",
+    "about_heading": "Chorley's No-Fuss Daytime Café",
+    "about": "Scran Away opened on Bolton Street and got it right from the off — a 5/5 food hygiene rating from Chorley Council and five stars on Google within its first year. Whether you're after a full breakfast before nine, a packed panini at noon, or a catering spread for your office team, the approach is the same: fresh ingredients, fair prices, no messing. Pop in or give us a ring.",
+    "menu_heading": "What We Do",
+    "reviews_heading": "Don't Take Our Word For It",
+    "visit_heading": "Come Find Us on Bolton Street",
+    "cta_primary": {
+      "label": "Call to Order",
+      "type": "phone",
+      "value": "tel:+441257824763"
+    },
+    "footer_line": "Scran Away · 73 Bolton Street, Chorley PR7 3AG · 01257 824763 · Mon–Sat 7:30am–2:30pm · Sun 9am–2pm"
+  },
+  "sources": [
+    "https://dogonapc.com/",
+    "https://www.findglocal.com/GB/Chorley/110724224833283/Scran-away",
+    "https://unicorneats.co.uk/chorley/scran-away",
+    "https://www.foodhygienerating.co.uk/establishment/scran-away/chorley/1796323",
+    "https://foodhygienescan.co.uk/establishment/1796323",
+    "https://www.mapquest.com/gb/england/scran-away-798420839",
+    "https://bigreddirectory.com/marios-food-house-chorley",
+    "https://www.facebook.com/groups/2158568994223296/posts/9739454789467974/",
+    "https://www.tiktok.com/@scranaway2025",
+    "https://wanderboat.ai/restaurants/united-kingdom/chorley/scran-away/u8L2ykm-Q7e6AHAhuCR72g",
+    "https://chorley-chorley.cylex-uk.co.uk/company/scran-away-28909095.html"
+  ]
+}

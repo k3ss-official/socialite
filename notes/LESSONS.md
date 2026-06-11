@@ -8,3 +8,5 @@ One topic per entry, one-line summary each. Update in place; delete what turns o
 - **Research starts from known URLs, not fresh search** — FIND already proved which URLs are theirs; harvest those first, search only fills gaps.
 - **Nested `claude -p` needs env scrubbing** — inside a Claude Code session, ANTHROPIC_BASE_URL/auth vars leak into subprocesses and 401 the CLI; llm.py strips them.
 - **Subagents share the account rate limit** — parallel agent fan-out dies instantly during a cooldown window; build inline when the limit is near.
+- **`claude -p` is an agent, not a text API** — left unguarded it wrote a bible file straight into the repo mid-call with invented metadata; llm.py now disallows mutating tools and runs it from /tmp. Treat every nested-agent call as having hands unless you tie them.
+- **Sales-rep alerts must be part of the bible contract** — closures, ownership changes, phone/postcode conflicts, and prior-pitch detection only get surfaced if the schema requires an `alerts` field and the prompt feeds FIND's evidence in; prompt v2 caught a postcode error in our own demo site.

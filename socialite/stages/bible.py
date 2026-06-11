@@ -8,7 +8,7 @@ from .. import contracts, llm, store
 from ..config import ROOT, ladder, locale as load_locale
 from . import research
 
-PROMPT_VERSION = "1"
+PROMPT_VERSION = "2"
 
 
 def _build_prompt(lead: dict, bundle: dict) -> str:
@@ -30,6 +30,8 @@ def _build_prompt(lead: dict, bundle: dict) -> str:
         language=lead["locale"]["language"], currency=lead["locale"]["currency"],
         contact_channel=lead["locale"]["contact_channel"],
         contact=json.dumps(lead["contact"]), socials=json.dumps(lead["socials"]),
+        evidence="\n".join(f"- [{e['check']}] {e['result']}"
+                           for e in lead["qualification"]["evidence"][-15:]),
         images=json.dumps([i["file"] for i in bundle.get("images", [])]),
         gap_keys=json.dumps(list(ladder()["gaps"].keys())),
         website_verdict=lead["website"]["verdict"],
@@ -56,6 +58,8 @@ def generate(lead_id: str, force: bool = False) -> dict:
             return existing
 
     prompt = _build_prompt(lead, bundle)
+    print(f"[bible]  synthesizing from {len(prompt):,} chars of research — "
+          "takes 1-3 minutes, don't ctrl-c...", flush=True)
     try:
         obj = llm.generate_json(prompt, "bible", lead_id, "bible", estimated_cost_usd=0.30)
     except RuntimeError as e:
@@ -69,6 +73,10 @@ def generate(lead_id: str, force: bool = False) -> dict:
                 "inputs_hash": inputs_hash})
     # keep only photos that actually exist on disk
     obj["photos"] = [p for p in obj.get("photos", []) if (raw / p["path"]).exists()]
+    # models keep prefixing schemes despite instructions; normalize once here
+    cta = obj["site_copy"]["cta_primary"]
+    for prefix in ("tel:", "mailto:", "https://wa.me/", "callto:"):
+        cta["value"] = cta["value"].removeprefix(prefix)
     contracts.validate(obj, "bible")
     path = store.save_json(bdir / f"v{version}.json", obj)
     store.advance_status(lead_id, "bible")

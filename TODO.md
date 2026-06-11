@@ -15,9 +15,10 @@ Living board. Maintained by the build agent; humans welcome to edit.
 - [x] Provisioning: deploy + mailbox + orchestrator, mock harness 12/12 passing, dry-run proven side-effect-free
 - [x] Idempotent re-runs: hash-based reuse, forward-only statuses, evidence merge across search variance
 - [x] Acceptance test: `./run.sh "Scran Away, Chorley, UK"` end to end
+- [x] Canonical LLM path proven: bible v4 via `claude -p` ($0.90, 5min) — alerts caught postcode error in our own demo, hours conflict, 4 real competitors
+- [x] Nested-agent guard: `claude -p` runs with mutating tools disabled from /tmp (it wrote a rogue bible into the repo once — quarantined, logged)
 
 ## Blocked on Tony
-- [ ] `claude /login` on this machine — then `python -m socialite.cli bible scran-away-chorley --force` to regenerate the bible through the CLI path (current v1 was synthesized in-session, same contract)
 - [ ] Real VPS details (host, deploy user) for first live provisioning run
 - [ ] Decision: Scran Away closed 27 May 2026, relaunch planned — pitch the relaunch or pick a second UK test client?
 

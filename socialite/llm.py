@@ -39,10 +39,14 @@ def _extract_json(text: str) -> dict:
 
 def _call(prompt: str, timeout: int = 600) -> tuple[str, float]:
     cfg = settings()["llm"]
-    cmd = [cfg["cli"], "-p", "--output-format", "json", "--model", cfg["model"]]
+    # claude -p is a full agent, not a text API: without these guards it has been
+    # observed WRITING bible files into the repo itself mid-call (invented metadata).
+    # Block mutating tools and run from /tmp so the repo is out of reach.
+    cmd = [cfg["cli"], "-p", "--output-format", "json", "--model", cfg["model"],
+           "--disallowedTools", "Write,Edit,NotebookEdit,Bash"]
     env = {k: v for k, v in os.environ.items() if k not in _SCRUB_ENV}
     proc = subprocess.run(cmd, input=prompt, capture_output=True, text=True,
-                          timeout=timeout, env=env)
+                          timeout=timeout, env=env, cwd="/tmp")
     if proc.returncode != 0:
         raise RuntimeError(f"claude CLI failed (rc={proc.returncode}): {proc.stderr[:500]}")
     envelope = json.loads(proc.stdout)
