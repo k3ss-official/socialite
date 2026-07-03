@@ -16,7 +16,7 @@ def _build_prompt(lead: dict, bundle: dict) -> str:
     raw = store.lead_dir(lead["id"]) / "raw"
     texts = []
     for f in bundle["fetched"]:
-        if f["text_file"]:
+        if f["text_file"] and (raw / f["text_file"]).exists():
             body = (raw / f["text_file"]).read_text()[:6000]
             texts.append(f"--- SOURCE: {f['url']} ({f['kind']})\n{body}")
     snippets = "\n".join(f"[{r['kind']}] {r['title']} — {r['body']} ({r['href']})"
@@ -42,9 +42,8 @@ def _build_prompt(lead: dict, bundle: dict) -> str:
 def generate(lead_id: str, force: bool = False) -> dict:
     lead = store.get_lead(lead_id)
     raw = store.lead_dir(lead_id) / "raw"
-    if not (raw / "research.json").exists():
-        research.harvest(lead_id)
-    bundle = store.load_json(raw / "research.json")
+    # harvest() self-caches and re-harvests if the manifest references missing files
+    bundle = research.harvest(lead_id)
     inputs_hash = research.bundle_hash(lead_id, extra=PROMPT_VERSION)
 
     bdir = store.lead_dir(lead_id) / "bible"

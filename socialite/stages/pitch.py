@@ -8,7 +8,7 @@ from .. import contracts, store
 from ..config import ROOT, ladder as load_ladder, locale as load_locale
 
 
-def generate(lead_id: str, bible_version: int | None = None) -> dict:
+def generate(lead_id: str, bible_version: int | None = None, angle: str = "default") -> dict:
     lead = store.get_lead(lead_id)
     bdir = store.lead_dir(lead_id) / "bible"
     bible_version = bible_version or store.latest_version(bdir)
@@ -16,6 +16,15 @@ def generate(lead_id: str, bible_version: int | None = None) -> dict:
         raise SystemExit(f"No bible for {lead_id} — run the bible stage first.")
     bible = store.load_json(bdir / f"v{bible_version}.json")
     lad, loc = load_ladder(), load_locale(lead["locale"]["key"])
+
+    angles = lad.get("angles", {"default": {"name": "Standard"}})
+    if angle not in angles:
+        raise SystemExit(f"Unknown pitch angle '{angle}' — pick one of: {', '.join(angles)}")
+    acfg = angles[angle]
+    angle_block = {"key": angle, "name": acfg["name"],
+                   "headline": acfg.get("headline"),
+                   "opening_lines": acfg.get("opening_lines", []),
+                   "rep_notes": acfg.get("rep_notes", [])}
 
     open_gaps = [g for g in bible["gap_matrix"] if not g["prospect_has"]]
     gap_to_rung = {}
@@ -67,8 +76,8 @@ def generate(lead_id: str, bible_version: int | None = None) -> dict:
 
     pdir = store.lead_dir(lead_id) / "pitch"
     pitch = {"lead_id": lead_id, "bible_version": bible_version, "generated_at": store.now(),
-             "currency": lead["locale"]["currency"], "gap_summary": gap_summary,
-             "rungs": rungs, "tiers": tiers}
+             "currency": lead["locale"]["currency"], "angle": angle_block,
+             "gap_summary": gap_summary, "rungs": rungs, "tiers": tiers}
     contracts.validate(pitch, "pitch")
 
     # identical content (minus timestamp) -> reuse latest version

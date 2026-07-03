@@ -75,6 +75,9 @@ def main() -> None:
         if name == "build":
             p.add_argument("--bible-version", type=int, default=None)
             p.add_argument("--theme", default=None)
+        if name == "pitch":
+            p.add_argument("--angle", default="default",
+                           help="opening framing from config/ladder.yaml angles (e.g. relaunch)")
 
     sub.add_parser("dashboard", help="start the team dashboard")
     p = sub.add_parser("status", help="lead pipeline at a glance")
@@ -95,7 +98,7 @@ def main() -> None:
     elif args.cmd == "build":
         print(json.dumps(build.build(args.lead_id, args.bible_version, args.theme), indent=2))
     elif args.cmd == "pitch":
-        pitch.generate(args.lead_id)
+        pitch.generate(args.lead_id, angle=args.angle)
     elif args.cmd == "dashboard":
         subprocess.run([sys.executable, str(ROOT / "dashboard" / "app.py")])
     elif args.cmd == "status":

@@ -18,9 +18,16 @@ Living board. Maintained by the build agent; humans welcome to edit.
 - [x] Canonical LLM path proven: bible v4 via `claude -p` ($0.90, 5min) — alerts caught postcode error in our own demo, hours conflict, 4 real competitors
 - [x] Nested-agent guard: `claude -p` runs with mutating tools disabled from /tmp (it wrote a rogue bible into the repo once — quarantined, logged)
 
+## Done (July 2026 — trial prep)
+- [x] Decision (Tony, 3 Jul): trial = Scran Away relaunch, demo from laptop preview
+- [x] Pitch angles: vetted opening framings in ladder.yaml (`--angle relaunch`), rendered atop the pitch sheet — pitch v5 generated from bible v4
+- [x] Research cache self-heals on fresh clones (manifest referenced gitignored pages/) and never clobbers a good bundle with an empty harvest (network-down guard)
+- [x] `claude -p` retries once on transient CLI failures; errors now include stdout tail
+- [x] Dashboard re-verified: all 7 routes 200, pitch v5 + site v4 screenshot-checked desktop & mobile
+- [x] TRIAL.md — one-page runbook for the meeting
+
 ## Blocked on Tony
 - [ ] Real VPS details (host, deploy user) for first live provisioning run
-- [ ] Decision: Scran Away closed 27 May 2026, relaunch planned — pitch the relaunch or pick a second UK test client?
 
 ## Next
 - [ ] Field-test `find-locale --locale np-pokhara` (Overpass sweep is implemented, not yet run at scale)

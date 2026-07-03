@@ -57,6 +57,19 @@
     <div class="meta">Prepared {{ pitch.generated_at[:10] }}<br>bible v{{ pitch.bible_version }} · internal</div>
   </div>
 
+  {% if pitch.angle and pitch.angle.headline %}
+  <div style="background:#eef4ff;border-left:4px solid var(--brand);padding:1rem 1.2rem;margin-top:1.4rem;border-radius:0 8px 8px 0">
+    <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--brand)">{{ pitch.angle.name }} angle</div>
+    <div style="font-size:1.15rem;font-weight:800;margin:.25rem 0 .5rem">{{ pitch.angle.headline }}</div>
+    {% for line in pitch.angle.opening_lines %}
+    <p style="font-size:.88rem;margin-bottom:.35rem"><span style="color:var(--muted);font-style:italic">Say it like this:</span> “{{ line }}”</p>
+    {% endfor %}
+    {% for note in pitch.angle.rep_notes %}
+    <p style="font-size:.78rem;color:var(--muted);margin-top:.35rem">☑ {{ note }}</p>
+    {% endfor %}
+  </div>
+  {% endif %}
+
   {% if bible.alerts %}
   <h2>⚠ Rep briefing — read before you knock</h2>
   {% for a in bible.alerts %}

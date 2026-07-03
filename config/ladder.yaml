@@ -100,6 +100,23 @@ tiers:
     pitch_line: "Everything, plus we watch your rivals and hit back three times a year."
     rungs: [r1_foundation, r4_social_pro, s1_competitor_watch, s2_seasonal_push, s3_annual_upscale]
 
+# Pitch angles: vetted opening framings for the top of the pitch sheet. The rep
+# picks one per prospect (CLI: pitch <lead> --angle relaunch). Copy here is
+# say-it-out-loud quality, same rule as sell_line. `default` renders nothing extra.
+angles:
+  default:
+    name: "Standard"
+  relaunch:
+    name: "Relaunch"
+    headline: "You're reopening — launch loud, not quiet."
+    opening_lines:
+      - "A relaunch is the one moment the whole town is ready to look at you again — most places waste it on a single Facebook post."
+      - "Everything here is already built: the site can carry your reopening date, new menu and location the day you announce."
+      - "Start fresh on day one — new brand, new site, socials rebuilt — instead of dragging the old page's silence behind you."
+    rep_notes:
+      - "Confirm the new trading name, location and reopening date before quoting."
+      - "If the brand is changing, the free build covers the rebrand — say so early, it lands."
+
 # Canonical gap keys. BIBLE writes these into gap_matrix; PITCH maps them here.
 # sell_line: one plain-English sentence a rep can say out loud. {n} = number of
 # competitors that have it.

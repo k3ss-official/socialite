@@ -8,6 +8,7 @@ import json
 import os
 import re
 import subprocess
+import time
 
 from . import contracts, store
 from .config import settings
@@ -45,14 +46,20 @@ def _call(prompt: str, timeout: int = 600) -> tuple[str, float]:
     cmd = [cfg["cli"], "-p", "--output-format", "json", "--model", cfg["model"],
            "--disallowedTools", "Write,Edit,NotebookEdit,Bash"]
     env = {k: v for k, v in os.environ.items() if k not in _SCRUB_ENV}
-    proc = subprocess.run(cmd, input=prompt, capture_output=True, text=True,
-                          timeout=timeout, env=env, cwd="/tmp")
-    if proc.returncode != 0:
-        raise RuntimeError(f"claude CLI failed (rc={proc.returncode}): {proc.stderr[:500]}")
-    envelope = json.loads(proc.stdout)
-    if envelope.get("is_error"):
-        raise RuntimeError(f"claude CLI error: {str(envelope.get('result'))[:300]}")
-    return envelope.get("result", ""), float(envelope.get("total_cost_usd") or 0.05)
+    last_err = ""
+    for attempt in range(2):  # cold CLI boots have been seen dying silently once
+        proc = subprocess.run(cmd, input=prompt, capture_output=True, text=True,
+                              timeout=timeout, env=env, cwd="/tmp")
+        if proc.returncode == 0:
+            envelope = json.loads(proc.stdout)
+            if envelope.get("is_error"):
+                raise RuntimeError(f"claude CLI error: {str(envelope.get('result'))[:300]}")
+            return envelope.get("result", ""), float(envelope.get("total_cost_usd") or 0.05)
+        last_err = (f"claude CLI failed (rc={proc.returncode}): "
+                    f"stderr={proc.stderr[:300]!r} stdout={proc.stdout[:200]!r}")
+        if attempt == 0:
+            time.sleep(5)
+    raise RuntimeError(last_err)
 
 
 def generate_json(prompt: str, schema_name: str, lead_id: str, stage: str,

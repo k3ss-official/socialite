@@ -9,6 +9,18 @@
     "bible_version": { "type": "integer" },
     "generated_at": { "type": "string" },
     "currency": { "type": "string" },
+    "angle": {
+      "type": "object",
+      "description": "vetted opening framing chosen by the rep (config/ladder.yaml angles)",
+      "required": ["key", "name"],
+      "properties": {
+        "key": { "type": "string" },
+        "name": { "type": "string" },
+        "headline": { "type": ["string", "null"] },
+        "opening_lines": { "type": "array", "items": { "type": "string" } },
+        "rep_notes": { "type": "array", "items": { "type": "string" } }
+      }
+    },
     "gap_summary": {
       "type": "array",
       "items": {

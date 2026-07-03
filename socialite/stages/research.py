@@ -53,9 +53,17 @@ def harvest(lead_id: str, force: bool = False) -> dict:
     lead = store.get_lead(lead_id)
     raw = store.lead_dir(lead_id) / "raw"
     if (raw / "research.json").exists() and not force:
-        store.log_event("research", "reuse_existing", "skipped", lead_id,
-                        reason="raw bundle present; pass --force to re-harvest")
-        return store.load_json(raw / "research.json")
+        cached = store.load_json(raw / "research.json")
+        # research.json is committed but raw/pages/ is gitignored — on a fresh
+        # clone the manifest can reference page files that aren't on disk.
+        missing = [f["text_file"] for f in cached.get("fetched", [])
+                   if f.get("text_file") and not (raw / f["text_file"]).exists()]
+        if not missing:
+            store.log_event("research", "reuse_existing", "skipped", lead_id,
+                            reason="raw bundle present; pass --force to re-harvest")
+            return cached
+        store.log_event("research", "cache_invalid", "ok", lead_id,
+                        reason=f"{len(missing)} referenced page files missing on disk — re-harvesting")
     (raw / "pages").mkdir(parents=True, exist_ok=True)
     (raw / "images").mkdir(parents=True, exist_ok=True)
     name = lead["name"]
@@ -135,6 +143,15 @@ def harvest(lead_id: str, force: bool = False) -> dict:
 
     bundle = {"lead_id": lead_id, "harvested_at": store.now(), "queries": queries + [comp_query],
               "results": results, "fetched": fetches, "images": image_meta}
+    # Never clobber a good bundle with an empty one: a dead network (proxy, DNS,
+    # rate-limit) must not wipe research and shift inputs_hash onto garbage.
+    got_pages = [f for f in fetches if f["text_file"]]
+    if not got_pages and not results and (raw / "research.json").exists():
+        prev = store.load_json(raw / "research.json")
+        if prev.get("results") or any(f.get("text_file") for f in prev.get("fetched", [])):
+            store.log_event("research", "harvest_degraded", "error", lead_id,
+                            reason="live harvest returned nothing (network down?) — keeping prior bundle")
+            return prev
     store.save_json(raw / "research.json", bundle)
     store.log_event("research", "harvest", "ok", lead_id, artifact=f"data/leads/{lead_id}/raw/research.json",
                     pages=len([f for f in fetches if f["text_file"]]), images=len(image_meta),
