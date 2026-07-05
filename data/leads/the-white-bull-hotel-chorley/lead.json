@@ -1,0 +1,62 @@
+{
+  "id": "the-white-bull-hotel-chorley",
+  "name": "The White Bull Hotel",
+  "category": "pub",
+  "locale": {
+    "key": "uk",
+    "country": "GB",
+    "language": "en-GB",
+    "currency": "GBP",
+    "contact_channel": "phone"
+  },
+  "address": "135 Market Street Chorley",
+  "contact": {
+    "phone": null,
+    "whatsapp": null,
+    "email": null,
+    "messenger": "https://www.facebook.com/pages/White-Bull-Chorley/1033119650105279/"
+  },
+  "socials": [
+    {
+      "platform": "facebook",
+      "url": "https://www.facebook.com/pages/White-Bull-Chorley/1033119650105279/",
+      "active": null
+    }
+  ],
+  "website": {
+    "verdict": "real",
+    "url": "https://www.julianwhite.uk/the-white-bull-in-chorley/"
+  },
+  "qualification": {
+    "score": 45,
+    "evidence": [
+      {
+        "check": "web_search",
+        "result": "17 unique results for 'The White Bull Hotel Chorley, Lancashire, UK'",
+        "url": null,
+        "timestamp": "2026-07-05T15:08:48+00:00"
+      },
+      {
+        "check": "social:facebook",
+        "result": "found: White Bull Chorley - Facebook",
+        "url": "https://www.facebook.com/pages/White-Bull-Chorley/1033119650105279/",
+        "timestamp": "2026-07-05T15:08:48+00:00"
+      },
+      {
+        "check": "website_check",
+        "result": "real: title: The White Bull in Chorley – Walking. Gossip. Travel.; substantive page (2138 chars of text)",
+        "url": "https://www.julianwhite.uk/the-white-bull-in-chorley/",
+        "timestamp": "2026-07-05T15:08:49+00:00"
+      },
+      {
+        "check": "osm",
+        "result": "OSM lists no website tag for this pub",
+        "url": null,
+        "timestamp": "2026-07-05T15:08:49+00:00"
+      }
+    ]
+  },
+  "status": "found",
+  "created_at": "2026-07-05T15:08:49+00:00",
+  "updated_at": "2026-07-05T15:08:49+00:00"
+}

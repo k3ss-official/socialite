@@ -1,0 +1,91 @@
+{
+  "id": "the-elephant-chorley",
+  "name": "The Elephant",
+  "category": "restaurant",
+  "locale": {
+    "key": "uk",
+    "country": "GB",
+    "language": "en-GB",
+    "currency": "GBP",
+    "contact_channel": "phone"
+  },
+  "address": null,
+  "contact": {
+    "phone": "01257) 451155",
+    "whatsapp": null,
+    "email": "ajoydeb98@gmail.com",
+    "messenger": "https://www.facebook.com/theelephantandcastle1/"
+  },
+  "socials": [
+    {
+      "platform": "instagram",
+      "url": "https://www.instagram.com/theelephantrestaurant/",
+      "active": null
+    },
+    {
+      "platform": "facebook",
+      "url": "https://www.facebook.com/theelephantandcastle1/",
+      "active": null
+    }
+  ],
+  "website": {
+    "verdict": "real",
+    "url": "http://www.theelephantchorley.co.uk/"
+  },
+  "qualification": {
+    "score": 65,
+    "evidence": [
+      {
+        "check": "web_search",
+        "result": "15 unique results for 'The Elephant Chorley, Lancashire, UK'",
+        "url": null,
+        "timestamp": "2026-07-05T15:08:14+00:00"
+      },
+      {
+        "check": "contact:phone",
+        "result": "'01257) 451155' from search snippet",
+        "url": "https://www.sugarvine.com/restaurant/the-elephant-chorley/",
+        "timestamp": "2026-07-05T15:08:14+00:00"
+      },
+      {
+        "check": "social:instagram",
+        "result": "found: The Elephant Restaurant (@theelephantrestaurant) • Instagram photos an",
+        "url": "https://www.instagram.com/theelephantrestaurant/",
+        "timestamp": "2026-07-05T15:08:14+00:00"
+      },
+      {
+        "check": "contact:email",
+        "result": "ajoydeb98@gmail.com",
+        "url": "http://www.theelephantchorley.co.uk/contact/",
+        "timestamp": "2026-07-05T15:08:14+00:00"
+      },
+      {
+        "check": "social:facebook",
+        "result": "found: The Elephant Restaurant (Euxton)",
+        "url": "https://www.facebook.com/theelephantchorley/?locale=en_GB",
+        "timestamp": "2026-07-05T15:08:14+00:00"
+      },
+      {
+        "check": "social:facebook",
+        "result": "found: The Elephant and Castle | Chorley | Facebook",
+        "url": "https://www.facebook.com/theelephantandcastle1/",
+        "timestamp": "2026-07-05T15:08:14+00:00"
+      },
+      {
+        "check": "website_check",
+        "result": "real: title: The Elephant Indian Restaurant & Takeaway, Chorley – Open 7 days a week till lat; substantive page (2459 chars of text)",
+        "url": "http://www.theelephantchorley.co.uk/",
+        "timestamp": "2026-07-05T15:08:16+00:00"
+      },
+      {
+        "check": "osm",
+        "result": "OSM lists no website tag for this restaurant",
+        "url": null,
+        "timestamp": "2026-07-05T15:08:16+00:00"
+      }
+    ]
+  },
+  "status": "found",
+  "created_at": "2026-07-05T15:08:16+00:00",
+  "updated_at": "2026-07-05T15:08:16+00:00"
+}

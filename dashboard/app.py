@@ -23,7 +23,7 @@ from socialite.config import data_dir, ladder, settings
 app = Flask(__name__)
 
 LEAD_ID_RE = re.compile(r"^[a-z0-9-]+$")
-PIPELINE = ["found", "bible", "built", "pitched", "signed"]
+PIPELINE = ["found", "bible", "built", "pitched", "signed", "live"]
 
 
 # ---------- helpers ----------

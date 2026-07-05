@@ -1,0 +1,62 @@
+{
+  "id": "retreat-chorley",
+  "name": "Retreat",
+  "category": "restaurant",
+  "locale": {
+    "key": "uk",
+    "country": "GB",
+    "language": "en-GB",
+    "currency": "GBP",
+    "contact_channel": "phone"
+  },
+  "address": "19 Church Street Chorley",
+  "contact": {
+    "phone": null,
+    "whatsapp": null,
+    "email": null,
+    "messenger": "https://www.facebook.com/retreatadlington/"
+  },
+  "socials": [
+    {
+      "platform": "facebook",
+      "url": "https://www.facebook.com/retreatadlington/",
+      "active": null
+    }
+  ],
+  "website": {
+    "verdict": "real",
+    "url": "https://boutique-retreats.co.uk/luxury-cottages-lancashire/chorley/anglezarke-400.html"
+  },
+  "qualification": {
+    "score": 45,
+    "evidence": [
+      {
+        "check": "web_search",
+        "result": "16 unique results for 'Retreat Chorley, Lancashire, UK'",
+        "url": null,
+        "timestamp": "2026-07-05T15:08:26+00:00"
+      },
+      {
+        "check": "social:facebook",
+        "result": "found: Retreat Adlington | Chorley - FacebookKays Farm Retreat – Kays Farm Re",
+        "url": "https://www.facebook.com/retreatadlington/",
+        "timestamp": "2026-07-05T15:08:26+00:00"
+      },
+      {
+        "check": "website_check",
+        "result": "real: title: Enjoy boutique luxury at Anglezarke - Chorley.; substantive page (14576 chars of text)",
+        "url": "https://boutique-retreats.co.uk/luxury-cottages-lancashire/chorley/anglezarke-400.html",
+        "timestamp": "2026-07-05T15:08:27+00:00"
+      },
+      {
+        "check": "osm",
+        "result": "OSM lists no website tag for this restaurant",
+        "url": null,
+        "timestamp": "2026-07-05T15:08:27+00:00"
+      }
+    ]
+  },
+  "status": "found",
+  "created_at": "2026-07-05T15:08:27+00:00",
+  "updated_at": "2026-07-05T15:08:27+00:00"
+}

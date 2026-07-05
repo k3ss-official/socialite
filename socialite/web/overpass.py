@@ -5,6 +5,9 @@ from __future__ import annotations
 import requests
 
 API = "https://overpass-api.de/api/interpreter"
+# overpass-api.de returns 406 for generic client UAs (python-requests); their usage
+# policy asks for a descriptive tool UA.
+UA = "socialite-discovery/0.1 (+https://socialite.design)"
 
 
 def find_businesses(area_name: str, amenities: list[str], tourism: list[str] | None = None,
@@ -17,7 +20,7 @@ def find_businesses(area_name: str, amenities: list[str], tourism: list[str] | N
 area["name"="{area_name.split(',')[0].strip()}"]->.a;
 ({''.join(selectors)});
 out tags center;"""
-    r = requests.post(API, data={"data": q}, timeout=timeout + 15)
+    r = requests.post(API, data={"data": q}, headers={"User-Agent": UA}, timeout=timeout + 15)
     r.raise_for_status()
     out = []
     for el in r.json().get("elements", []):

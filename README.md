@@ -30,6 +30,20 @@ Dashboard (lead board, bible/pitch viewers, live site previews, client ledger + 
 .venv/bin/python dashboard/app.py    # → http://127.0.0.1:5057
 ```
 
+## Field deployment
+
+Going from a lead to a paying client with a live site is documented step by step:
+
+- **[FIELD_DEPLOYMENT_PLAYBOOK.md](FIELD_DEPLOYMENT_PLAYBOOK.md)** — lead name → live
+  domain + mailbox: exact commands, acceptance checks, failure recovery. VPS/DNS/money
+  steps are manual by design.
+- **[FIRST_3_CLIENTS.md](FIRST_3_CLIENTS.md)** — target profile, live qualified
+  candidates, offer, outreach scripts, price anchors, delivery checklist.
+- **[SPRINT_48H.md](SPRINT_48H.md)** — the 48-hour first-revenue schedule tying both together.
+
+Lead statuses run `found → bible → built → pitched → signed → live` (plus `rejected`);
+`signed` means money agreed, `live` means all go-live acceptance checks passed.
+
 ## Pipeline stages
 
 | Stage | Module | Output (versioned, reproducible) |

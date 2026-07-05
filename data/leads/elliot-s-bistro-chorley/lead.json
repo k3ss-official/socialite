@@ -1,0 +1,68 @@
+{
+  "id": "elliot-s-bistro-chorley",
+  "name": "Elliot's Bistro",
+  "category": "restaurant",
+  "locale": {
+    "key": "uk",
+    "country": "GB",
+    "language": "en-GB",
+    "currency": "GBP",
+    "contact_channel": "phone"
+  },
+  "address": "200 Preston Road Chorley",
+  "contact": {
+    "phone": "01257 265329",
+    "whatsapp": null,
+    "email": null,
+    "messenger": "https://www.facebook.com/elliotsbistro/mentions/"
+  },
+  "socials": [
+    {
+      "platform": "facebook",
+      "url": "https://www.facebook.com/elliotsbistro/mentions/",
+      "active": null
+    }
+  ],
+  "website": {
+    "verdict": "real",
+    "url": "https://elliotsbistro.co.uk/"
+  },
+  "qualification": {
+    "score": 55,
+    "evidence": [
+      {
+        "check": "web_search",
+        "result": "14 unique results for 'Elliot's Bistro Chorley, Lancashire, UK'",
+        "url": null,
+        "timestamp": "2026-07-05T15:08:57+00:00"
+      },
+      {
+        "check": "social:facebook",
+        "result": "found: Elliot's Bistro | Chorley - Facebook",
+        "url": "https://www.facebook.com/elliotsbistro/mentions/",
+        "timestamp": "2026-07-05T15:08:57+00:00"
+      },
+      {
+        "check": "contact:phone",
+        "result": "'01257 265329' from search snippet",
+        "url": "https://www.facebook.com/elliotsbistro/posts/spanish-style-dine-tapas-and-sangria-now-we-have-a-new-extended-menu-tapas-sangr/376388366410043/",
+        "timestamp": "2026-07-05T15:08:57+00:00"
+      },
+      {
+        "check": "website_check",
+        "result": "real: title: Elliot's Bistro - Bistro & Restaurant in Chorley; substantive page (1211 chars of text)",
+        "url": "https://elliotsbistro.co.uk/",
+        "timestamp": "2026-07-05T15:08:57+00:00"
+      },
+      {
+        "check": "osm",
+        "result": "OSM lists no website tag for this restaurant",
+        "url": null,
+        "timestamp": "2026-07-05T15:08:57+00:00"
+      }
+    ]
+  },
+  "status": "found",
+  "created_at": "2026-07-05T15:08:57+00:00",
+  "updated_at": "2026-07-05T15:08:57+00:00"
+}

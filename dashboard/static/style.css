@@ -14,6 +14,7 @@
   --c-built: #2471a3;
   --c-pitched: #ca8a04;
   --c-signed: #1e8e4e;
+  --c-live: #0e7f74;
   --c-rejected: #c0392b;
 }
 
@@ -86,6 +87,7 @@ h2 { font-size: 15px; margin: 0 0 12px; text-transform: uppercase; letter-spacin
 .pill-built { background: var(--c-built); }
 .pill-pitched { background: var(--c-pitched); }
 .pill-signed { background: var(--c-signed); }
+.pill-live { background: var(--c-live); }
 .pill-rejected { background: var(--c-rejected); }
 .tag {
   display: inline-block; background: #eef0f4; color: var(--muted);

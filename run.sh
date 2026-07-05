@@ -2,4 +2,8 @@
 # One-command pipeline: ./run.sh "Business Name, Town, Country" [locale]
 # Anything fancier: .venv/bin/python -m socialite.cli --help
 cd "$(dirname "$0")" || exit 1
+if [ ! -x .venv/bin/python ]; then
+  echo "no .venv — run: python3 -m venv .venv && .venv/bin/pip install -r requirements.txt" >&2
+  exit 1
+fi
 exec .venv/bin/python -m socialite.cli run "$1" --locale "${2:-uk}"

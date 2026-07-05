@@ -17,13 +17,19 @@ Living board. Maintained by the build agent; humans welcome to edit.
 - [x] Acceptance test: `./run.sh "Scran Away, Chorley, UK"` end to end
 - [x] Canonical LLM path proven: bible v4 via `claude -p` ($0.90, 5min) — alerts caught postcode error in our own demo, hours conflict, 4 real competitors
 - [x] Nested-agent guard: `claude -p` runs with mutating tools disabled from /tmp (it wrote a rogue bible into the repo once — quarantined, logged)
+- [x] `find-locale --locale uk` field-proven: Overpass 406 fixed (descriptive UA), live Chorley sweep returned 4 score-90 no-website leads
+- [x] `live` status after `signed` (schema + store + dashboard) — go-live is now tracked, not implied
+- [x] Field docs: FIELD_DEPLOYMENT_PLAYBOOK.md, FIRST_3_CLIENTS.md, SPRINT_48H.md
 
 ## Blocked on Tony
 - [ ] Real VPS details (host, deploy user) for first live provisioning run
-- [ ] Decision: Scran Away closed 27 May 2026, relaunch planned — pitch the relaunch or pick a second UK test client?
+- [ ] Demo wildcard DNS: `*.demo.<your-domain>` → VPS IP (one record, enables instant live demos)
+- [ ] Payment rail decision: GoCardless vs standing-order mandate (see FIRST_3_CLIENTS.md)
+- [ ] Scran Away: closed 27 May 2026 — Janine relaunch is pipeline #4, not a first-3 target (decided in FIRST_3_CLIENTS.md; veto if wrong)
 
 ## Next
-- [ ] Field-test `find-locale --locale np-pokhara` (Overpass sweep is implemented, not yet run at scale)
+- [ ] Run pipeline on the 3 Chorley candidates (The Woodsman, Hinds Head, The Roebuck) — SPRINT_48H.md hour 2–5
+- [ ] Field-test `find-locale --locale np-pokhara` at scale (UK sweep proven; Pokhara Overpass area fixed — "Pokhara, Nepal" resolves 1.7k businesses incl. tourism tags — per-business qualification not yet run)
 - [ ] Per-locale palette/typography hints in locale packs (Pokhara aesthetic ≠ Lancashire)
 - [ ] Second site theme once 3+ clients are live (avoid same-template smell in one town)
 - [ ] WhatsApp CTA end-to-end test with a NP number

@@ -1,0 +1,68 @@
+{
+  "id": "the-roebuck-chorley",
+  "name": "The Roebuck",
+  "category": "pub",
+  "locale": {
+    "key": "uk",
+    "country": "GB",
+    "language": "en-GB",
+    "currency": "GBP",
+    "contact_channel": "phone"
+  },
+  "address": "Waterhouse Green Chorley",
+  "contact": {
+    "phone": "0800 919117",
+    "whatsapp": null,
+    "email": null,
+    "messenger": "https://www.facebook.com/Roebuckinnwhittle/"
+  },
+  "socials": [
+    {
+      "platform": "facebook",
+      "url": "https://www.facebook.com/Roebuckinnwhittle/",
+      "active": null
+    }
+  ],
+  "website": {
+    "verdict": "none",
+    "url": null
+  },
+  "qualification": {
+    "score": 90,
+    "evidence": [
+      {
+        "check": "web_search",
+        "result": "18 unique results for 'The Roebuck Chorley, Lancashire, UK'",
+        "url": null,
+        "timestamp": "2026-07-05T15:08:30+00:00"
+      },
+      {
+        "check": "contact:phone",
+        "result": "'0800 919117' from search snippet",
+        "url": "https://www.deansblinds.co.uk/project/the-roebuck/",
+        "timestamp": "2026-07-05T15:08:30+00:00"
+      },
+      {
+        "check": "social:facebook",
+        "result": "found: The Roebuck Inn - Whittle le Woods | Chorley - Facebook",
+        "url": "https://www.facebook.com/Roebuckinnwhittle/",
+        "timestamp": "2026-07-05T15:08:30+00:00"
+      },
+      {
+        "check": "website_check",
+        "result": "no candidate own-domain website in search results",
+        "url": null,
+        "timestamp": "2026-07-05T15:08:30+00:00"
+      },
+      {
+        "check": "osm",
+        "result": "OSM lists no website tag for this pub",
+        "url": null,
+        "timestamp": "2026-07-05T15:08:30+00:00"
+      }
+    ]
+  },
+  "status": "found",
+  "created_at": "2026-07-05T15:08:30+00:00",
+  "updated_at": "2026-07-05T15:08:30+00:00"
+}

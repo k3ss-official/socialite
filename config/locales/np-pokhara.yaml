@@ -20,7 +20,8 @@ prices:
   s3_annual_upscale:   { low: 2500, high: 4000 }
 
 discovery:
-  area_name: "Pokhara Lakeside, Nepal"
+  # OSM has no "Pokhara Lakeside" area; "Pokhara" resolves (1.7k businesses, 2026-07).
+  area_name: "Pokhara, Nepal"
   overpass_amenities: [restaurant, cafe, bar]
   overpass_tourism: [hotel, guest_house]
   search_terms: ["lakeside cafe", "lakeside hotel", "trekking agency", "rafting"]

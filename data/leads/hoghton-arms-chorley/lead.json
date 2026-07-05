@@ -1,0 +1,56 @@
+{
+  "id": "hoghton-arms-chorley",
+  "name": "Hoghton Arms",
+  "category": "pub",
+  "locale": {
+    "key": "uk",
+    "country": "GB",
+    "language": "en-GB",
+    "currency": "GBP",
+    "contact_channel": "phone"
+  },
+  "address": "Chorley Road Chorley",
+  "contact": {
+    "phone": "01254 201083",
+    "whatsapp": null,
+    "email": null,
+    "messenger": null
+  },
+  "socials": [],
+  "website": {
+    "verdict": "template",
+    "url": "https://en.gplace.com/12547"
+  },
+  "qualification": {
+    "score": 45,
+    "evidence": [
+      {
+        "check": "web_search",
+        "result": "12 unique results for 'Hoghton Arms Chorley, Lancashire, UK'",
+        "url": null,
+        "timestamp": "2026-07-05T15:09:01+00:00"
+      },
+      {
+        "check": "contact:phone",
+        "result": "'01254 201083' from search snippet",
+        "url": "https://www.lep.co.uk/lifestyle/food-and-drink/restaurant-review-hoghton-arms-withnell-1995560",
+        "timestamp": "2026-07-05T15:09:01+00:00"
+      },
+      {
+        "check": "website_check",
+        "result": "template: title: Marstons Hoghton Arms; substantive page (2605 chars of text); domain 'en.gplace.com' unrelated to business name — template/freebie deployment",
+        "url": "https://en.gplace.com/12547",
+        "timestamp": "2026-07-05T15:09:02+00:00"
+      },
+      {
+        "check": "osm",
+        "result": "OSM lists no website tag for this pub",
+        "url": null,
+        "timestamp": "2026-07-05T15:09:02+00:00"
+      }
+    ]
+  },
+  "status": "found",
+  "created_at": "2026-07-05T15:09:02+00:00",
+  "updated_at": "2026-07-05T15:09:02+00:00"
+}

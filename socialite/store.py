@@ -17,7 +17,7 @@ from pathlib import Path
 
 from .config import data_dir, settings
 
-LEAD_STATUSES = ["found", "bible", "built", "pitched", "signed", "rejected"]
+LEAD_STATUSES = ["found", "bible", "built", "pitched", "signed", "live", "rejected"]
 
 
 class CostCapExceeded(RuntimeError):

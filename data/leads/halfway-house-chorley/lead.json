@@ -1,0 +1,85 @@
+{
+  "id": "halfway-house-chorley",
+  "name": "Halfway House",
+  "category": "pub",
+  "locale": {
+    "key": "uk",
+    "country": "GB",
+    "language": "en-GB",
+    "currency": "GBP",
+    "contact_channel": "phone"
+  },
+  "address": "470 Preston Road Chorley",
+  "contact": {
+    "phone": "01772 334477",
+    "whatsapp": null,
+    "email": "recruitment@trustinns.co.uk.",
+    "messenger": "https://www.facebook.com/thehalfwayhousechorley/"
+  },
+  "socials": [
+    {
+      "platform": "tiktok",
+      "url": "https://www.tiktok.com/@halfway.house.cho",
+      "active": null
+    },
+    {
+      "platform": "facebook",
+      "url": "https://www.facebook.com/thehalfwayhousechorley/",
+      "active": null
+    }
+  ],
+  "website": {
+    "verdict": "real",
+    "url": "https://www.halfwayhousechorley.co.uk/"
+  },
+  "qualification": {
+    "score": 55,
+    "evidence": [
+      {
+        "check": "web_search",
+        "result": "17 unique results for 'Halfway House Chorley, Lancashire, UK'",
+        "url": null,
+        "timestamp": "2026-07-05T15:08:34+00:00"
+      },
+      {
+        "check": "social:tiktok",
+        "result": "found: Halfway House Chorley (@halfway.house.cho) | TikTok",
+        "url": "https://www.tiktok.com/@halfway.house.cho",
+        "timestamp": "2026-07-05T15:08:34+00:00"
+      },
+      {
+        "check": "contact:phone",
+        "result": "'01772 334477' from search snippet",
+        "url": "https://local.standard.co.uk/company/438072475267073",
+        "timestamp": "2026-07-05T15:08:34+00:00"
+      },
+      {
+        "check": "contact:email",
+        "result": "recruitment@trustinns.co.uk.",
+        "url": "https://www.trustinns.co.uk/pub/halfway-house-london-road-sevenoaks-tn13-2jd/",
+        "timestamp": "2026-07-05T15:08:34+00:00"
+      },
+      {
+        "check": "social:facebook",
+        "result": "found: The Halfway House Chorley | Chorley - FacebookThe Halfway House Chorle",
+        "url": "https://www.facebook.com/thehalfwayhousechorley/",
+        "timestamp": "2026-07-05T15:08:34+00:00"
+      },
+      {
+        "check": "website_check",
+        "result": "real: title: Halfway House | Pizza & Cask Ales In Chorley.; substantive page (7129 chars of text)",
+        "url": "https://www.halfwayhousechorley.co.uk/",
+        "timestamp": "2026-07-05T15:08:34+00:00"
+      },
+      {
+        "check": "osm",
+        "result": "OSM lists no website tag for this pub",
+        "url": null,
+        "timestamp": "2026-07-05T15:08:34+00:00"
+      }
+    ]
+  },
+  "status": "found",
+  "created_at": "2026-07-05T15:08:34+00:00",
+  "updated_at": "2026-07-05T15:08:34+00:00"
+}

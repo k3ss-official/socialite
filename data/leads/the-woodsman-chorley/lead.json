@@ -1,0 +1,73 @@
+{
+  "id": "the-woodsman-chorley",
+  "name": "The Woodsman",
+  "category": "pub",
+  "locale": {
+    "key": "uk",
+    "country": "GB",
+    "language": "en-GB",
+    "currency": "GBP",
+    "contact_channel": "phone"
+  },
+  "address": "Lancaster Lane Leyland",
+  "contact": {
+    "phone": null,
+    "whatsapp": null,
+    "email": null,
+    "messenger": "https://www.facebook.com/WoodsmanRestaurant/menu/"
+  },
+  "socials": [
+    {
+      "platform": "facebook",
+      "url": "https://www.facebook.com/WoodsmanRestaurant/menu/",
+      "active": null
+    },
+    {
+      "platform": "instagram",
+      "url": "https://www.instagram.com/the__woodsman_/?ref=CLIBFB-CLIBFB-CLIBFB-CLIBFB-cpgbanner1-SB_15032021-SB_15032021-SB_15032021-cpgbanner1",
+      "active": null
+    }
+  ],
+  "website": {
+    "verdict": "none",
+    "url": null
+  },
+  "qualification": {
+    "score": 90,
+    "evidence": [
+      {
+        "check": "web_search",
+        "result": "13 unique results for 'The Woodsman Chorley, Lancashire, UK'",
+        "url": null,
+        "timestamp": "2026-07-05T15:08:44+00:00"
+      },
+      {
+        "check": "social:facebook",
+        "result": "found: Link to facebook.com",
+        "url": "https://www.facebook.com/WoodsmanRestaurant/menu/",
+        "timestamp": "2026-07-05T15:08:44+00:00"
+      },
+      {
+        "check": "social:instagram",
+        "result": "found: Link to instagram.com",
+        "url": "https://www.instagram.com/the__woodsman_/?ref=CLIBFB-CLIBFB-CLIBFB-CLIBFB-cpgbanner1-SB_15032021-SB_15032021-SB_15032021-cpgbanner1",
+        "timestamp": "2026-07-05T15:08:44+00:00"
+      },
+      {
+        "check": "website_check",
+        "result": "discarded https://www.youtube.com/watch?v=v1J7OgKZ_XU — page never mentions 'The Woodsman'",
+        "url": "https://www.youtube.com/watch?v=v1J7OgKZ_XU",
+        "timestamp": "2026-07-05T15:08:45+00:00"
+      },
+      {
+        "check": "osm",
+        "result": "OSM lists no website tag for this pub",
+        "url": null,
+        "timestamp": "2026-07-05T15:08:46+00:00"
+      }
+    ]
+  },
+  "status": "found",
+  "created_at": "2026-07-05T15:08:45+00:00",
+  "updated_at": "2026-07-05T15:08:45+00:00"
+}
