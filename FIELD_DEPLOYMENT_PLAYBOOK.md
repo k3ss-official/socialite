@@ -39,15 +39,23 @@ bash provision/test_mock.sh           # must print: RESULT: 12 passed, 0 failed
 - Ubuntu-ish box with `nginx`, `certbot` (`python3-certbot-nginx`), `rsync`, and
   [docker-mailserver](https://github.com/docker-mailserver/docker-mailserver) running as
   container `mailserver`. SSH key auth for the deploy user (sudo for nginx/certbot or root).
-- A domain you control for demos (e.g. `socialite.design`) with a **wildcard A record**
-  `*.demo.socialite.design → <VPS-IP>` so demo sites get instant DNS + SSL with no per-client
-  registrar work.
+- Demo wildcard DNS — **⚠ MANUAL, not yet created**. The exact record, once Tony confirms
+  the VPS:
+
+  ```
+  Type A    Host *.demo    Domain k3ss.co.uk    Value <VPS-IP>
+  ```
+
+  i.e. `*.demo.k3ss.co.uk → <VPS-IP>`. This one record is what makes every
+  `<lead-id>.demo.k3ss.co.uk` demo deploy get instant DNS + SSL with no per-client
+  registrar work. Used by: the demo deploy commands below, SPRINT_48H.md hours 0–2 and
+  5–7, and the FIRST_3_CLIENTS.md offer script.
 
 Preflight (run from your Mac, replace `deploy@vps`):
 
 ```sh
 ssh deploy@vps 'nginx -v && certbot --version && rsync --version | head -1 && docker ps --format "{{.Names}}" | grep mailserver'
-dig +short anything.demo.socialite.design   # must return the VPS IP
+dig +short anything.demo.k3ss.co.uk   # must return the VPS IP
 ```
 
 ## 1. Run the pipeline on a lead
@@ -96,8 +104,8 @@ Deploy the demo to your own wildcard subdomain so the prospect sees it live on t
 
 ```sh
 provision/deploy_site.sh --site data/leads/<id>/site/v<N> \
-  --domain <id>.demo.socialite.design --vps deploy@vps --email you@socialite.design
-curl -sI https://<id>.demo.socialite.design | head -1     # expect HTTP/2 200
+  --domain <id>.demo.k3ss.co.uk --vps deploy@vps --email scousercheeky@gmail.com
+curl -sI https://<id>.demo.k3ss.co.uk | head -1     # expect HTTP/2 200
 ```
 
 Print the pitch sheet (`pitch/v<N>.html` → print to PDF). Pitch. When they say yes:
@@ -116,7 +124,7 @@ Print the pitch sheet (`pitch/v<N>.html` → print to PDF). Pitch. When they say
 ```sh
 provision/provision_client.sh --lead-id <id> \
   --domain clientdomain.co.uk --vps deploy@vps \
-  --email you@socialite.design --mail-user info
+  --email scousercheeky@gmail.com --mail-user info
 # see it first with --dry-run; both are idempotent and safe to re-run
 ```
 

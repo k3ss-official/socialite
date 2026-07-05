@@ -21,7 +21,7 @@ the candidates were qualified live by `find-locale` on 2026-07-05.
 | `the-woodsman-chorley` | The Woodsman (Leyland/Chorley) | FB page **with menu** + Instagram — most digitally active, best first target |
 | `hinds-head-chorley` | Hinds Head, Charnock Richard | FB page, phone 01257 792430 recovered |
 | `the-roebuck-chorley` | The Roebuck Inn, Whittle-le-Woods | FB page, address recovered |
-| `the-talbot-chorley` | The Talbot, Chorley | FB presence weaker (video link only) — reserve |
+| `the-talbot-chorley` | The Talbot, Chorley | FB presence weaker (video link only) — pitch last in the pool |
 
 Wildcard option: **Janine's Scran Away relaunch** (see `scran-away-chorley` bible v4
 alerts). Warm-ish, we already have full research, but the business doesn't exist yet —
@@ -33,7 +33,7 @@ Refill the funnel any time (free): `.venv/bin/python -m socialite.cli find-local
 ## The offer
 
 > "I build websites for [town] food businesses. I already built yours — it's live, look."
-> *(hand them your phone showing `https://<id>.demo.socialite.design`)*
+> *(hand them your phone showing `https://<id>.demo.k3ss.co.uk`)*
 > "The site is free — it's yours as long as you're hosted with me. £49 a month covers
 > hosting, SSL, a proper `you@yourpub.co.uk` email, and me personally updating your hours,
 > menu, and photos whenever you message me. No contract tricks: 12 months, then rolling."
@@ -50,8 +50,8 @@ monthly is the product.
 | Social Growth / Pro, Competitor Watch, Seasonal, Upscale | per `config/ladder.yaml` | don't lead with these |
 
 Close Foundation only. Upsell rungs at the 30-day check-in with the first traffic numbers.
-Discipline: never discount below the band floor (£39); throw in the first month free
-instead — costs pennies, protects the MRR anchor.
+Discipline: **no discounting, ever** — the price is £49. If a close needs a release valve,
+give the first month free instead: costs pennies, protects the MRR anchor.
 
 ## Outreach
 
@@ -79,10 +79,12 @@ FB Messenger fallback (owner unreachable in person):
 3. Scran Away demo as portfolio ("I built this for another Chorley business").
 4. After client #1: "The Woodsman is with me" — the only proof that matters by client #3.
 
-## Getting paid — ⚠ decide before the first walk-in
+## Getting paid — decided
 
-- **Collection**: GoCardless direct debit (set up on the laptop at signing, ~1% fee) or a
-  bank standing order mandate on the printed agreement. First month collected day one.
+- **Default: GoCardless direct debit** — mandate set up on the laptop at signing (~1% fee).
+  First month collected day one.
+- **Fallback only** (client is old-school or refuses GoCardless): bank standing-order
+  mandate on the printed agreement. Carry a few blanks; don't offer it first.
 - **Paper**: one-page agreement — parties, £/mo, 12-month initial term then rolling
   monthly, what Foundation includes (lift the bullet list from `config/ladder.yaml`),
   site remains ours if hosting stops, 30 days notice, GDPR one-liner. Two signatures,

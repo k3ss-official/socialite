@@ -22,10 +22,16 @@ Living board. Maintained by the build agent; humans welcome to edit.
 - [x] Field docs: FIELD_DEPLOYMENT_PLAYBOOK.md, FIRST_3_CLIENTS.md, SPRINT_48H.md
 
 ## Blocked on Tony
-- [ ] Real VPS details (host, deploy user) for first live provisioning run
-- [ ] Demo wildcard DNS: `*.demo.<your-domain>` → VPS IP (one record, enables instant live demos)
-- [ ] Payment rail decision: GoCardless vs standing-order mandate (see FIRST_3_CLIENTS.md)
-- [ ] Scran Away: closed 27 May 2026 — Janine relaunch is pipeline #4, not a first-3 target (decided in FIRST_3_CLIENTS.md; veto if wrong)
+- [ ] Real VPS details (host, deploy user) — nothing live provisions until confirmed
+- [ ] Create the demo wildcard DNS record once VPS is confirmed: `A *.demo k3ss.co.uk → <VPS-IP>` (exact record + usage documented in FIELD_DEPLOYMENT_PLAYBOOK.md §0)
+- [ ] Open the GoCardless account (decided: default rail; paper standing-order mandate is the old-school fallback only)
+
+## Decided (Tony, 2026-07-05)
+- [x] Payment rail: GoCardless default, standing-order fallback
+- [x] Demo domain: `*.demo.k3ss.co.uk` (record not yet created)
+- [x] First-3 order: The Woodsman first; Hinds Head, Roebuck Inn, Talbot active pool
+- [x] Janine/Scran Away relaunch = pipeline #4 unless manually overridden
+- [x] Offer: £49/mo Foundation, no discounting — first month free is the only lever
 
 ## Next
 - [ ] Run pipeline on the 3 Chorley candidates (The Woodsman, Hinds Head, The Roebuck) — SPRINT_48H.md hour 2–5

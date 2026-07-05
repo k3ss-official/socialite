@@ -4,9 +4,10 @@ Goal: **first real money — at least 1 signed Foundation client (£49/mo), targ
 Companion docs: [FIELD_DEPLOYMENT_PLAYBOOK.md](FIELD_DEPLOYMENT_PLAYBOOK.md) (mechanics),
 [FIRST_3_CLIENTS.md](FIRST_3_CLIENTS.md) (targets, scripts, paper). All commands from repo root.
 
-**Hard prerequisites (can't start without):** a VPS you can ssh into, one domain you
-control for demos, a GoCardless account or printed standing-order mandate, and ~£30 for
-one client domain registration.
+**Hard prerequisites (can't start without):** a confirmed VPS (host + deploy user — Tony's
+call, not yet made), the `*.demo.k3ss.co.uk` wildcard A record created against it, a
+GoCardless account (plus a few printed standing-order mandates as the old-school fallback),
+and ~£30 for one client domain registration.
 
 ---
 
@@ -15,8 +16,8 @@ one client domain registration.
 ```sh
 bash provision/test_mock.sh                                  # RESULT: 12 passed, 0 failed
 ssh deploy@vps 'nginx -v && certbot --version && rsync --version | head -1 && docker ps --format "{{.Names}}" | grep mailserver'
-# set wildcard DNS once: *.demo.socialite.design → VPS IP, then:
-dig +short check.demo.socialite.design                       # VPS IP
+# wildcard DNS must exist (⚠ MANUAL, exact record in playbook §0): *.demo.k3ss.co.uk → VPS IP
+dig +short check.demo.k3ss.co.uk                             # VPS IP
 claude --version                                             # logged in, plain terminal
 ```
 
@@ -44,8 +45,8 @@ lead swapped out** (bench: `the-talbot-chorley`, or refill via
 for id in the-woodsman-chorley hinds-head-chorley the-roebuck-chorley; do
   v=$(ls -d data/leads/$id/site/v* | sed 's/.*v//' | sort -n | tail -1)
   provision/deploy_site.sh --site data/leads/$id/site/v$v \
-    --domain $id.demo.socialite.design --vps deploy@vps --email you@socialite.design
-  curl -sI https://$id.demo.socialite.design | head -1     # HTTP/2 200 each
+    --domain $id.demo.k3ss.co.uk --vps deploy@vps --email scousercheeky@gmail.com
+  curl -sI https://$id.demo.k3ss.co.uk | head -1     # HTTP/2 200 each
 done
 ```
 
@@ -99,7 +100,7 @@ then one new candidate. Same close, same paper.
 
 | Risk | Counter |
 |---|---|
-| 0 signs after round 1 | Objections are data — usually price (offer month 1 free, never sub-£39) or trust (lead with Scran Away portfolio + "no payment until it's live on your domain"). Round 2 with the adjusted line. |
+| 0 signs after round 1 | Objections are data — usually price (offer month 1 free; never discount the £49) or trust (lead with Scran Away portfolio + "no payment until it's live on your domain"). Round 2 with the adjusted line. |
 | Owner wants "to think" forever | Two touches max (visit + follow-up), then bench and replace from the funnel. The pipeline makes prospects cheap — desperation is the only expensive thing. |
 | VPS/mail blocker mid-sprint | Site can go live without the mailbox (nginx+certbot only, `deploy_site.sh` directly). Email "this week". Never delay a signed client's site for mail. |
 | A demo is wrong in front of the owner | "Spotted something to fix — that's exactly the service" — correct from their mouth, redeploy tonight. The bible alerts exist to make this rare. |
