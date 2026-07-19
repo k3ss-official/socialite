@@ -1,0 +1,206 @@
+{#- Theme: cinema — award-style cinematic scroll one-pager.
+    Context: bible, lead, locale, photos, hero, gallery (see build.py).
+    Signature moves: full-bleed hero with slow zoom, scroll-scrubbed photo
+    chapters, keyword marquee, oversized editorial type, reveal-on-scroll. -#}
+{%- set c = bible.site_copy -%}
+{%- set pal = bible.palette -%}
+{%- set heading_font = bible.typography.heading | default('Fraunces', true) -%}
+{%- set body_font = bible.typography.body | default('Inter', true) -%}
+{%- macro cta_href(cta) -%}
+  {%- if cta.type == 'phone' -%}tel:{{ cta.value | replace(' ', '') }}
+  {%- elif cta.type == 'whatsapp' -%}https://wa.me/{{ cta.value | replace('+','') | replace(' ','') }}
+  {%- elif cta.type == 'email' -%}mailto:{{ cta.value }}
+  {%- elif cta.type == 'maps' -%}https://maps.google.com/?q={{ cta.value | urlencode }}
+  {%- else -%}{{ cta.value }}
+  {%- endif -%}
+{%- endmacro -%}
+{%- set ratings = bible.reviews | selectattr('rating') | map(attribute='rating') | list -%}
+{%- set chapters = gallery -%}
+{%- set about_photo = (photos | selectattr('use','equalto','about') | list | first) -%}
+<!doctype html>
+<html lang="{{ lead.locale.language.split('-')[0] }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ bible.identity.name }}{% if bible.identity.tagline %} — {{ bible.identity.tagline }}{% endif %}</title>
+<meta name="description" content="{{ c.subheadline }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family={{ heading_font | replace(' ', '+') }}:wght@500;600;700;900&family={{ body_font | replace(' ', '+') }}:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="progress" aria-hidden="true"><span></span></div>
+
+<header class="topbar" data-topbar>
+  <span class="wordmark">{{ bible.identity.name }}</span>
+  <nav class="topnav">
+    {% if bible.services %}<a href="#menu">{{ c.menu_heading or 'Menu' }}</a>{% endif %}
+    <a href="#visit">{{ c.visit_heading or 'Find us' }}</a>
+  </nav>
+  <a class="btn btn-primary btn-sm" href="{{ cta_href(c.cta_primary) }}">{{ c.cta_primary.label }}</a>
+</header>
+
+<section class="hero" id="top" data-hero>
+  {% if hero %}<div class="hero-media"><img src="{{ hero.path }}" alt="{{ hero.caption or bible.identity.name }}"></div>{% endif %}
+  <div class="hero-scrim" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <p class="eyebrow" data-reveal>{{ bible.identity.category }} · {{ bible.location.address.split(',')[-2] | trim if bible.location.address else lead.locale.key }}</p>
+    <h1 class="display" data-reveal>{{ c.headline }}</h1>
+    <p class="sub" data-reveal>{{ c.subheadline }}</p>
+    <div class="cta-row" data-reveal>
+      <a class="btn btn-primary" href="{{ cta_href(c.cta_primary) }}">{{ c.cta_primary.label }}</a>
+      {% if bible.services %}<a class="btn btn-ghost" href="#menu">{{ c.menu_heading or 'Menu' }}</a>{% endif %}
+    </div>
+    {% if ratings %}
+    <p class="rating-badge" data-reveal aria-label="rating">
+      <span class="stars">{% for _ in range((((ratings | sum) / (ratings | length)) | round) | int) %}★{% endfor %}</span>
+      {{ '%.1f' | format((ratings | sum) / (ratings | length)) }} from real reviews
+    </p>
+    {% endif %}
+  </div>
+  <div class="scroll-cue" aria-hidden="true"><span></span></div>
+</section>
+
+{% if bible.brand_voice.keywords %}
+<section class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    {% for _ in range(2) %}
+    <div class="marquee-run">
+      {% for k in bible.brand_voice.keywords %}<span>{{ k }}</span><i>★</i>{% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if chapters %}
+<section class="chapters" data-scrub style="--frames: {{ chapters | length }}">
+  <div class="chapters-sticky">
+    {% for p in chapters %}
+    <figure class="frame{% if loop.first %} is-active{% endif %}" data-frame>
+      <img src="{{ p.path }}" alt="{{ p.caption or bible.identity.name }}" loading="{{ 'eager' if loop.first else 'lazy' }}">
+      <figcaption>
+        <span class="frame-index">{{ '%02d' | format(loop.index) }} / {{ '%02d' | format(loop.length) }}</span>
+        <span class="frame-caption display">{{ p.caption or bible.identity.name }}</span>
+      </figcaption>
+    </figure>
+    {% endfor %}
+    <div class="frame-progress" aria-hidden="true">
+      {% for p in chapters %}<span{% if loop.first %} class="is-active"{% endif %}></span>{% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="section about" id="about">
+  <div class="about-grid">
+    <div class="about-copy">
+      <p class="eyebrow" data-reveal>{{ c.about_heading }}</p>
+      <h2 class="display" data-reveal>{{ bible.identity.tagline or c.about_heading }}</h2>
+      <p class="about-text" data-reveal>{{ c.about }}</p>
+    </div>
+    {% if about_photo %}
+    <div class="about-media" data-parallax>
+      <img src="{{ about_photo.path }}" alt="{{ about_photo.caption or bible.identity.name }}" loading="lazy">
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+{% if bible.usps %}
+<section class="section usps-band">
+  <p class="eyebrow" data-reveal>Why {{ bible.identity.name }}</p>
+  <ol class="usps">
+    {% for u in bible.usps %}
+    <li data-reveal>
+      <span class="usp-index display">{{ '%02d' | format(loop.index) }}</span>
+      <p>{{ u }}</p>
+    </li>
+    {% endfor %}
+  </ol>
+</section>
+{% endif %}
+
+{% if bible.services %}
+<section class="section menu" id="menu">
+  <p class="eyebrow" data-reveal>{{ c.menu_heading or 'What we make' }}</p>
+  <ul class="menu-rows">
+    {% for s in bible.services %}
+    <li data-reveal>
+      <div class="menu-row-head">
+        <h3 class="display">{{ s.name }}</h3>
+        {% if s.price %}<span class="price">{{ s.price }}</span>{% endif %}
+      </div>
+      {% if s.description %}<p>{{ s.description }}</p>{% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}
+
+{% if bible.reviews %}
+<section class="section reviews-band">
+  <p class="eyebrow" data-reveal>{{ c.reviews_heading or 'Word gets around' }}</p>
+  {% for r in bible.reviews %}
+  <figure class="pullquote" data-reveal>
+    {% if r.rating %}<div class="stars">{% for _ in range(r.rating | round | int) %}★{% endfor %}</div>{% endif %}
+    <blockquote class="display">“{{ r.quote }}”</blockquote>
+    <figcaption>{{ r.author or 'Verified review' }} · {{ r.source }}</figcaption>
+  </figure>
+  {% endfor %}
+</section>
+{% endif %}
+
+{% if chapters %}
+<section class="strip" aria-label="gallery">
+  <div class="strip-track">
+    {% for p in chapters %}
+    <figure><img src="{{ p.path }}" alt="{{ p.caption or bible.identity.name }}" loading="lazy"><figcaption>{{ p.caption }}</figcaption></figure>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<section class="section visit" id="visit">
+  <p class="eyebrow" data-reveal>{{ c.visit_heading or 'Find us' }}</p>
+  <div class="visit-grid">
+    <div class="visit-info" data-reveal>
+      {% if bible.location.address %}<p class="address display">{{ bible.location.address }}</p>{% endif %}
+      {% if bible.hours %}
+      <table class="hours">
+        {% for day, h in bible.hours.items() %}<tr><td>{{ day | title }}</td><td>{{ h }}</td></tr>{% endfor %}
+      </table>
+      {% endif %}
+      <div class="cta-row">
+        <a class="btn btn-primary" href="{{ cta_href(c.cta_primary) }}">{{ c.cta_primary.label }}</a>
+        {% for s in lead.socials %}<a class="btn btn-ghost" href="{{ s.url }}" rel="noopener">{{ s.platform | title }}</a>{% endfor %}
+      </div>
+    </div>
+    {% if bible.location.maps_query %}
+    <div class="map" data-reveal><iframe title="map" src="https://maps.google.com/maps?q={{ bible.location.maps_query | urlencode }}&output=embed" loading="lazy"></iframe></div>
+    {% endif %}
+  </div>
+</section>
+
+<footer>
+  <p class="footer-wordmark display" aria-hidden="true">{{ bible.identity.name }}</p>
+  {% if c.footer_line %}<p>{{ c.footer_line }}</p>{% endif %}
+  <p class="fineprint">© {{ bible.generated_at[:4] }} {{ bible.identity.name }}</p>
+</footer>
+
+<div class="sticky-cta" data-sticky-cta>
+  <a class="btn btn-primary" href="{{ cta_href(c.cta_primary) }}">{{ c.cta_primary.label }}</a>
+</div>
+
+<noscript><style>
+  .chapters{height:auto !important}
+  .chapters-sticky{position:static;height:auto}
+  .frame{position:static;opacity:1;height:70vh}
+  .frame-progress{display:none}
+  [data-reveal]{opacity:1 !important;transform:none !important}
+</style></noscript>
+<script src="assets/app.js" defer></script>
+</body>
+</html>
