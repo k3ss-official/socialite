@@ -1,0 +1,56 @@
+{
+  "id": "sagar-premier-indian-restaurant-chorley",
+  "name": "Sagar Premier Indian Restaurant",
+  "category": "restaurant",
+  "locale": {
+    "key": "uk",
+    "country": "GB",
+    "language": "en-GB",
+    "currency": "GBP",
+    "contact_channel": "phone"
+  },
+  "address": "Clayton Brook Road Preston",
+  "contact": {
+    "phone": "01257 262242",
+    "whatsapp": null,
+    "email": null,
+    "messenger": null
+  },
+  "socials": [],
+  "website": {
+    "verdict": "none",
+    "url": null
+  },
+  "qualification": {
+    "score": 45,
+    "evidence": [
+      {
+        "check": "web_search",
+        "result": "9 unique results for 'Sagar Premier Indian Restaurant Chorley, Lancashire, UK'",
+        "url": null,
+        "timestamp": "2026-07-05T15:08:39+00:00"
+      },
+      {
+        "check": "contact:phone",
+        "result": "'01257 262242' from search snippet",
+        "url": "https://www.yell.com/s/indian+restaurants-chorley-lancashire.html",
+        "timestamp": "2026-07-05T15:08:39+00:00"
+      },
+      {
+        "check": "website_check",
+        "result": "no candidate own-domain website in search results",
+        "url": null,
+        "timestamp": "2026-07-05T15:08:39+00:00"
+      },
+      {
+        "check": "osm",
+        "result": "OSM lists no website tag for this restaurant",
+        "url": null,
+        "timestamp": "2026-07-05T15:08:39+00:00"
+      }
+    ]
+  },
+  "status": "found",
+  "created_at": "2026-07-05T15:08:39+00:00",
+  "updated_at": "2026-07-05T15:08:39+00:00"
+}

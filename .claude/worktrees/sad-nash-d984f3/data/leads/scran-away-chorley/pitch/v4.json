@@ -1,0 +1,240 @@
+{
+  "lead_id": "scran-away-chorley",
+  "bible_version": 4,
+  "generated_at": "2026-06-11T21:50:32+00:00",
+  "currency": "GBP",
+  "gap_summary": [
+    {
+      "gap_key": "no_website",
+      "label": "No real website",
+      "sell_line": "Right now anyone who Googles you finds nothing you control — 3 of your local rivals have a site doing that job for them.",
+      "rung_key": "r1_foundation",
+      "competitors_with": 3
+    },
+    {
+      "gap_key": "no_online_menu",
+      "label": "No online menu / services list",
+      "sell_line": "People check the menu before they ever walk in — if they can't see it, they pick somewhere they can.",
+      "rung_key": "r1_foundation",
+      "competitors_with": 3
+    },
+    {
+      "gap_key": "no_branded_email",
+      "label": "No branded email",
+      "sell_line": "A business running on a personal Gmail or Facebook messages looks temporary — a branded address fixes that overnight.",
+      "rung_key": "r1_foundation",
+      "competitors_with": 3
+    },
+    {
+      "gap_key": "low_social_cadence",
+      "label": "Social posting is irregular",
+      "sell_line": "Your page goes quiet for weeks at a time — quiet pages read as closed, and the algorithm buries them.",
+      "rung_key": "r2_social_launch",
+      "competitors_with": 3
+    },
+    {
+      "gap_key": "weak_reviews_display",
+      "label": "Great reviews nobody sees",
+      "sell_line": "You've earned reviews that sit buried on other people's platforms — put them where every visitor sees them in the first five seconds.",
+      "rung_key": "r3_social_growth",
+      "competitors_with": 3
+    },
+    {
+      "gap_key": "stale_brand",
+      "label": "Look and photos aging",
+      "sell_line": "Photos and pages age faster than people think — an annual refresh keeps you looking like the newest place in town.",
+      "rung_key": "s3_annual_upscale",
+      "competitors_with": 2
+    }
+  ],
+  "rungs": [
+    {
+      "key": "r1_foundation",
+      "name": "Online Foundation",
+      "kind": "core",
+      "monthly_low": 39,
+      "monthly_high": 59,
+      "term_months": 12,
+      "cadence_per_year": null,
+      "includes": [
+        "Hosting on managed infrastructure, SSL, daily backups",
+        "Maintenance and content edits (hours, prices, photos)",
+        "Branded email mailbox (you@yourbusiness.com)"
+      ],
+      "gifts": [
+        "Hand-crafted website — built free, yours while hosted",
+        "Digital menu / services page"
+      ],
+      "gaps_addressed": [
+        "no_branded_email",
+        "no_online_menu",
+        "no_website"
+      ],
+      "recommended": true
+    },
+    {
+      "key": "r2_social_launch",
+      "name": "Social Launch",
+      "kind": "managed_social",
+      "monthly_low": 99,
+      "monthly_high": 149,
+      "term_months": 12,
+      "cadence_per_year": null,
+      "includes": [
+        "Social profile rebuild (Facebook + Instagram), brand-matched",
+        "First promotional campaign, designed and posted",
+        "12 months of managed posting (4 posts/month)"
+      ],
+      "gifts": [
+        "Online booking / order-ahead widget"
+      ],
+      "gaps_addressed": [
+        "low_social_cadence"
+      ],
+      "recommended": true
+    },
+    {
+      "key": "r3_social_growth",
+      "name": "Social Growth",
+      "kind": "managed_social",
+      "monthly_low": 179,
+      "monthly_high": 249,
+      "term_months": 12,
+      "cadence_per_year": null,
+      "includes": [
+        "Everything in Social Launch, at 8 posts/month",
+        "Review responses handled within 48h",
+        "Monthly performance summary in plain English"
+      ],
+      "gifts": [
+        "Live review widget on the website"
+      ],
+      "gaps_addressed": [
+        "low_social_cadence",
+        "weak_reviews_display"
+      ],
+      "recommended": true
+    },
+    {
+      "key": "r4_social_pro",
+      "name": "Social Pro",
+      "kind": "managed_social",
+      "monthly_low": 299,
+      "monthly_high": 399,
+      "term_months": 12,
+      "cadence_per_year": null,
+      "includes": [
+        "Daily-cadence content, stories and reels included",
+        "Community management (comments + DMs triaged)",
+        "Ad campaign setup and management (ad spend separate)"
+      ],
+      "gifts": [],
+      "gaps_addressed": [
+        "low_social_cadence"
+      ],
+      "recommended": true
+    },
+    {
+      "key": "s1_competitor_watch",
+      "name": "Competitor Watch",
+      "kind": "scheduled",
+      "monthly_low": 49,
+      "monthly_high": 79,
+      "term_months": null,
+      "cadence_per_year": 3,
+      "includes": [
+        "Continuous monitoring of your named local rivals",
+        "3 attack campaigns per year, timed to rival weaknesses"
+      ],
+      "gifts": [],
+      "gaps_addressed": [],
+      "recommended": false
+    },
+    {
+      "key": "s2_seasonal_push",
+      "name": "Seasonal Push",
+      "kind": "scheduled",
+      "monthly_low": 39,
+      "monthly_high": 59,
+      "term_months": null,
+      "cadence_per_year": 3,
+      "includes": [
+        "3 seasonal campaigns per year (local calendar aware)"
+      ],
+      "gifts": [],
+      "gaps_addressed": [],
+      "recommended": false
+    },
+    {
+      "key": "s3_annual_upscale",
+      "name": "Annual Upscale",
+      "kind": "scheduled",
+      "monthly_low": 29,
+      "monthly_high": 45,
+      "term_months": null,
+      "cadence_per_year": 1,
+      "includes": [
+        "Full site + socials refresh once a year: new photos, copy, design pass"
+      ],
+      "gifts": [],
+      "gaps_addressed": [
+        "stale_brand"
+      ],
+      "recommended": true
+    }
+  ],
+  "tiers": [
+    {
+      "key": "t1_foundation",
+      "name": "Foundation",
+      "pitch_line": "Get found, look professional, own your own corner of the internet.",
+      "rung_keys": [
+        "r1_foundation"
+      ],
+      "monthly_low": 39,
+      "monthly_high": 59,
+      "recommended": false
+    },
+    {
+      "key": "t2_presence",
+      "name": "Presence",
+      "pitch_line": "Foundation plus your socials rebuilt and run for you.",
+      "rung_keys": [
+        "r1_foundation",
+        "r2_social_launch"
+      ],
+      "monthly_low": 138,
+      "monthly_high": 208,
+      "recommended": false
+    },
+    {
+      "key": "t3_growth",
+      "name": "Growth",
+      "pitch_line": "Serious cadence, reviews worked for you, seasonal pushes on the calendar.",
+      "rung_keys": [
+        "r1_foundation",
+        "r3_social_growth",
+        "s2_seasonal_push"
+      ],
+      "monthly_low": 257,
+      "monthly_high": 367,
+      "recommended": true
+    },
+    {
+      "key": "t4_dominate",
+      "name": "Dominate",
+      "pitch_line": "Everything, plus we watch your rivals and hit back three times a year.",
+      "rung_keys": [
+        "r1_foundation",
+        "r4_social_pro",
+        "s1_competitor_watch",
+        "s2_seasonal_push",
+        "s3_annual_upscale"
+      ],
+      "monthly_low": 455,
+      "monthly_high": 641,
+      "recommended": false
+    }
+  ],
+  "version": 4
+}

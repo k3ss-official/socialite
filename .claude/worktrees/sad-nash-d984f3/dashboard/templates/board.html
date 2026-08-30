@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Pipeline{% endblock %}
+{% block content %}
+<div class="page-head">
+  <h1>Pipeline</h1>
+  {% if rejected %}<span class="muted">{{ rejected }} rejected</span>{% endif %}
+</div>
+
+<div class="board">
+  {% for status in PIPELINE %}
+  <section class="column">
+    <header class="col-head">
+      <span class="pill pill-{{ status }}">{{ status }}</span>
+      <span class="count">{{ cols[status] | length }}</span>
+    </header>
+    {% for lead in cols[status] %}
+    <a class="card" href="{{ url_for('lead_detail', lead_id=lead.id) }}">
+      <strong>{{ lead.name }}</strong>
+      <div class="card-meta">
+        <span class="tag">{{ lead.locale_key }}</span>
+        <span title="qualification score">score {{ lead.score }}</span>
+        <span title="total spend">${{ lead.spend | money }}</span>
+      </div>
+    </a>
+    {% else %}
+    <p class="empty">No leads</p>
+    {% endfor %}
+  </section>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{
+  "id": "the-last-orders-inn-chorley",
+  "name": "The Last Orders Inn",
+  "category": "pub",
+  "locale": {
+    "key": "uk",
+    "country": "GB",
+    "language": "en-GB",
+    "currency": "GBP",
+    "contact_channel": "phone"
+  },
+  "address": "113 Market Street Chorley",
+  "contact": {
+    "phone": "0871 951 1000",
+    "whatsapp": null,
+    "email": null,
+    "messenger": null
+  },
+  "socials": [],
+  "website": {
+    "verdict": "real",
+    "url": "https://www.beerintheevening.com/pubs/s/20/20154/Last_Orders_Inn/Lancaster"
+  },
+  "qualification": {
+    "score": 10,
+    "evidence": [
+      {
+        "check": "web_search",
+        "result": "17 unique results for 'The Last Orders Inn Chorley, Lancashire, UK'",
+        "url": null,
+        "timestamp": "2026-07-05T15:08:52+00:00"
+      },
+      {
+        "check": "contact:phone",
+        "result": "'0871 951 1000' from search snippet",
+        "url": "https://www.beerintheevening.com/pubs/s/20/20154/Last_Orders_Inn/Lancaster",
+        "timestamp": "2026-07-05T15:08:52+00:00"
+      },
+      {
+        "check": "website_check",
+        "result": "real: title: Last Orders Inn, Lancaster, Lancashire, LA1 1LH -  pub details # beerintheevenin; substantive page (1494 chars of text)",
+        "url": "https://www.beerintheevening.com/pubs/s/20/20154/Last_Orders_Inn/Lancaster",
+        "timestamp": "2026-07-05T15:08:52+00:00"
+      },
+      {
+        "check": "osm",
+        "result": "OSM lists no website tag for this pub",
+        "url": null,
+        "timestamp": "2026-07-05T15:08:53+00:00"
+      }
+    ]
+  },
+  "status": "found",
+  "created_at": "2026-07-05T15:08:52+00:00",
+  "updated_at": "2026-07-05T15:08:52+00:00"
+}

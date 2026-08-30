@@ -1,0 +1,56 @@
+{
+  "id": "traveller-s-rest-chorley",
+  "name": "Traveller's Rest",
+  "category": "pub",
+  "locale": {
+    "key": "uk",
+    "country": "GB",
+    "language": "en-GB",
+    "currency": "GBP",
+    "contact_channel": "phone"
+  },
+  "address": "Dawber's Lane Chorley",
+  "contact": {
+    "phone": "406-381-7140",
+    "whatsapp": null,
+    "email": null,
+    "messenger": null
+  },
+  "socials": [],
+  "website": {
+    "verdict": "real",
+    "url": "https://travellersrest.wordpress.com/"
+  },
+  "qualification": {
+    "score": 20,
+    "evidence": [
+      {
+        "check": "web_search",
+        "result": "18 unique results for 'Traveller's Rest Chorley, Lancashire, UK'",
+        "url": null,
+        "timestamp": "2026-07-05T15:08:20+00:00"
+      },
+      {
+        "check": "contact:phone",
+        "result": "'406-381-7140' from search snippet",
+        "url": "https://travellersrestmt.com/",
+        "timestamp": "2026-07-05T15:08:20+00:00"
+      },
+      {
+        "check": "website_check",
+        "result": "real: title: Traveller's Rest Campsite | 'Rest For The Weary Traveller'; substantive page (1691 chars of text)",
+        "url": "https://travellersrest.wordpress.com/",
+        "timestamp": "2026-07-05T15:08:21+00:00"
+      },
+      {
+        "check": "osm",
+        "result": "OSM lists no website tag for this pub",
+        "url": null,
+        "timestamp": "2026-07-05T15:08:21+00:00"
+      }
+    ]
+  },
+  "status": "found",
+  "created_at": "2026-07-05T15:08:21+00:00",
+  "updated_at": "2026-07-05T15:08:21+00:00"
+}

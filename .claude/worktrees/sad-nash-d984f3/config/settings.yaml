@@ -1,0 +1,11 @@
+# Global settings. Locale-specific things live in config/locales/*.yaml — never here.
+
+cost_cap_usd_per_lead: 2.00   # hard cap on LLM + API spend per lead; kill switch fires at this
+data_dir: data
+default_theme: classic
+dashboard_port: 5057
+
+llm:
+  cli: claude            # synthesis engine: local claude CLI, no extra SaaS
+  model: sonnet          # cheap+good for synthesis; override per-call if needed
+  max_input_chars: 60000 # raw research bundle truncated to this before prompting

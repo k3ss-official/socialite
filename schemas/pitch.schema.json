@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Pitch",
+  "description": "Output of UPSELL. Per-prospect pitch sheet mapping gaps onto the residual ladder.",
+  "type": "object",
+  "required": ["lead_id", "bible_version", "generated_at", "currency", "rungs", "tiers", "gap_summary"],
+  "properties": {
+    "lead_id": { "type": "string" },
+    "bible_version": { "type": "integer" },
+    "generated_at": { "type": "string" },
+    "currency": { "type": "string" },
+    "gap_summary": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["gap_key", "label", "sell_line", "rung_key"],
+        "properties": {
+          "gap_key": { "type": "string" },
+          "label": { "type": "string" },
+          "sell_line": { "type": "string", "description": "one plain-English sentence a rep says out loud" },
+          "rung_key": { "type": "string" },
+          "competitors_with": { "type": "integer" }
+        }
+      }
+    },
+    "rungs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["key", "name", "kind", "monthly_low", "monthly_high"],
+        "properties": {
+          "key": { "type": "string" },
+          "name": { "type": "string" },
+          "kind": { "enum": ["core", "managed_social", "scheduled"] },
+          "monthly_low": { "type": "number" },
+          "monthly_high": { "type": "number" },
+          "term_months": { "type": ["integer", "null"] },
+          "cadence_per_year": { "type": ["integer", "null"], "description": "for scheduled services" },
+          "includes": { "type": "array", "items": { "type": "string" } },
+          "gifts": { "type": "array", "items": { "type": "string" }, "description": "zero-priced one-time builds folded into this rung" },
+          "gaps_addressed": { "type": "array", "items": { "type": "string" } },
+          "recommended": { "type": "boolean" }
+        }
+      }
+    },
+    "tiers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["key", "name", "rung_keys", "monthly_low", "monthly_high"],
+        "properties": {
+          "key": { "type": "string" },
+          "name": { "type": "string" },
+          "pitch_line": { "type": "string" },
+          "rung_keys": { "type": "array", "items": { "type": "string" } },
+          "monthly_low": { "type": "number" },
+          "monthly_high": { "type": "number" },
+          "recommended": { "type": "boolean" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "id": "luciano-s-at-the-millstone-chorley",
+  "name": "Luciano's at the Millstone",
+  "category": "restaurant",
+  "locale": {
+    "key": "uk",
+    "country": "GB",
+    "language": "en-GB",
+    "currency": "GBP",
+    "contact_channel": "phone"
+  },
+  "address": "Bolton Road Chorley",
+  "contact": {
+    "phone": "01257 480205",
+    "whatsapp": null,
+    "email": null,
+    "messenger": "https://www.facebook.com/lucianosat.themillstone/"
+  },
+  "socials": [
+    {
+      "platform": "facebook",
+      "url": "https://www.facebook.com/lucianosat.themillstone/",
+      "active": null
+    }
+  ],
+  "website": {
+    "verdict": "real",
+    "url": "https://www.lucianosatthemillstone.com/"
+  },
+  "qualification": {
+    "score": 55,
+    "evidence": [
+      {
+        "check": "web_search",
+        "result": "16 unique results for 'Luciano's at the Millstone Chorley, Lancashire, UK'",
+        "url": null,
+        "timestamp": "2026-07-05T15:08:06+00:00"
+      },
+      {
+        "check": "social:facebook",
+        "result": "found: Luciano's At the Millstone | Chorley | Facebook",
+        "url": "https://www.facebook.com/lucianosat.themillstone/",
+        "timestamp": "2026-07-05T15:08:06+00:00"
+      },
+      {
+        "check": "contact:phone",
+        "result": "'01257 480205' from search snippet",
+        "url": "http://northwestnosh.blogspot.com/2011/07/lucianos-at-millstone-anderton-chorley.html",
+        "timestamp": "2026-07-05T15:08:06+00:00"
+      },
+      {
+        "check": "website_check",
+        "result": "dead: unreachable: ConnectionError",
+        "url": "https://www.themobilefoodguide.com/restaurants/chorley/lucianos-at-millstone",
+        "timestamp": "2026-07-05T15:08:06+00:00"
+      },
+      {
+        "check": "website_check",
+        "result": "real: title: Luciano's at the Millstone; substantive page (663 chars of text)",
+        "url": "https://www.lucianosatthemillstone.com/",
+        "timestamp": "2026-07-05T15:08:06+00:00"
+      },
+      {
+        "check": "osm",
+        "result": "OSM lists no website tag for this restaurant",
+        "url": null,
+        "timestamp": "2026-07-05T15:08:06+00:00"
+      }
+    ]
+  },
+  "status": "found",
+  "created_at": "2026-07-05T15:08:06+00:00",
+  "updated_at": "2026-07-05T15:08:06+00:00"
+}

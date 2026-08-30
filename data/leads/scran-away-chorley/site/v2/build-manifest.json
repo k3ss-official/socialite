@@ -1,0 +1,20 @@
+{
+  "lead_id": "scran-away-chorley",
+  "bible_version": 1,
+  "theme": "classic",
+  "built_at": "2026-06-11T20:50:13+00:00",
+  "inputs_hash": "48579c024d5d9d0d",
+  "output_dir": "data/leads/scran-away-chorley/site/v2",
+  "files": [
+    "assets/img/img00.webp",
+    "assets/img/img01.webp",
+    "assets/img/img02.webp",
+    "assets/img/img03.webp",
+    "assets/img/img04.webp",
+    "assets/img/img05.webp",
+    "assets/img/img06.webp",
+    "index.html",
+    "style.css"
+  ],
+  "site_version": 2
+}

@@ -1,0 +1,26 @@
+# Locale pack: United Kingdom. Everything market-specific is data, not code.
+key: uk
+country: GB
+language: en-GB
+currency: GBP
+currency_symbol: "£"
+phone_country_code: "+44"
+contact_channel: phone        # primary CTA type for sites: phone | whatsapp | messenger
+secondary_contact: contact_form
+maps_provider: google
+
+# Monthly price bands per rung (rep has discretion inside the band)
+prices:
+  r1_foundation:    { low: 39,  high: 59 }
+  r2_social_launch: { low: 99,  high: 149 }
+  r3_social_growth: { low: 179, high: 249 }
+  r4_social_pro:    { low: 299, high: 399 }
+  s1_competitor_watch: { low: 49, high: 79 }
+  s2_seasonal_push:    { low: 39, high: 59 }
+  s3_annual_upscale:   { low: 29, high: 45 }
+
+# FIND seeds for locale-scale discovery
+discovery:
+  area_name: "Chorley, Lancashire, UK"
+  overpass_amenities: [restaurant, cafe, fast_food, bar, pub]
+  search_terms: ["takeaway", "cafe", "restaurant", "street food"]
