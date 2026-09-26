@@ -1,0 +1,56 @@
+{
+  "id": "sam-s-bar-chorley",
+  "name": "Sam's Bar",
+  "category": "pub",
+  "locale": {
+    "key": "uk",
+    "country": "GB",
+    "language": "en-GB",
+    "currency": "GBP",
+    "contact_channel": "phone"
+  },
+  "address": null,
+  "contact": {
+    "phone": "0871 951 1000",
+    "whatsapp": null,
+    "email": null,
+    "messenger": null
+  },
+  "socials": [],
+  "website": {
+    "verdict": "real",
+    "url": "https://www.samsbargrill.com.au/menu"
+  },
+  "qualification": {
+    "score": 20,
+    "evidence": [
+      {
+        "check": "web_search",
+        "result": "15 unique results for 'Sam's Bar Chorley, Lancashire, UK'",
+        "url": null,
+        "timestamp": "2026-07-05T15:09:12+00:00"
+      },
+      {
+        "check": "contact:phone",
+        "result": "'0871 951 1000' from search snippet",
+        "url": "https://www.beerintheevening.com/pubs/s/40/40530/Alma/Chorley",
+        "timestamp": "2026-07-05T15:09:12+00:00"
+      },
+      {
+        "check": "website_check",
+        "result": "real: title: DINNER AT SAM’S — Sam's Bar & Grill; substantive page (3643 chars of text)",
+        "url": "https://www.samsbargrill.com.au/menu",
+        "timestamp": "2026-07-05T15:09:12+00:00"
+      },
+      {
+        "check": "osm",
+        "result": "OSM lists no website tag for this pub",
+        "url": null,
+        "timestamp": "2026-07-05T15:09:12+00:00"
+      }
+    ]
+  },
+  "status": "found",
+  "created_at": "2026-07-05T15:09:12+00:00",
+  "updated_at": "2026-07-05T15:09:12+00:00"
+}

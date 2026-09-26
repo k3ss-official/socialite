@@ -18,8 +18,8 @@ Socialite finds small hospitality businesses with no website, researches them in
 
 | Asset | Location | Recovery source |
 |---|---|---|
-| Canonical repo | `/Volumes/deep-1t/Users/k3ss/k3ss-official/socialite` | github.com/k3ss-official/socialite (main) |
-| GitHub remote | github.com/k3ss-official/socialite | local clone; GDrive mirrors |
+| Canonical repo | `~/anwhelan01/socialite` | github.com/anwhelan01/socialite (main) |
+| GitHub remote | github.com/anwhelan01/socialite | local clone; GDrive mirrors |
 | Domains + DNS | Cloudflare (free plan): socialite.design targets, dogonapc.com (staging), scranaway.cafe (client #1), demo wildcard | Cloudflare account; registrar |
 | Client sites | VPS (provision/ scripts define it) + Cloudflare | rebuildable from repo templates + bibles |
 | Historic archives | `/Volumes/hotblack-2tb/Archive/project-curation/2026-05-18/socialite-cluster/` + `projects/_SUPERSEDED-socialite-20260719/` | read-only; safe to lose |
@@ -33,7 +33,7 @@ Socialite finds small hospitality businesses with no website, researches them in
 ## 2. COLD REBUILD — ORDER OF OPERATIONS
 
 1. **Machine:** any macOS/Linux box. Install: git, Python 3.11+, `claude` CLI (authenticated), 1Password CLI.
-2. **Clone:** `git clone https://github.com/k3ss-official/socialite && cd socialite`. If GitHub is gone, restore from local clone or GDrive mirror, then re-create the remote.
+2. **Clone:** `git clone https://github.com/anwhelan01/socialite && cd socialite`. If GitHub is gone, restore from local clone or GDrive mirror, then re-create the remote.
 3. **Environment:** `python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt`.
 4. **Config:** review `config/settings.yaml` (hard cost cap per lead — currently $2 — model names, locale) and `config/ladder.yaml` (the offer — keep aligned with §0's three-door model).
 5. **Golden path:** `./run.sh --city chorley` (or current invocation per README). Expect: leads found → pick Scran Away → bible generated → site built → pitch generated. Scran Away is the permanent golden-path fixture; its known-good outputs are in `notes/` and git history.
