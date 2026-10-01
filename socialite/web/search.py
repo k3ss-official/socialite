@@ -1,5 +1,5 @@
 """Web search via ddgs (DuckDuckGo). Why: free, keyless, no quota account to babysit.
-Quirks live in notes/SCRAPING.md."""
+Collection caveats live in docs/RESEARCH-SOURCES.md."""
 from __future__ import annotations
 
 import time
@@ -23,8 +23,8 @@ AGGREGATOR_DOMAINS = (
     "gov.uk", "checkatrade.", "mapquest.com", "yellowpages.", "thomsonlocal.",
 )
 
-# White-label ordering platforms: a "site" on one of these is a template page the
-# business doesn't own — evidence FOR qualification, verdict 'template'.
+# Ordering-platform URLs are classified separately; platform presence alone does
+# not establish ownership, website quality or a missing business capability.
 ORDER_PLATFORM_DOMAINS = (
     "foodhub.co.uk", "foodhub.com", "orderyoyo.", "touchtakeaway.net", "flipdish.",
     "scoffable.com", "feedmeonline.co.uk", "order.app", "grubhub.", "mealzo.",
@@ -32,17 +32,23 @@ ORDER_PLATFORM_DOMAINS = (
 )
 
 
-def search(query: str, max_results: int = 10, retries: int = 2) -> list[dict]:
+class SearchResults(list):
+    def __init__(self, rows=(), outcome='ok', error=None):
+        super().__init__(rows)
+        self.outcome, self.error = outcome, error
+
+
+def search(query: str, max_results: int = 10, retries: int = 1) -> list[dict]:
     """Returns [{title, href, body}]. Retries once on transient ddg hiccups."""
     for attempt in range(retries + 1):
         try:
             with DDGS() as d:
                 rows = list(d.text(query, max_results=max_results))
-            return [{"title": r.get("title", ""), "href": r.get("href") or r.get("link", ""),
-                     "body": r.get("body", "")} for r in rows if r.get("href") or r.get("link")]
-        except Exception:
+            return SearchResults([{"title": r.get("title", ""), "href": r.get("href") or r.get("link", ""),
+                     "body": r.get("body", "")} for r in rows if r.get("href") or r.get("link")])
+        except Exception as exc:
             if attempt == retries:
-                return []
+                return SearchResults(outcome='unavailable', error=type(exc).__name__)
             time.sleep(2 * (attempt + 1))
     return []
 

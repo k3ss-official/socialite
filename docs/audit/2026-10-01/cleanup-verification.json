@@ -1,0 +1,86 @@
+{
+  "schema_definitions": 7,
+  "alo_seed_valid": true,
+  "python_version": "3.12.14",
+  "dependency_check": "passed",
+  "regression_tests": {
+    "passed": 29,
+    "external_services": "mocked",
+    "scran_away_dependency": false
+  },
+  "provisioning_mock": {
+    "passed": 12,
+    "failed": 0
+  },
+  "shell_syntax": "passed",
+  "python_compile": "passed",
+  "git_diff_whitespace": "passed",
+  "ignore_rules": "passed",
+  "browser": {
+    "checks": [
+      {
+        "page": "board",
+        "status": 200,
+        "mobile_overflow": false
+      },
+      {
+        "page": "alo",
+        "status": 200,
+        "mobile_overflow": false
+      },
+      {
+        "page": "clients",
+        "status": 200,
+        "mobile_overflow": false
+      },
+      {
+        "page": "events",
+        "status": 200,
+        "mobile_overflow": false
+      },
+      {
+        "page": "review",
+        "status": 200,
+        "mobile_overflow": false
+      },
+      {
+        "page": "evidence",
+        "status": 200,
+        "mobile_overflow": false
+      },
+      {
+        "page": "report",
+        "status": 200,
+        "mobile_overflow": false
+      },
+      {
+        "page": "preview",
+        "status": 200,
+        "mobile_overflow": false
+      },
+      {
+        "page": "proposal",
+        "status": 200,
+        "mobile_overflow": false
+      }
+    ],
+    "javascript_errors": [],
+    "queue_and_cancel": "passed"
+  },
+  "backup": {
+    "cloud_location": "/workspace/backups/socialite-pre-cleanup-20261001",
+    "git_bundle": "verified complete history",
+    "sqlite_integrity": "ok",
+    "working_tree_archive": "verified nested worktree present",
+    "m4_external_backup": "reported by user; inaccessible from cloud"
+  },
+  "remaining_limits": [
+    "M4 migration and actual runtime not executed from cloud",
+    "Live Claude synthesis not tested; CLI unavailable here",
+    "Owner answers/screenshots need production ingestion",
+    "Three-provider benchmark and expanded collectors pending",
+    "No publication, outreach, paid creative generation or Hermes integration"
+  ],
+  "source_baseline": "8b70c95129c6fc9b9b2165b805ba25efbca169c1",
+  "date": "2026-10-01"
+}

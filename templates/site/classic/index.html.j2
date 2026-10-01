@@ -1,7 +1,8 @@
 {#- Theme: classic. Context: bible, lead, locale, photos, hero, gallery (see build.py). -#}
 {%- set c = bible.site_copy -%}
-{%- set heading_font = bible.typography.heading | default('Fraunces', true) -%}
-{%- set body_font = bible.typography.body | default('Inter', true) -%}
+{%- set heading_font = bible.get('typography', {}).get('heading') or 'Fraunces' -%}
+{%- set body_font = bible.get('typography', {}).get('body') or 'Inter' -%}
+{%- set location = bible.get('location', {}) -%}
 {%- macro cta_href(cta) -%}
   {%- if cta.type == 'phone' -%}tel:{{ cta.value | replace(' ', '') }}
   {%- elif cta.type == 'whatsapp' -%}https://wa.me/{{ cta.value | replace('+','') | replace(' ','') }}
@@ -10,7 +11,7 @@
   {%- else -%}{{ cta.value }}
   {%- endif -%}
 {%- endmacro -%}
-{%- set ratings = bible.reviews | selectattr('rating') | map(attribute='rating') | list -%}
+{%- set aggregate = bible.get('review_aggregate', {}) -%}
 <!doctype html>
 <html lang="{{ lead.locale.language.split('-')[0] }}">
 <head>
@@ -39,10 +40,9 @@
       <a class="btn btn-primary" href="{{ cta_href(c.cta_primary) }}">{{ c.cta_primary.label }}</a>
       {% if bible.services %}<a class="btn btn-ghost" href="#menu">{{ c.menu_heading or 'Menu' }}</a>{% endif %}
     </div>
-    {% if ratings %}
+    {% if aggregate.get('verified') and aggregate.get('url') and aggregate.get('captured_at') and aggregate.get('count', 0) > 0 and aggregate.get('rating') is number %}
     <p class="rating-badge" aria-label="rating">
-      <span class="stars">{% for _ in range((((ratings | sum) / (ratings | length)) | round) | int) %}★{% endfor %}</span>
-      {{ '%.1f' | format((ratings | sum) / (ratings | length)) }} from real reviews
+      <a href="{{ aggregate.url }}" rel="noopener">{{ '%.1f' | format(aggregate.rating) }}/5 · {{ aggregate.count }} {{ aggregate.source }} reviews</a>
     </p>
     {% endif %}
   </div>
@@ -85,7 +85,7 @@
     <figure class="review">
       {% if r.rating %}<div class="stars">{% for _ in range(r.rating | round | int) %}★{% endfor %}</div>{% endif %}
       <blockquote>“{{ r.quote }}”</blockquote>
-      <figcaption>{{ r.author or 'Verified review' }} · {{ r.source }}</figcaption>
+      <figcaption>{{ r.author or 'Anonymous reviewer' }} · {{ r.source }}</figcaption>
     </figure>
     {% endfor %}
   </div>
@@ -104,7 +104,7 @@
   <div class="section-head"><p class="eyebrow">{{ c.visit_heading or 'Find us' }}</p></div>
   <div class="visit-grid">
     <div class="visit-info">
-      {% if bible.location.address %}<p class="address">{{ bible.location.address }}</p>{% endif %}
+      {% if location.get('address') %}<p class="address">{{ location.address }}</p>{% endif %}
       {% if bible.hours %}
       <table class="hours">
         {% for day, h in bible.hours.items() %}<tr><td>{{ day }}</td><td>{{ h }}</td></tr>{% endfor %}
@@ -115,8 +115,8 @@
         {% for s in lead.socials %}<a class="btn btn-ghost" href="{{ s.url }}" rel="noopener">{{ s.platform | title }}</a>{% endfor %}
       </div>
     </div>
-    {% if bible.location.maps_query %}
-    <div class="map"><iframe title="map" src="https://maps.google.com/maps?q={{ bible.location.maps_query | urlencode }}&output=embed" loading="lazy"></iframe></div>
+    {% if location.get('maps_query') %}
+    <div class="map"><iframe title="map" src="https://maps.google.com/maps?q={{ location.maps_query | urlencode }}&output=embed" loading="lazy"></iframe></div>
     {% endif %}
   </div>
 </section>

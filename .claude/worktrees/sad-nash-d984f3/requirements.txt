@@ -1,7 +1,0 @@
-requests
-beautifulsoup4
-jinja2
-flask
-pyyaml
-jsonschema
-ddgs

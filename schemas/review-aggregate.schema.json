@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["rating", "count", "source", "url", "captured_at"],
+  "properties": {
+    "rating": {"type": "number", "minimum": 0, "maximum": 5},
+    "count": {"type": "integer", "minimum": 1},
+    "source": {"type": "string", "minLength": 1},
+    "url": {"type": "string", "pattern": "^https?://"},
+    "captured_at": {"type": "string", "minLength": 1}
+  }
+}

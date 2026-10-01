@@ -1,4 +1,4 @@
-"""Is this URL a *real* website? Verdicts: none|dead|broken|template|real.
+"""Website observations, including unknown when access cannot establish a verdict.
 The evidence string this produces goes straight into the lead's qualification record."""
 from __future__ import annotations
 
@@ -10,8 +10,7 @@ UA = ("Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.
 
 PARKED_MARKERS = ("domain is for sale", "buy this domain", "sedoparking", "parked free",
                   "godaddy.com/forsale", "this domain has expired", "hugedomains")
-# our own demo builds carry this credit — finding one means the prospect was
-# already pitched and went cold: a re-engagement lead, not a competitor site
+# A creator credit is an observable marker, not evidence of prior sales history.
 OUR_MARKERS = ("socialite.design", "socialite design")
 TEMPLATE_GENERATORS = ("wix.com", "weebly", "site123", "godaddy website builder",
                        "jimdo", "webnode", "mobirise", "duda")
@@ -21,16 +20,16 @@ def check(url: str, timeout: int = 12) -> dict:
     """Fetch and judge. Never raises — network failure is itself a verdict."""
     if not url.startswith("http"):
         url = "https://" + url
-    out = {"url": url, "status": None, "verdict": "none", "signals": [], "title": "", "text_sample": ""}
+    out = {"url": url, "status": None, "verdict": "unknown", "signals": [], "title": "", "text_sample": ""}
     try:
         r = requests.get(url, headers={"User-Agent": UA}, timeout=timeout, allow_redirects=True)
     except requests.RequestException as e:
-        out["verdict"] = "dead"
+        out["verdict"] = "unknown"
         out["signals"].append(f"unreachable: {type(e).__name__}")
         return out
     out["status"] = r.status_code
     if r.status_code >= 400:
-        out["verdict"] = "dead"
+        out["verdict"] = "dead" if r.status_code in (404, 410) else "unknown"
         out["signals"].append(f"HTTP {r.status_code}")
         return out
     html = r.text[:400_000]
@@ -44,9 +43,8 @@ def check(url: str, timeout: int = 12) -> dict:
 
     for m in OUR_MARKERS:
         if m in low:
-            out["verdict"] = "template"
-            out["signals"].append("OUR OWN DEMO BUILD (Socialite credit in page) — prior pitch went cold; re-engagement lead")
-            return out
+            out["signals"].append("Socialite credit observed; relationship and publication status not verified")
+            break
     for m in PARKED_MARKERS:
         if m in low:
             out["verdict"] = "dead"
@@ -56,12 +54,11 @@ def check(url: str, timeout: int = 12) -> dict:
     gen_content = (gen.get("content") or "").lower() if gen else ""
     for t in TEMPLATE_GENERATORS:
         if t in gen_content or t in low[:5000]:
-            out["verdict"] = "template"
             out["signals"].append(f"site-builder marker: '{t}'")
-            return out
+            break
     if len(text) < 400:
-        out["verdict"] = "broken"
-        out["signals"].append(f"near-empty page ({len(text)} chars of text)")
+        out["verdict"] = "unknown"
+        out["signals"].append(f"limited extractable text ({len(text)} chars); rendering may be required")
         return out
     out["verdict"] = "real"
     out["signals"].append(f"substantive page ({len(text)} chars of text)")

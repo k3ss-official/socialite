@@ -3,12 +3,17 @@ product is a landing page: zero runtime, deploys anywhere nginx can point at a f
 from __future__ import annotations
 
 import hashlib
+import json
 import shutil
+import tempfile
+from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader
 
 from .. import contracts, store
+from .. import bible_v2
 from ..config import ROOT, locale as load_locale, settings
+from .find import research_context
 
 
 def build(lead_id: str, bible_version: int | None = None, theme: str | None = None) -> dict:
@@ -19,6 +24,11 @@ def build(lead_id: str, bible_version: int | None = None, theme: str | None = No
     if not bible_version:
         raise SystemExit(f"No bible for {lead_id} — run the bible stage first.")
     bible = store.load_json(bdir / f"v{bible_version}.json")
+    review = None
+    if bible.get('schema_version') == '2.0':
+        review = bible_v2.load_review(lead_id, bible_version)
+        bible, lead = bible_v2.project(bible, review)
+    contracts.validate(bible, 'bible')
     loc = load_locale(lead["locale"]["key"])
 
     theme_dir = ROOT / "templates" / "site" / theme
@@ -26,6 +36,17 @@ def build(lead_id: str, bible_version: int | None = None, theme: str | None = No
 
     # identical inputs -> identical bundle; don't spam versions
     h0 = hashlib.sha256((bdir / f"v{bible_version}.json").read_bytes())
+    if review:
+        h0.update(json.dumps(review, sort_keys=True).encode())
+    h0.update(json.dumps({'lead': research_context(lead), 'locale': loc}, sort_keys=True).encode())
+    raw = store.lead_dir(lead_id) / 'raw'
+    for photo in bible.get('photos', []):
+        src = raw / photo['path']
+        if not src.resolve().is_relative_to(raw.resolve()):
+            raise ValueError('Photo must be inside the raw asset directory')
+        if src.is_file():
+            h0.update(photo['path'].encode())
+            h0.update(src.read_bytes())
     for tpl in sorted(theme_dir.rglob("*")):
         if tpl.is_file():
             h0.update(tpl.read_bytes())
@@ -40,7 +61,8 @@ def build(lead_id: str, bible_version: int | None = None, theme: str | None = No
             return prior
 
     version = store.next_version(sdir)
-    out = sdir / f"v{version}"
+    sdir.mkdir(parents=True, exist_ok=True)
+    out = Path(tempfile.mkdtemp(prefix='.building-', dir=sdir))
     (out / "assets" / "img").mkdir(parents=True, exist_ok=True)
 
     # copy referenced photos into the bundle so it is fully self-contained
@@ -68,12 +90,14 @@ def build(lead_id: str, bible_version: int | None = None, theme: str | None = No
         shutil.copytree(static, out / "assets", dirs_exist_ok=True)
     files += [f"assets/img/{p['path'].split('/')[-1]}" for p in photos]
 
+    final = sdir / f'v{version}'
     manifest = {"lead_id": lead_id, "bible_version": bible_version, "theme": theme,
                 "built_at": store.now(), "inputs_hash": inputs_hash,
-                "output_dir": str(out.relative_to(ROOT)), "files": sorted(files),
+                "output_dir": str(final.relative_to(ROOT)), "files": sorted(files),
                 "site_version": version}
     contracts.validate(manifest, "build-manifest")
     store.save_json(out / "build-manifest.json", manifest)
+    out.rename(final)
     store.advance_status(lead_id, "built")
     store.log_event("build", "site_built", "ok", lead_id, artifact=manifest["output_dir"],
                     version=version, bible_version=bible_version, theme=theme)

@@ -65,7 +65,12 @@ install_content() {
 echo "== deploy $DOMAIN (site: $SITE)"
 push_files "$SITE" "$DOCROOT"
 
-DOMAIN="$DOMAIN" ROOT="$DOCROOT" envsubst '${DOMAIN} ${ROOT}' < "$TPL" | install_content "$CONF_AVAIL"
+python3 - "$TPL" "$DOMAIN" "$DOCROOT" <<'PY' | install_content "$CONF_AVAIL"
+import sys
+from pathlib import Path
+template, domain, docroot = sys.argv[1:]
+print(Path(template).read_text().replace('${DOMAIN}', domain).replace('${ROOT}', docroot), end='')
+PY
 remote ln -sf "$CONF_AVAIL" "$CONF_ENABLED"
 remote nginx -t
 remote systemctl reload nginx

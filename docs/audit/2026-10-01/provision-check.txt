@@ -1,0 +1,5 @@
+--- mock deploy
+== deploy testclient.example (site: /tmp/socialite-test-site.YmPf8V)
+MOCK: rsync /tmp/socialite-test-site.YmPf8V/ -> /var/www/testclient.example/
+/workspace/scratch/socialite-audit/repo/provision/deploy_site.sh: line 68: envsubst: command not found
+MOCK: wrote /etc/nginx/sites-available/testclient.example.conf

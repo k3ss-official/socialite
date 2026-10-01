@@ -1,7 +1,16 @@
 .venv/
+.claude/worktrees/
 __pycache__/
 *.pyc
 .DS_Store
 data/db.sqlite
-data/leads/*/raw/pages/
+data/db.sqlite-*
+data/.worker.lock
+data/events.jsonl
+data/leads/*/review/
+data/leads/*/raw/
+data/leads/*/bible/
+data/leads/*/site/
+data/leads/*/pitch/
+data/leads/*/ASSET-LOG.jsonl
 provision/mock/fakevps/

@@ -1,0 +1,266 @@
+{
+  "schema_version": "2.0",
+  "lead_id": "demo-cafe-preston",
+  "version": 1,
+  "generated_at": "2026-10-01T00:00:00+00:00",
+  "inputs_hash": "fixture",
+  "summary": "Synthetic fixture for checking research, review and preview behavior.",
+  "coverage": [
+    {
+      "section": "identity",
+      "state": "partial",
+      "note": "Fixture coverage only; no live research.",
+      "evidence_ids": [
+        "E-demo"
+      ]
+    },
+    {
+      "section": "company",
+      "state": "not_assessed",
+      "note": "Fixture coverage only; no live research.",
+      "evidence_ids": []
+    },
+    {
+      "section": "operators",
+      "state": "not_assessed",
+      "note": "Fixture coverage only; no live research.",
+      "evidence_ids": []
+    },
+    {
+      "section": "audience",
+      "state": "not_assessed",
+      "note": "Fixture coverage only; no live research.",
+      "evidence_ids": []
+    },
+    {
+      "section": "social",
+      "state": "not_assessed",
+      "note": "Fixture coverage only; no live research.",
+      "evidence_ids": []
+    },
+    {
+      "section": "reviews",
+      "state": "not_assessed",
+      "note": "Fixture coverage only; no live research.",
+      "evidence_ids": []
+    },
+    {
+      "section": "services",
+      "state": "not_assessed",
+      "note": "Fixture coverage only; no live research.",
+      "evidence_ids": []
+    },
+    {
+      "section": "brand",
+      "state": "not_assessed",
+      "note": "Fixture coverage only; no live research.",
+      "evidence_ids": []
+    },
+    {
+      "section": "credentials",
+      "state": "not_assessed",
+      "note": "Fixture coverage only; no live research.",
+      "evidence_ids": []
+    },
+    {
+      "section": "competitors",
+      "state": "not_assessed",
+      "note": "Fixture coverage only; no live research.",
+      "evidence_ids": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E-demo",
+      "url": "https://example.com/demo",
+      "kind": "own_site",
+      "scope": "prospect",
+      "captured_at": "2026-10-01T00:00:00+00:00",
+      "outcome": "captured",
+      "capture_file": "pages/demo.txt",
+      "content_hash": "6ee440ed1eaffc59fa82e4e3ee789865e0b93041746601a9858d194275fafb52",
+      "excerpt": "Synthetic source text. <script>alert('untrusted');</script>"
+    }
+  ],
+  "claims": [
+    {
+      "id": "C-name",
+      "section": "identity",
+      "field": "name",
+      "value": "Demo Cafe",
+      "status": "observed",
+      "confidence": "high",
+      "evidence_ids": [
+        "E-demo"
+      ],
+      "note": "Synthetic fixture only."
+    },
+    {
+      "id": "C-category",
+      "section": "identity",
+      "field": "category",
+      "value": "cafe",
+      "status": "observed",
+      "confidence": "high",
+      "evidence_ids": [
+        "E-demo"
+      ],
+      "note": "Synthetic fixture only."
+    },
+    {
+      "id": "C-story",
+      "section": "identity",
+      "field": "story",
+      "value": "An example caf\u00e9 used only to test the workflow.",
+      "status": "observed",
+      "confidence": "high",
+      "evidence_ids": [
+        "E-demo"
+      ],
+      "note": "Synthetic fixture only."
+    },
+    {
+      "id": "C-headline",
+      "section": "identity",
+      "field": "headline",
+      "value": "Coffee in Preston",
+      "status": "observed",
+      "confidence": "high",
+      "evidence_ids": [
+        "E-demo"
+      ],
+      "note": "Synthetic fixture only."
+    },
+    {
+      "id": "C-subheadline",
+      "section": "identity",
+      "field": "subheadline",
+      "value": "A fictional example for local workflow testing.",
+      "status": "observed",
+      "confidence": "high",
+      "evidence_ids": [
+        "E-demo"
+      ],
+      "note": "Synthetic fixture only."
+    },
+    {
+      "id": "C-about_heading",
+      "section": "identity",
+      "field": "about_heading",
+      "value": "About the caf\u00e9",
+      "status": "observed",
+      "confidence": "high",
+      "evidence_ids": [
+        "E-demo"
+      ],
+      "note": "Synthetic fixture only."
+    },
+    {
+      "id": "C-about",
+      "section": "identity",
+      "field": "about",
+      "value": "This copy is synthetic test data.",
+      "status": "observed",
+      "confidence": "high",
+      "evidence_ids": [
+        "E-demo"
+      ],
+      "note": "Synthetic fixture only."
+    },
+    {
+      "id": "C-cta_label",
+      "section": "identity",
+      "field": "cta_label",
+      "value": "Call the caf\u00e9",
+      "status": "observed",
+      "confidence": "high",
+      "evidence_ids": [
+        "E-demo"
+      ],
+      "note": "Synthetic fixture only."
+    },
+    {
+      "id": "C-cta_type",
+      "section": "identity",
+      "field": "cta_type",
+      "value": "phone",
+      "status": "observed",
+      "confidence": "high",
+      "evidence_ids": [
+        "E-demo"
+      ],
+      "note": "Synthetic fixture only."
+    },
+    {
+      "id": "C-cta_value",
+      "section": "identity",
+      "field": "cta_value",
+      "value": "01772 000000",
+      "status": "observed",
+      "confidence": "high",
+      "evidence_ids": [
+        "E-demo"
+      ],
+      "note": "Synthetic fixture only."
+    },
+    {
+      "id": "C-address",
+      "section": "identity",
+      "field": "address",
+      "value": "Example Street, Preston",
+      "status": "observed",
+      "confidence": "high",
+      "evidence_ids": [
+        "E-demo"
+      ],
+      "note": "Synthetic fixture only."
+    }
+  ],
+  "assets": [],
+  "comparisons": [],
+  "roadmap": [
+    {
+      "id": "R-demo",
+      "horizon": "now",
+      "importance": "necessary",
+      "action": "Confirm current opening hours",
+      "benefit": "Give customers dependable visit information",
+      "effort": "small",
+      "claim_ids": [],
+      "evidence_ids": [
+        "E-demo"
+      ],
+      "dependencies": [],
+      "service_key": null
+    }
+  ],
+  "site": {
+    "design": {
+      "palette": {
+        "primary": "#173832",
+        "accent": "#866442",
+        "background": "#fffdf9",
+        "text": "#18201e",
+        "mode": "light"
+      },
+      "typography": {
+        "heading": "Fraunces",
+        "body": "Inter"
+      }
+    },
+    "bindings": {
+      "name": "C-name",
+      "category": "C-category",
+      "story": "C-story",
+      "headline": "C-headline",
+      "subheadline": "C-subheadline",
+      "about_heading": "C-about_heading",
+      "about": "C-about",
+      "cta_label": "C-cta_label",
+      "cta_type": "C-cta_type",
+      "cta_value": "C-cta_value",
+      "address": "C-address"
+    },
+    "asset_ids": []
+  }
+}

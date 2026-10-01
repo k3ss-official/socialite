@@ -18,9 +18,3 @@ prices:
   s1_competitor_watch: { low: 49, high: 79 }
   s2_seasonal_push:    { low: 39, high: 59 }
   s3_annual_upscale:   { low: 29, high: 45 }
-
-# FIND seeds for locale-scale discovery
-discovery:
-  area_name: "Chorley, Lancashire, UK"
-  overpass_amenities: [restaurant, cafe, fast_food, bar, pub]
-  search_terms: ["takeaway", "cafe", "restaurant", "street food"]

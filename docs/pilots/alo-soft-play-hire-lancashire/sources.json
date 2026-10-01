@@ -1,0 +1,74 @@
+[
+  {
+    "id": "WEB-1",
+    "source_type": "public_web_page",
+    "url": "https://softtots.uk/",
+    "final_url": "https://softtots.uk/",
+    "checked_at": "2026-10-01T13:57:07.785314+00:00",
+    "http_status": 200,
+    "page_text_hash": "e1263f2ee33c454f80c595cae92bb134cfed8b14c5a1ecc3e3358f21ebc924f7",
+    "excerpts": [
+      "Modern, neutral soft play sets delivered, set up and collected, so you can relax and enjoy every moment.",
+      "Full public liability insurance",
+      "DBS checked & first aid trained",
+      "Baby Tots - from £65",
+      "Tiny Tots - from £70",
+      "Little Tots - from £100"
+    ],
+    "interpretation": "Source-authored statements; not independent certification of the business."
+  },
+  {
+    "id": "WEB-2",
+    "source_type": "public_web_page",
+    "url": "https://softtots.uk/packages/",
+    "final_url": "https://softtots.uk/packages/",
+    "checked_at": "2026-10-01T13:57:07.785691+00:00",
+    "http_status": 200,
+    "page_text_hash": "88b48cfb8658bf6d595da81bf4bab0e003ce5e1e8381f7e0c1e370846d4b5c11",
+    "excerpts": [
+      "Party Hire (2hrs) £65",
+      "Half Day Hire (6hrs) £95",
+      "Full Day (10hrs) £125",
+      "Overnight (24hrs) £135",
+      "Delivery outside of this area will incur a fee of £1 per mile (Each way)"
+    ],
+    "interpretation": "Source-authored statements; not independent certification of the business."
+  },
+  {
+    "id": "WEB-3",
+    "source_type": "public_web_page",
+    "url": "https://www.hse.gov.uk/entertainment/fairgrounds/inflatables.htm",
+    "final_url": "https://www.hse.gov.uk/entertainment/fairgrounds/inflatables.htm",
+    "checked_at": "2026-10-01T13:57:14.030579+00:00",
+    "http_status": 200,
+    "page_text_hash": "20070d29c78e83eef232cff8748eaaf85593e51142d3818a62c83372dcb70a8e",
+    "excerpts": [
+      "The PIPA scheme specifically covers inflatables devices that fall within the scope of the BS EN 14960",
+      "The ADIPs scheme covers a wider range of inflatable play equipment as well as more traditional fairground rides."
+    ],
+    "interpretation": "Source-authored statements; not independent certification of the business."
+  },
+  {
+    "id": "WEB-4",
+    "source_type": "public_web_page",
+    "url": "https://support.google.com/business/answer/9157481?hl=en",
+    "final_url": "https://support.google.com/business/answer/9157481?hl=en",
+    "checked_at": "2026-10-01T13:57:14.032948+00:00",
+    "http_status": 200,
+    "page_text_hash": "dd76a991a50a02d9b159ad20887376c94e86ffc5fe9b223423c7c97db9bade5b",
+    "excerpts": [
+      "If you don't serve customers at your business address, remove your address from your Business Profile.",
+      "A business that visits or delivers to customers directly but doesn’t serve customers at their business address."
+    ],
+    "interpretation": "Source-authored statements; not independent certification of the business."
+  },
+  {
+    "id": "WEB-5",
+    "source_type": "search_snippet",
+    "url": "https://ribblevalleysoftplayhire.com/packages/soft-play",
+    "checked_at": "2026-10-01T14:05:39+00:00",
+    "http_status": null,
+    "access_outcome": "execution_proxy_denied",
+    "note": "Direct request stopped on proxy CONNECT HTTP 403. Relevant search snippet only; no source page capture."
+  }
+]

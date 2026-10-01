@@ -1,4 +1,5 @@
-# The residual ladder. Structure + copy only — prices live in each locale pack
+# Proposed service ladder; terms and price bands are not owner-approved offers.
+# Structure + copy only — prices live in each locale pack
 # under `prices:` keyed by rung key. Everything sold is monthly recurring or a
 # zero-priced gift folded into a rung. One-time builds cost us minutes; their
 # job is to lift the monthly.

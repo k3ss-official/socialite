@@ -33,3 +33,13 @@ def data_dir() -> Path:
     d = ROOT / settings()["data_dir"]
     d.mkdir(parents=True, exist_ok=True)
     return d
+
+
+def discovery(sector: str) -> dict:
+    import re
+    if not re.fullmatch(r'[a-z0-9-]+', sector):
+        raise ValueError('Invalid discovery sector')
+    path = CONFIG_DIR / 'discovery' / f'{sector}.yaml'
+    if not path.is_file():
+        raise ValueError(f'No discovery profile for {sector}; use a targeted business search')
+    return yaml.safe_load(path.read_text())

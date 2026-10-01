@@ -1,0 +1,15 @@
+{
+  "id": "demo-cafe-preston",
+  "name": "Demo Cafe",
+  "category": "cafe",
+  "locality": "Preston",
+  "locale": {"key": "uk", "country": "GB", "language": "en-GB", "currency": "GBP", "contact_channel": "phone"},
+  "address": null,
+  "contact": {"phone": null, "whatsapp": null, "email": null, "messenger": null},
+  "socials": [],
+  "website": {"verdict": "unknown", "url": null},
+  "qualification": {"score": 0, "score_status": "not_run", "evidence": []},
+  "status": "found",
+  "created_at": "2026-10-01T00:00:00+00:00",
+  "updated_at": "2026-10-01T00:00:00+00:00"
+}

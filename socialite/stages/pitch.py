@@ -2,10 +2,15 @@
 No LLM here on purpose — sell lines are vetted config, reps get consistency, cost is zero."""
 from __future__ import annotations
 
+import hashlib
+import json
+
 from jinja2 import Environment, FileSystemLoader
 
 from .. import contracts, store
+from .. import bible_v2
 from ..config import ROOT, ladder as load_ladder, locale as load_locale
+from .find import prospect_area, research_context
 
 
 def generate(lead_id: str, bible_version: int | None = None) -> dict:
@@ -15,6 +20,8 @@ def generate(lead_id: str, bible_version: int | None = None) -> dict:
     if not bible_version:
         raise SystemExit(f"No bible for {lead_id} — run the bible stage first.")
     bible = store.load_json(bdir / f"v{bible_version}.json")
+    if bible.get('schema_version') == '2.0':
+        bible, lead = bible_v2.project(bible, bible_v2.load_review(lead_id, bible_version))
     lad, loc = load_ladder(), load_locale(lead["locale"]["key"])
 
     open_gaps = [g for g in bible["gap_matrix"] if not g["prospect_has"]]
@@ -34,6 +41,8 @@ def generate(lead_id: str, bible_version: int | None = None) -> dict:
             "rung_key": gap_to_rung.get(g["gap_key"], "r1_foundation"),
             "competitors_with": g["competitors_with"],
         })
+        if g.get('note') and g.get('comparison_verified') is False:
+            gap_summary[-1]['sell_line'] = g['note']
 
     open_keys = {g["gap_key"] for g in gap_summary}
     rungs = []
@@ -62,13 +71,18 @@ def generate(lead_id: str, bible_version: int | None = None) -> dict:
         # recommend the cheapest tier covering the most open gaps
         if cover > best_cover or (cover == best_cover and low < tiers[best_tier]["monthly_low"] if best_tier is not None else False):
             best_cover, best_tier = cover, len(tiers) - 1
-    if best_tier is not None:
+    if open_keys and best_tier is not None:
         tiers[best_tier]["recommended"] = True
 
     pdir = store.lead_dir(lead_id) / "pitch"
     pitch = {"lead_id": lead_id, "bible_version": bible_version, "generated_at": store.now(),
              "currency": lead["locale"]["currency"], "gap_summary": gap_summary,
              "rungs": rungs, "tiers": tiers}
+    template = ROOT / 'templates' / 'pitch' / 'pitch.html.j2'
+    fingerprint = hashlib.sha256(json.dumps({'bible': bible, 'lead': research_context(lead),
+                                             'locale': loc}, sort_keys=True).encode())
+    fingerprint.update(template.read_bytes())
+    pitch['inputs_hash'] = fingerprint.hexdigest()
     contracts.validate(pitch, "pitch")
 
     # identical content (minus timestamp) -> reuse latest version
@@ -76,7 +90,7 @@ def generate(lead_id: str, bible_version: int | None = None) -> dict:
     if latest:
         prior = store.load_json(pdir / f"v{latest}.json")
         strip = lambda d: {k: v for k, v in d.items() if k not in ("generated_at", "version")}
-        if strip(prior) == strip(pitch):
+        if strip(prior) == strip(pitch) and (pdir / f'v{latest}.html').is_file():
             store.advance_status(lead_id, "pitched")
             store.log_event("pitch", "reuse_existing", "skipped", lead_id, version=latest)
             prior.setdefault("version", latest)
@@ -84,13 +98,12 @@ def generate(lead_id: str, bible_version: int | None = None) -> dict:
 
     version = store.next_version(pdir, "v*.json")
     pitch["version"] = version
-    store.save_json(pdir / f"v{version}.json", pitch)
-
     env = Environment(loader=FileSystemLoader(ROOT / "templates" / "pitch"), autoescape=True)
     html = env.get_template("pitch.html.j2").render(
-        pitch=pitch, bible=bible, lead=lead, locale=loc,
+        pitch=pitch, bible=bible, lead=lead, locale=loc, area=prospect_area(lead),
         rung_by_key={r["key"]: r for r in rungs})
     (pdir / f"v{version}.html").write_text(html)
+    store.save_json(pdir / f"v{version}.json", pitch)
     store.advance_status(lead_id, "pitched")
     store.log_event("pitch", "generated", "ok", lead_id, version=version,
                     artifact=f"data/leads/{lead_id}/pitch/v{version}.html",

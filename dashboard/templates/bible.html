@@ -77,14 +77,14 @@
 {% if bible.services %}
 <section class="panel">
   <h2>Services</h2>
-  <table>
+  <div class="table-scroll" tabindex="0" aria-label="Data table"><table>
     <thead><tr><th>Name</th><th>Description</th><th>Price</th></tr></thead>
     <tbody>
       {% for s in bible.services %}
       <tr><td>{{ s.name }}</td><td>{{ s.description or '—' }}</td><td>{{ s.price or '—' }}</td></tr>
       {% endfor %}
     </tbody>
-  </table>
+  </table></div>
 </section>
 {% endif %}
 
@@ -104,7 +104,7 @@
 {% if bible.gap_matrix %}
 <section class="panel">
   <h2>Gap matrix</h2>
-  <table>
+  <div class="table-scroll" tabindex="0" aria-label="Data table"><table>
     <thead><tr><th>Gap</th><th>Prospect has</th><th>Competitors with it</th><th>Note</th></tr></thead>
     <tbody>
       {% for g in bible.gap_matrix %}
@@ -116,7 +116,7 @@
       </tr>
       {% endfor %}
     </tbody>
-  </table>
+  </table></div>
 </section>
 {% endif %}
 {% endblock %}
