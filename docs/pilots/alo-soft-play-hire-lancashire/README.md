@@ -37,7 +37,8 @@ These are promising angles, not proven market exclusivity or formal partnership 
 | Group activity | 191 members, +13 in the last week; 774 posts, 339 comments, 513 reactions in the preceding 28 days. | ALO-S3 | Counts at the screenshot's unknown capture time. Group totals are not ALO-authored content, customers, bookings or revenue. |
 | Search result | One shown exact-name-plus-Facebook DuckDuckGo query returned no results. | ALO-S4 | Evidence for that query at that time, not proof of universal search invisibility. |
 
-Screenshot dates and the exact Group URL have not been supplied. Receipts are transcriptions
+The principal supplied [the Facebook Group share link](https://www.facebook.com/share/g/1EtBo6pvvS/). Its canonical URL and
+current visibility have not been verified. Screenshot capture dates remain unknown. Receipts are transcriptions
 of the user-provided images in this conversation. Member/admin names and faces are excluded.
 The note that “there are Pages in this group” does not establish whether ALO itself has a Page.
 Public and private Groups are different surfaces; being a Group alone does not prove privacy.
@@ -46,7 +47,7 @@ Public and private Groups are different surfaces; being a Group alone does not p
 
 - Website, Facebook Page, Instagram, TikTok, Google Business Profile and review presence.
   The earlier Claude conversation asserted absences without a verifiable current source set.
-- Exact Group URL, current visibility, trading/base town, delivery coverage and travel fees.
+- Canonical Group URL, current visibility, trading/base town, delivery coverage and travel fees.
 - Package contents, actual prices and hire durations; extras; setup/collection arrangements;
   space requirements; indoor/outdoor conditions; deposits and cancellation/weather policy.
 - Insurance cover, equipment-specific checks, cleaning practice, supervision responsibilities,
@@ -102,7 +103,7 @@ reason to sell every channel, invent a compliance failure or promise immediate b
 
 | When | Action | Why | Dependency |
 | --- | --- | --- | --- |
-| Now | Confirm the exact Group link/current access and collect the short owner intake. | Identify the right business and capture authoritative commercial information. | Owner/principal answers. |
+| Now | Resolve the supplied Group link/current access and collect the short owner intake. | Identify the right business and capture authoritative commercial information. | Owner/principal answers. |
 | Now | Inventory existing accounts, kit photos, packages and supported trust claims. | Avoid duplicate profiles and invented page content. | Account URLs; owner-provided assets/details. |
 | Next | Finish the sourced Bible and compare three businesses serving the actual delivery area. | Make positioning and recommendations relevant. | Base town, area and package definitions. |
 | Next | Build a private, client-branded preview with useful enquiry fields and real kit photography. | Test clarity and usability before launch. | Approved copy, permitted photos and agreed enquiry destination. |
@@ -139,7 +140,6 @@ separate discussions; friendship does not decide them automatically.
 - [Short owner intake and later follow-ups](OWNER-INTAKE.md).
 - [Verified web excerpts](sources.json). Earlier AI claims remain separate from evidence.
 
-ALO is seeded as a staff-selected pilot lead with website status **unknown** and no guessed
-social URL. The screenshot/owner-intake evidence types need a production ingestion path
+ALO is seeded as a staff-selected pilot lead with website status **unknown** and the principal-supplied Group share URL, with current access unconfirmed. The screenshot/owner-intake evidence types need a production ingestion path
 before this dossier can become a publication-ready Bible v2. Do not fabricate public URLs
 to satisfy the current web-capture schema. Hermes remains deferred.

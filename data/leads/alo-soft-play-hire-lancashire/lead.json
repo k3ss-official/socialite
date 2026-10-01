@@ -17,17 +17,27 @@
     "email": "alosoftplayhirelancs@outlook.com",
     "messenger": null
   },
-  "socials": [],
+  "socials": [
+    {
+      "platform": "facebook",
+      "url": "https://www.facebook.com/share/g/1EtBo6pvvS/",
+      "surface": "group",
+      "active": null,
+      "visibility": "unconfirmed",
+      "source": "principal_supplied_link"
+    }
+  ],
   "known_surfaces": [
     {
       "platform": "facebook",
       "surface": "group",
-      "url": null,
+      "url": "https://www.facebook.com/share/g/1EtBo6pvvS/",
       "visibility": "unconfirmed",
       "evidence_ids": [
         "ALO-S2",
         "ALO-S3",
-        "ALO-U2"
+        "ALO-U2",
+        "ALO-U3"
       ]
     }
   ],
@@ -56,12 +66,18 @@
         "result": "Description supplies email; current preferred route awaits owner confirmation.",
         "url": null,
         "timestamp": "2026-10-01T14:05:39+00:00"
+      },
+      {
+        "check": "principal_supplied_group_url",
+        "result": "Group share link supplied by principal; current access and canonical URL unverified.",
+        "url": "https://www.facebook.com/share/g/1EtBo6pvvS/",
+        "timestamp": "2026-10-01T14:18:34+00:00"
       }
     ]
   },
   "status": "found",
   "created_at": "2026-10-01T14:05:39+00:00",
-  "updated_at": "2026-10-01T14:05:39+00:00",
+  "updated_at": "2026-10-01T14:18:34+00:00",
   "pilot": {
     "status": "intake_pending",
     "dossier": "docs/pilots/alo-soft-play-hire-lancashire/README.md",

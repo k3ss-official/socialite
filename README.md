@@ -12,16 +12,17 @@ review → preview and proposal**. Expanded collectors, three-provider benchmark
 the signature design system remain subsequent work.
 
 ```sh
-python3 -m venv .venv
-.venv/bin/pip install -r requirements.txt
-.venv/bin/python dashboard/app.py
+conda env create -f environment.yml
+conda activate socialite
+python dashboard/app.py
 ```
 
 Open http://127.0.0.1:5057, select a prospect and start research. In a second terminal:
 
 ```sh
 claude --version
-.venv/bin/python -m socialite.cli worker
+conda activate socialite
+python -m socialite.cli worker
 ```
 
 Live synthesis needs a working, logged-in Claude CLI. Other providers are not integrated
@@ -35,9 +36,9 @@ See [M4 setup and recovery](docs/WORKFLOW-QUICKSTART.md),
 [Bible v2 contract](docs/BIBLE-V2.md), and the [baseline gap analysis](docs/GAP-ANALYSIS.md).
 
 The first owner-agreed pilot is [ALO Soft Play Hire Lancashire](docs/pilots/alo-soft-play-hire-lancashire/README.md).
-Its starter dossier and short intake are saved; its Group URL, current access and commercial
+Its starter dossier and short intake are saved; its current Group access and commercial
 details still need confirmation. After pulling new lead files into an existing checkout,
-run `.venv/bin/python -m socialite.cli reindex` to refresh the board.
+run `python -m socialite.cli reindex` in the active environment to refresh the board.
 
 ## Legacy one-command run
 
@@ -54,14 +55,15 @@ Bible format and does not provide the new staff review step. Use the dashboard f
 First-time setup:
 
 ```sh
-python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+conda env create -f environment.yml
+conda activate socialite
 claude --version   # the bible stage shells out to the local claude CLI (must be logged in)
 ```
 
 Dashboard (lead board, bible/pitch viewers, live site previews, client ledger + MRR):
 
 ```sh
-.venv/bin/python dashboard/app.py    # → http://127.0.0.1:5057
+python dashboard/app.py    # → http://127.0.0.1:5057
 ```
 
 ## Field deployment

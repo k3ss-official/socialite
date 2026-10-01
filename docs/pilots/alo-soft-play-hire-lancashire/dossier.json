@@ -88,6 +88,15 @@
       "captured_at": null,
       "statement": "Principal describes the Group as not public, with link to follow.",
       "note": "Current visibility unresolved against Public/Visible labels in supplied screenshots."
+    },
+    {
+      "id": "ALO-U3",
+      "source_type": "principal_supplied_link",
+      "received_at": "2026-10-01T14:18:34+00:00",
+      "public_url": "https://www.facebook.com/share/g/1EtBo6pvvS/",
+      "captured_at": null,
+      "statement": "Principal supplied this Facebook Group share link.",
+      "note": "Recorded without tracking query; no Facebook access or canonical resolution attempted."
     }
   ],
   "claims": [
