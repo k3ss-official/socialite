@@ -2,18 +2,20 @@
 import copy
 import hashlib
 import importlib.util
+import io
 import json
 import shutil
 import sys
 import tempfile
 import unittest
+from contextlib import redirect_stdout, redirect_stderr
 from pathlib import Path
 from unittest.mock import patch
 
 import requests
 from bs4 import BeautifulSoup
 
-from socialite import bible_v2, contracts, jobs, store
+from socialite import bible_v2, cli, contracts, jobs, store
 from socialite.config import ROOT
 from socialite.stages import build, find, pitch, research
 from socialite.web import sitecheck
@@ -23,6 +25,10 @@ dashboard = importlib.util.module_from_spec(spec)
 sys.modules[spec.name] = dashboard
 spec.loader.exec_module(dashboard)
 
+focus_spec = importlib.util.spec_from_file_location('test_focus_pilot', ROOT / 'tools/focus_pilot.py')
+focus_tool = importlib.util.module_from_spec(focus_spec)
+focus_spec.loader.exec_module(focus_tool)
+
 
 class WorkflowTest(unittest.TestCase):
     def setUp(self):
@@ -31,8 +37,8 @@ class WorkflowTest(unittest.TestCase):
         self.data = self.root / 'data'
         self.data.mkdir()
         (self.root / 'templates').symlink_to(ROOT / 'templates', target_is_directory=True)
-        self.lead = json.loads((ROOT / 'data/leads/scran-away-chorley/lead.json').read_text())
-        self.bible = json.loads((ROOT / 'data/leads/scran-away-chorley/bible/v4.json').read_text())
+        self.lead = json.loads((ROOT / 'tests/fixtures/lead.json').read_text())
+        self.bible = json.loads((ROOT / 'tests/fixtures/site-content.json').read_text())
         self.patches = [patch.object(store, 'data_dir', return_value=self.data),
                         patch.object(dashboard, 'data_dir', return_value=self.data),
                         patch.object(build, 'ROOT', self.root), patch.object(pitch, 'ROOT', self.root)]
@@ -107,6 +113,23 @@ class WorkflowTest(unittest.TestCase):
         photo.write_bytes(b'changed-image')
         second = build.build(self.lead['id'])
         self.assertGreater(second['site_version'], first['site_version'])
+
+    def test_proposal_refreshes_changed_template_and_does_not_invent_a_recommendation(self):
+        self.seed_bible()
+        # This fixture has no confirmed gaps: retain options without recommending a tier.
+        template_root = self.root / 'proposal-templates'
+        shutil.copytree(ROOT / 'templates', template_root)
+        (self.root / 'templates').unlink()
+        template_root.rename(self.root / 'templates')
+        first = pitch.generate(self.lead['id'])
+        self.assertFalse(any(tier['recommended'] for tier in first['tiers']))
+        self.assertEqual(pitch.generate(self.lead['id'])['version'], first['version'])
+        template = self.root / 'templates/pitch/pitch.html.j2'
+        template.write_text(template.read_text() + '\n<p>Updated template</p>')
+        second = pitch.generate(self.lead['id'])
+        self.assertGreater(second['version'], first['version'])
+        rendered = (self.data / 'leads' / self.lead['id'] / 'pitch' / f"v{second['version']}.html").read_text()
+        self.assertIn('Updated template', rendered)
 
     def test_unrelated_contact_is_rejected_and_empty_search_stays_unknown(self):
         rows = [{'title': 'Different Business', 'href': 'https://unrelated.example',
@@ -311,6 +334,111 @@ class WorkflowTest(unittest.TestCase):
         self.assertEqual(output['version'], 2)
         self.assertEqual(output['evidence'][0]['url'], entry['url'])
         self.assertTrue((store.lead_dir(self.lead['id']) / 'bible/v2.json').is_file())
+
+    def test_cli_queues_the_review_workflow_and_blocks_unreviewed_preview(self):
+        self.seed_v2()
+        with patch.object(sys, 'argv', ['socialite', 'research', self.lead['id'], '--staff-name', 'Tester']), redirect_stdout(io.StringIO()):
+            cli.main()
+        job = jobs.for_lead(self.lead['id'])[0]
+        self.assertEqual((job['kind'], job['status']), ('research', 'queued'))
+        args = ['socialite', 'preview', self.lead['id'], '--staff-name', 'Tester', '--bible-version', '1']
+        with patch.object(sys, 'argv', args), self.assertRaisesRegex(SystemExit, 'Save a review'):
+            cli.main()
+        jobs.cancel(job['id'])
+        self.approve()
+        with patch.object(sys, 'argv', args), redirect_stdout(io.StringIO()):
+            cli.main()
+        self.assertEqual(jobs.for_lead(self.lead['id'])[0]['kind'], 'preview')
+
+    def test_unassessed_score_is_not_presented_as_bad_performance(self):
+        self.seed()
+        board = self.client.get('/')
+        self.assertIn(b'Not assessed', board.data)
+        self.assertNotIn(b'score 0', board.data)
+
+    def test_discovery_requires_location_and_uses_explicit_sector(self):
+        with self.assertRaisesRegex(ValueError, 'locality'):
+            find.find_single('Demo Cafe', 'uk')
+        with patch.object(find.overpass, 'find_businesses', return_value=[]) as discover:
+            self.assertEqual(find.find_locale('uk', area='Preston, UK', sector='hospitality'), [])
+        self.assertEqual(discover.call_args.args[0], 'Preston, UK')
+        self.assertIn('cafe', discover.call_args.args[1])
+        with self.assertRaisesRegex(ValueError, 'No discovery profile'):
+            find.find_locale('uk', area='Preston', sector='soft-play')
+
+    def test_cache_recollects_missing_or_changed_captures(self):
+        self.lead['website']['url'] = 'https://example.com/demo'
+        self.seed()
+        good = requests.Response()
+        good.status_code = 200
+        good.headers['content-type'] = 'text/html'
+        good._content = b'<html><body>Demo Cafe in Preston</body></html>'
+        with patch.object(research.websearch, 'search', return_value=[]), patch.object(research, '_fetch', return_value=good) as fetch:
+            first = research.harvest(self.lead['id'])
+            self.assertEqual(first, research.harvest(self.lead['id']))
+            self.assertEqual(fetch.call_count, 1)
+            path = store.lead_dir(self.lead['id']) / 'raw' / first['fetched'][0]['text_file']
+            path.unlink()
+            second = research.harvest(self.lead['id'])
+            self.assertEqual(fetch.call_count, 2)
+            path = store.lead_dir(self.lead['id']) / 'raw' / second['fetched'][0]['text_file']
+            path.write_text('Changed capture')
+            research.harvest(self.lead['id'])
+            self.assertEqual(fetch.call_count, 3)
+
+    def test_failed_refresh_preserves_old_receipts_without_hiding_failure(self):
+        self.lead['website']['url'] = 'https://example.com/demo'
+        self.seed()
+        good = requests.Response()
+        good.status_code = 200
+        good.headers['content-type'] = 'text/html'
+        good._content = b'<html><body>Demo Cafe in Preston</body></html>'
+        denied = requests.Response()
+        denied.status_code = 403
+        with patch.object(research.websearch, 'search', return_value=[]), patch.object(research, '_fetch', side_effect=[good, denied]):
+            first = research.harvest(self.lead['id'])
+            failed = research.harvest(self.lead['id'], force=True)
+        raw = store.lead_dir(self.lead['id']) / 'raw'
+        self.assertEqual(failed['fetched'][0]['outcome'], 'access_denied')
+        self.assertTrue((raw / first['fetched'][0]['text_file']).is_file())
+        self.assertEqual(store.load_json(raw / 'history' / (first['collection_id'] + '.json')), first)
+        self.assertEqual(store.load_json(raw / 'research.json'), failed)
+
+    def test_focus_migration_backs_up_and_preserves_pilot_spend_and_agreements(self):
+        import sqlite3
+        import tarfile
+        self.seed()
+        old = copy.deepcopy(self.lead)
+        old.update(id='old-demo', name='Old Demo')
+        store.upsert_lead(old)
+        for lead_id in (self.lead['id'], old['id']):
+            store.sign_lead(lead_id, ['r1_foundation'], {'r1_foundation': 39}, 'GBP')
+            jobs.enqueue(lead_id, 'research', 'Tester')
+        store.log_event('research', 'llm_call', lead_id=self.lead['id'], cost_usd=.25)
+        store.log_event('research', 'llm_call', lead_id=old['id'], cost_usd=.50)
+        result = focus_tool.focus(self.lead['id'], self.root / 'backups')
+        backup = Path(result['backup'])
+        self.assertEqual(result['removed_lead_folders'], 1)
+        self.assertFalse((self.data / 'leads' / old['id']).exists())
+        self.assertAlmostEqual(store.spend(self.lead['id']), .25)
+        self.assertEqual(store.mrr_rollup()['GBP']['active_services'], 1)
+        self.assertEqual(len(jobs.for_lead(self.lead['id'])), 1)
+        self.assertEqual(jobs.for_lead(old['id']), [])
+        with tarfile.open(backup / 'data.tar.gz') as archive:
+            self.assertIn('data/leads/old-demo/lead.json', archive.getnames())
+        with sqlite3.connect(backup / 'ledger.sqlite') as conn:
+            self.assertEqual(conn.execute('SELECT COUNT(*) FROM clients').fetchone()[0], 2)
+        store.rebuild_index()
+        self.assertAlmostEqual(store.spend(self.lead['id']), .25)
+
+    def test_focus_migration_refuses_a_running_worker(self):
+        import fcntl
+        self.seed()
+        with open(self.data / '.worker.lock', 'a') as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            with self.assertRaisesRegex(ValueError, 'Stop the worker'):
+                focus_tool.focus(self.lead['id'], self.root / 'backups')
+        self.assertFalse((self.root / 'backups').exists())
 
 
 if __name__ == '__main__':

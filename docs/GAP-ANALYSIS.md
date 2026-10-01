@@ -21,26 +21,26 @@ The Bible must be useful to staff and machine-readable. A polished report alone 
 
 | Capability | Assessment | Evidence |
 | --- | --- | --- |
-| Lead discovery | Partial. Search and OpenStreetMap discovery exist; activity, identity matching, and website qualification need improvement. | [find.py](../socialite/stages/find.py), [sitecheck.py](../socialite/web/sitecheck.py) |
-| Staff dashboard | Working artifact viewer and status/client ledger UI; no research launch or job tracking. | [app.py](../dashboard/app.py), [lead.html](../dashboard/templates/lead.html) |
-| Public-source collection | Working requests/BeautifulSoup collector with page/image limits; limited extraction and no browser fallback. | [research.py](../socialite/stages/research.py) |
-| Bible synthesis | Working schema-shaped output and version reuse; contract primarily serves copy and website production. | [bible.py](../socialite/stages/bible.py), [prompt](../prompts/bible.md), [schema](../schemas/bible.schema.json) |
-| Comprehensive business audit | Missing as an integrated workflow. Some intended domains are documented, but owner research, customer profiles, social scoring, credentials, and roadmap have no complete runtime contract. | [deep-dive draft](DEEP-DIVE-SPEC.md) |
-| Competitor comparison | Partial. Competitors and boolean gaps exist; collection is tied to a fixed category and locality. No consistent two-way, evidence-backed comparison. | [research.py](../socialite/stages/research.py), [Bible schema](../schemas/bible.schema.json) |
-| Landing-page generation | Working static build and caching for existing artifacts; one classic theme, incomplete input contract and publication checks. | [build.py](../socialite/stages/build.py), [classic template](../templates/site/classic/index.html.j2) |
-| Service proposal | Working deterministic ladder selection; not a contextual now / next / later roadmap. | [pitch.py](../socialite/stages/pitch.py), [ladder](../config/ladder.yaml) |
-| Versioning and events | Working file artifacts and JSONL events; SQLite recovery and client ledger persistence are incomplete. | [store.py](../socialite/store.py) |
-| Cost control | Estimated pre-call checks and reported-cost logging exist; a hard actual-spend cap is not demonstrated. | [llm.py](../socialite/llm.py), [store.py](../socialite/store.py) |
-| Research tools/providers | Runtime uses ddgs, requests/BeautifulSoup, Overpass, and the local Claude CLI. Scrapling, browser collection, last30days, Open Notebook, and a Higgsfield creative workflow are not integrated. | [requirements](../requirements.txt), [rebuild document](../REBUILD.md), [creative draft](CREATIVE-DIRECTOR-SOUL.md) |
-| Recurring service delivery | Pricing and service records exist; monitoring, scheduled content refresh, and fulfillment are not implemented end to end. | [ladder](../config/ladder.yaml), [store.py](../socialite/store.py) |
+| Lead discovery | Partial. Search and OpenStreetMap discovery exist; activity, identity matching, and website qualification need improvement. | [find.py](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/socialite/stages/find.py), [sitecheck.py](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/socialite/web/sitecheck.py) |
+| Staff dashboard | Working artifact viewer and status/client ledger UI; no research launch or job tracking. | [app.py](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/dashboard/app.py), [lead.html](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/dashboard/templates/lead.html) |
+| Public-source collection | Working requests/BeautifulSoup collector with page/image limits; limited extraction and no browser fallback. | [research.py](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/socialite/stages/research.py) |
+| Bible synthesis | Working schema-shaped output and version reuse; contract primarily serves copy and website production. | [bible.py](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/socialite/stages/bible.py), [prompt](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/prompts/bible.md), [schema](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/schemas/bible.schema.json) |
+| Comprehensive business audit | Missing as an integrated workflow. Some intended domains are documented, but owner research, customer profiles, social scoring, credentials, and roadmap have no complete runtime contract. | [deep-dive draft](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/docs/DEEP-DIVE-SPEC.md) |
+| Competitor comparison | Partial. Competitors and boolean gaps exist; collection is tied to a fixed category and locality. No consistent two-way, evidence-backed comparison. | [research.py](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/socialite/stages/research.py), [Bible schema](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/schemas/bible.schema.json) |
+| Landing-page generation | Working static build and caching for existing artifacts; one classic theme, incomplete input contract and publication checks. | [build.py](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/socialite/stages/build.py), [classic template](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/templates/site/classic/index.html.j2) |
+| Service proposal | Working deterministic ladder selection; not a contextual now / next / later roadmap. | [pitch.py](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/socialite/stages/pitch.py), [ladder](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/config/ladder.yaml) |
+| Versioning and events | Working file artifacts and JSONL events; SQLite recovery and client ledger persistence are incomplete. | [store.py](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/socialite/store.py) |
+| Cost control | Estimated pre-call checks and reported-cost logging exist; a hard actual-spend cap is not demonstrated. | [llm.py](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/socialite/llm.py), [store.py](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/socialite/store.py) |
+| Research tools/providers | Runtime uses ddgs, requests/BeautifulSoup, Overpass, and the local Claude CLI. Scrapling, browser collection, last30days, Open Notebook, and a Higgsfield creative workflow are not integrated. | [requirements](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/requirements.txt), [rebuild document](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/REBUILD.md), [creative draft](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/docs/CREATIVE-DIRECTOR-SOUL.md) |
+| Recurring service delivery | Pricing and service records exist; monitoring, scheduled content refresh, and fulfillment are not implemented end to end. | [ladder](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/config/ladder.yaml), [store.py](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/socialite/store.py) |
 
-The existing [deep-dive specification](DEEP-DIVE-SPEC.md) already anticipates several important improvements, especially evidence IDs and richer social/review research. It labels itself a draft and uses paths and fields that differ from the live implementation. Reconcile it with the new brief before treating it as an executable specification.
+The existing [deep-dive specification](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/docs/DEEP-DIVE-SPEC.md) already anticipates several important improvements, especially evidence IDs and richer social/review research. It labels itself a draft and uses paths and fields that differ from the live implementation. Reconcile it with the new brief before treating it as an executable specification.
 
 ## Findings that affect the next build
 
 ### 1. The dashboard cannot initiate the desired workflow
 
-The only mutating dashboard routes change status or sign a lead. Staff cannot select a lead and start research, see collection progress, review failures, retry a stage, or approve a Bible. The [CLI](../socialite/cli.py) runs stages sequentially; changing a dashboard status does not execute them.
+The only mutating dashboard routes change status or sign a lead. Staff cannot select a lead and start research, see collection progress, review failures, retry a stage, or approve a Bible. The [CLI](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/socialite/cli.py) runs stages sequentially; changing a dashboard status does not execute them.
 
 Add persisted research jobs and a worker before expanding automation. Keep job state separate from prospect lifecycle state. A failed collection should be visible as a partial job with useful results, not disappear into a generic “bible” status.
 
@@ -48,7 +48,7 @@ The dashboard intentionally binds locally and has no authentication. Add staff i
 
 ### 2. The Bible contract cannot represent the full brief or its uncertainty
 
-The [schema](../schemas/bible.schema.json) centers on brand voice, palette, photos, services, reviews, competitors, gap booleans, and site copy. It lacks a consistent contract for:
+The [schema](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/schemas/bible.schema.json) centers on brand voice, palette, photos, services, reviews, competitors, gap booleans, and site copy. It lacks a consistent contract for:
 
 - Company identity and entity matching; trading company versus venue; public professional owner/operator evidence.
 - Measured customer information versus demographic hypotheses and local population context.
@@ -59,15 +59,15 @@ The [schema](../schemas/bible.schema.json) centers on brand voice, palette, phot
 
 Gap fields currently force true/false values. “Not found,” “inaccessible,” and “confirmed absent” need different meanings. Public inspection usually cannot establish whether a Google Business Profile is claimed; that should remain unknown unless direct evidence supports it.
 
-The [prompt](../prompts/bible.md) tells the model to treat qualification evidence as established fact, even though some qualification is heuristic. It calls alerts required, but the schema does not. A schema-valid Bible with optional typography omitted also crashes the current template. Shape validation alone is therefore insufficient.
+The [prompt](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/prompts/bible.md) tells the model to treat qualification evidence as established fact, even though some qualification is heuristic. It calls alerts required, but the schema does not. A schema-valid Bible with optional typography omitted also crashes the current template. Shape validation alone is therefore insufficient.
 
 Introduce a versioned Bible v2, with a compatibility projection for the existing builder and pitch. Keep research assertions separate from approved public copy. Do not replace the contract with a longer prompt and assume consumers will understand the new fields.
 
 ### 3. Collection can research the wrong business context
 
-The [research stage](../socialite/stages/research.py) uses the locale pack's town rather than the prospect's actual locality, and queries competitors as “takeaway street food” regardless of business type. In a mocked probe, an “Audit Prospect, Preston” lead produced Chorley queries. A cocktail bar needs nightlife/private-hire competitors, not a takeaway default.
+The [research stage](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/socialite/stages/research.py) uses the locale pack's town rather than the prospect's actual locality, and queries competitors as “takeaway street food” regardless of business type. In a mocked probe, an “Audit Prospect, Preston” lead produced Chorley queries. A cocktail bar needs nightlife/private-hire competitors, not a takeaway default.
 
-The [discovery stage](../socialite/stages/find.py) extracts phone/email from all search results before confirming they belong to the entity. A synthetic unrelated listing supplied the prospect's phone in the probe. It also demoted a valid sister-company venue page to “template” because the domain did not match the venue name.
+The [discovery stage](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/socialite/stages/find.py) extracts phone/email from all search results before confirming they belong to the entity. A synthetic unrelated listing supplied the prospect's phone in the probe. It also demoted a valid sister-company venue page to “template” because the domain did not match the venue name.
 
 Store explicit prospect location/category and candidate entity matches. Accept contacts and sites only with adequate business/location linkage. Preserve an affiliated site as an existing site and assess its quality separately.
 
@@ -89,7 +89,7 @@ Use immutable evidence captures with source URL, timestamp, relevant excerpt or 
 
 ### 6. A fresh checkout loses the dashboard index and cost history
 
-The repository contains 16 lead files, but a new SQLite database displayed zero leads. Stored JSONL events contained USD 1.286694 of recorded spend, while the fresh SQLite spend query returned zero. [store.py](../socialite/store.py) creates empty tables without replaying the file artifacts/events.
+The repository contains 16 lead files, but a new SQLite database displayed zero leads. Stored JSONL events contained USD 1.286694 of recorded spend, while the fresh SQLite spend query returned zero. [store.py](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/socialite/store.py) creates empty tables without replaying the file artifacts/events.
 
 Clients and active services live in SQLite without equivalent recoverable file artifacts. Decide explicitly whether the ledger's durable source is a backed-up database or replayable events. The current blanket “files are the source of truth” description does not cover that ledger.
 
@@ -103,7 +103,7 @@ The cost check accepts an estimated USD 0.30 operation; a mocked reported USD 3.
 
 ### 8. The page generator can publish unsupported trust claims
 
-The [classic template](../templates/site/classic/index.html.j2) averages selected review quotes into a displayed star rating. Two selected five-star quotes produced “5.0 from real reviews”; that is not a verified platform aggregate. Anonymous quotes can also receive “Verified review” text without a verification field.
+The [classic template](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/templates/site/classic/index.html.j2) averages selected review quotes into a displayed star rating. Two selected five-star quotes produced “5.0 from real reviews”; that is not a verified platform aggregate. Anonymous quotes can also receive “Verified review” text without a verification field.
 
 Only render a platform rating with sourced aggregate, count, and capture date. Quote attribution needs its own evidence. Require approval for factual copy, review usage, badges, and images before publication; staff previews should clearly carry unresolved review status outside client-facing copy.
 
@@ -178,7 +178,7 @@ Start with three art-direction studies for contrasting businesses after the func
 
 ## Verification and limits
 
-Recorded results: [check-results.json](audit/2026-10-01/check-results.json). Provisioning harness output: [provision-check.txt](audit/2026-10-01/provision-check.txt).
+Recorded results: [check-results.json](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/docs/audit/2026-10-01/check-results.json). Provisioning harness output: [provision-check.txt](https://github.com/k3ss-official/socialite/blob/520758d9efa27f72106b2b191ed29259f3bcc7b1/docs/audit/2026-10-01/provision-check.txt).
 
 - All five schema definitions were valid; 16 shipped lead files, three Bible files, four pitch files, four build manifests, and 82 event records passed their current schemas.
 - After indexing leads in the isolated copy, eight dashboard read routes returned HTTP 200. Local site and pitch generation succeeded and unchanged inputs reused their versions.

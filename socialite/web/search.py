@@ -1,5 +1,5 @@
 """Web search via ddgs (DuckDuckGo). Why: free, keyless, no quota account to babysit.
-Quirks live in notes/SCRAPING.md."""
+Collection caveats live in docs/RESEARCH-SOURCES.md."""
 from __future__ import annotations
 
 import time
@@ -23,8 +23,8 @@ AGGREGATOR_DOMAINS = (
     "gov.uk", "checkatrade.", "mapquest.com", "yellowpages.", "thomsonlocal.",
 )
 
-# White-label ordering platforms: a "site" on one of these is a template page the
-# business doesn't own — evidence FOR qualification, verdict 'template'.
+# Ordering-platform URLs are classified separately; platform presence alone does
+# not establish ownership, website quality or a missing business capability.
 ORDER_PLATFORM_DOMAINS = (
     "foodhub.co.uk", "foodhub.com", "orderyoyo.", "touchtakeaway.net", "flipdish.",
     "scoffable.com", "feedmeonline.co.uk", "order.app", "grubhub.", "mealzo.",

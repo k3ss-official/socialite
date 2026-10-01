@@ -1,0 +1,20 @@
+{
+  "lead_id": "demo-cafe-preston",
+  "version": 4,
+  "generated_at": "2026-10-01T00:00:00+00:00",
+  "inputs_hash": "synthetic-fixture",
+  "identity": {"name": "Demo Cafe", "category": "cafe", "story": "A fictional business used only for automated tests."},
+  "brand_voice": {"tone": "plain", "keywords": []},
+  "palette": {"primary": "#173832", "accent": "#866442", "background": "#fffdf9", "text": "#18201e", "mode": "light"},
+  "typography": {"heading": "Fraunces", "body": "Inter"},
+  "photos": [{"path": "images/hero.webp", "use": "hero"}, {"path": "images/gallery.webp", "use": "gallery"}],
+  "usps": [],
+  "reviews": [],
+  "competitors": [],
+  "gap_matrix": [],
+  "services": [],
+  "site_copy": {"headline": "Demo Cafe", "subheadline": "Synthetic copy for testing.", "about_heading": "About", "about": "This is fixture content, not client research.", "cta_primary": {"label": "Email", "type": "email", "value": "demo@example.com"}},
+  "location": {},
+  "alerts": [],
+  "sources": []
+}

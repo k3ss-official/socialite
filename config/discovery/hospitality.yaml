@@ -1,0 +1,3 @@
+# Explicit sector profile; location is supplied by the caller, never inferred.
+overpass_amenities: [restaurant, cafe, fast_food, bar, pub]
+overpass_tourism: [hotel, guest_house]

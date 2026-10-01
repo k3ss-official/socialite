@@ -9,4 +9,3 @@ research_cache_hours: 24
 llm:
   cli: claude            # synthesis engine: local claude CLI, no extra SaaS
   model: sonnet          # cheap+good for synthesis; override per-call if needed
-  max_input_chars: 60000 # raw research bundle truncated to this before prompting

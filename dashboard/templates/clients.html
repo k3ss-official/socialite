@@ -12,7 +12,7 @@
       <strong>{{ currency }} {{ r.mrr | money }}</strong>
       <span class="muted">/ month · {{ r.active_services }} active service{{ 's' if r.active_services != 1 }}</span>
     </div>
-    <table class="proj">
+    <div class="table-scroll" tabindex="0" aria-label="Data table"><table class="proj">
       <thead><tr><th>Year</th><th>Projected MRR (~10%/yr attrition)</th><th></th></tr></thead>
       <tbody>
         {% for val in r.projection %}
@@ -25,7 +25,7 @@
         </tr>
         {% endfor %}
       </tbody>
-    </table>
+    </table></div>
   </div>
   {% endfor %}
   {% else %}<p class="empty">No active services yet — sign a lead to start the ledger.</p>{% endif %}
@@ -36,7 +36,7 @@
   <h2><a href="{{ url_for('lead_detail', lead_id=c.lead_id) }}">{{ c.name }}</a>
       <span class="muted">signed {{ c.signed_at | ts }}</span></h2>
   {% if c.services %}
-  <table>
+  <div class="table-scroll" tabindex="0" aria-label="Data table"><table>
     <thead><tr><th>Rung</th><th class="num">Monthly</th><th>Start</th><th>Renewal</th><th>Status</th></tr></thead>
     <tbody>
       {% for s in c.services %}
@@ -58,7 +58,7 @@
         <td colspan="3"></td>
       </tr>
     </tfoot>
-  </table>
+  </table></div>
   {% else %}<p class="empty">No services on ledger.</p>{% endif %}
 </section>
 {% else %}

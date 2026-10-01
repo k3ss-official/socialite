@@ -2,8 +2,9 @@
 
 Bible v2 (`schema_version: "2.0"`) is pinned in
 [bible-v2.schema.json](../schemas/bible-v2.schema.json). Legacy artifacts keep their original
-format. New staff research jobs call [bible_v2.py](../socialite/bible_v2.py); the old `bible`
-CLI command remains a legacy synthesis path.
+format. New dashboard and CLI research jobs call [bible_v2.py](../socialite/bible_v2.py).
+The separate original-format synthesis command and prompt have been removed. That
+older schema remains the renderer's approved-content projection contract.
 
 ## Data model
 
@@ -65,7 +66,8 @@ review screen remains a separate operational view. Browser printing provides PDF
 
 ## Next work
 
-Expand collection beyond the current limited source set, choose supported tools/runtime
+Follow [research requirements](RESEARCH-SPEC.md) and the
+[source guide](RESEARCH-SOURCES.md). Expand collection beyond the current limited source set, choose supported tools/runtime
 adapters, and test the prompt with three providers. Compare same-evidence synthesis and
 end-to-end research separately. Add authoritative sources and sector-specific plans before
 describing the output as a complete deep dive. The report template may evolve without

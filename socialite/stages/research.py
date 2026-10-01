@@ -3,8 +3,8 @@ Free (requests only). The raw bundle is the reproducible input to BIBLE.
 
 Order of trust: (1) the lead's own known URLs — their site/template page, socials,
 evidence pages from FIND; (2) name-matched search results; (3) competitor-survey
-results (text only, never images). Pages that never mention the business are skipped —
-'scran' taught us that lesson, see notes/SCRAPING.md."""
+results (text only, never images). Pages that never mention the business are skipped.
+Collection limits and source caveats are documented in docs/RESEARCH-SOURCES.md."""
 from __future__ import annotations
 
 import hashlib
@@ -59,10 +59,15 @@ def harvest(lead_id: str, force: bool = False, check_cancel=None) -> dict:
     fingerprint = hashlib.sha256(json.dumps(research_context(lead), sort_keys=True).encode()).hexdigest()
     if (raw / "research.json").exists() and not force:
         prior = store.load_json(raw / 'research.json')
-        age = (datetime.now(timezone.utc) - datetime.fromisoformat(prior['harvested_at'])).total_seconds()
-        if prior.get('lead_hash') == fingerprint and age < settings().get('research_cache_hours', 24) * 3600:
+        try:
+            age = (datetime.now(timezone.utc) - datetime.fromisoformat(prior['harvested_at'])).total_seconds()
+        except (KeyError, TypeError, ValueError):
+            age = float('inf')
+        if prior.get('lead_hash') == fingerprint and 0 <= age < settings().get('research_cache_hours', 24) * 3600 and _captures_intact(raw, prior):
             store.log_event('research', 'reuse_existing', 'skipped', lead_id, reason='fresh matching bundle')
             return prior
+        store.log_event('research', 'cache_invalid', lead_id=lead_id,
+                        reason='Expired, changed context or missing/changed capture; collecting again')
     (raw / "pages").mkdir(parents=True, exist_ok=True)
     (raw / "images").mkdir(parents=True, exist_ok=True)
     name = lead["name"]
@@ -174,9 +179,19 @@ def harvest(lead_id: str, force: bool = False, check_cancel=None) -> dict:
                                            'captured_at': rec['captured_at'], 'content_hash': digest, "bytes": len(ir.content)})
         fetches.append(rec)
 
-    bundle = {"lead_id": lead_id, "harvested_at": store.now(), 'lead_hash': fingerprint,
+    bundle = {"lead_id": lead_id, "collection_id": uuid4().hex,
+              "harvested_at": store.now(), 'lead_hash': fingerprint,
               'query_outcomes': query_outcomes, "queries": queries + [comp_query],
               "results": results, "fetched": fetches, "images": image_meta}
+    # Keep each collection attempt independently. A failed refresh must not erase
+    # earlier receipts or silently substitute older information as fresh research.
+    if (raw / 'research.json').exists():
+        previous = store.load_json(raw / 'research.json')
+        identity = previous.get('collection_id') or hashlib.sha256(json.dumps(previous, sort_keys=True).encode()).hexdigest()
+        history = raw / 'history' / f'{identity}.json'
+        if not history.exists():
+            store.save_json(history, previous)
+    store.save_json(raw / 'history' / (bundle['collection_id'] + '.json'), bundle)
     store.save_json(raw / "research.json", bundle)
     store.log_event("research", "harvest", "ok", lead_id, artifact=f"data/leads/{lead_id}/raw/research.json",
                     pages=len([f for f in fetches if f["text_file"]]), images=len(image_meta),
@@ -184,12 +199,16 @@ def harvest(lead_id: str, force: bool = False, check_cancel=None) -> dict:
     return bundle
 
 
-def bundle_hash(lead_id: str, extra: str = "") -> str:
-    """sha256 over the raw bundle — the reproducibility anchor for BIBLE versions."""
-    raw = store.lead_dir(lead_id) / "raw"
-    h = hashlib.sha256(extra.encode())
-    for p in sorted(raw.rglob("*")):
-        if p.is_file() and p.suffix in (".json", ".txt"):
-            h.update(p.name.encode())
-            h.update(p.read_bytes())
-    return h.hexdigest()[:16]
+def _captures_intact(raw, bundle: dict) -> bool:
+    for item in bundle.get('fetched', []) + bundle.get('images', []):
+        relative = item.get('text_file') or item.get('file')
+        if not relative:
+            if item.get('outcome') == 'captured':
+                return False
+            continue
+        source = raw / relative
+        if not source.resolve().is_relative_to(raw.resolve()) or not source.is_file():
+            return False
+        if not item.get('content_hash') or hashlib.sha256(source.read_bytes()).hexdigest() != item['content_hash']:
+            return False
+    return True

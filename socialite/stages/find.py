@@ -38,7 +38,7 @@ def prospect_area(lead: dict) -> str:
     prefix = slugify(lead['name']) + '-'
     if lead['id'].startswith(prefix) and lead['id'][len(prefix):]:
         return lead['id'][len(prefix):].replace('-', ' ').title()
-    return load_locale(lead['locale']['key'])['discovery']['area_name']
+    raise ValueError('Set this prospect\'s locality before research; a locale is not a business location')
 
 
 def research_context(lead: dict) -> dict:
@@ -55,9 +55,7 @@ def _social_rank(url: str) -> tuple[int, int]:
 
 
 def _plausibly_theirs(name: str, url: str) -> bool:
-    """Directories we've never heard of slip past the blocklist constantly. Structural
-    rule: their own site has their name in the domain, or is a shallow homepage URL —
-    a deep path on a foreign domain is somebody's listing page, not their website."""
+    """Prioritise likely homepages; content matching still establishes affiliation."""
     domain = websearch.domain_of(url)
     tokens = [t for t in re.split(r"\W+", name.lower()) if len(t) > 2]
     if any(t in domain for t in tokens):
@@ -70,7 +68,9 @@ def find_single(query: str, locale_key: str) -> dict:
     """Qualify one named business. query: 'Name, Town[, Country]'."""
     loc = load_locale(locale_key)
     parts = [p.strip() for p in query.split(",")]
-    name, area = parts[0], ", ".join(parts[1:]) or loc["discovery"]["area_name"]
+    name, area = parts[0], ", ".join(parts[1:])
+    if not name or not area:
+        raise ValueError('Include the business name and locality: "Business Name, Town"')
     lead_id = slugify(f"{name}-{parts[1] if len(parts) > 1 else area}")
     evidence, socials, candidates = [], {}, []
     contact = {"phone": None, "whatsapp": None, "email": None, "messenger": None}
@@ -189,18 +189,21 @@ def find_single(query: str, locale_key: str) -> dict:
     return lead
 
 
-def find_locale(locale_key: str, limit: int = 25) -> list[dict]:
+def find_locale(locale_key: str, limit: int = 25, *, area: str, sector: str) -> list[dict]:
     """Locale sweep: OSM businesses with no website tag, qualified one by one.
     Each find_single call costs only free searches; cap with --limit."""
-    loc = load_locale(locale_key)
-    disc = loc["discovery"]
-    biz = overpass.find_businesses(disc["area_name"], disc.get("overpass_amenities", []),
+    from ..config import discovery
+    load_locale(locale_key)
+    if not area.strip() or limit < 1:
+        raise ValueError('Provide an area and a positive discovery limit')
+    disc = discovery(sector)
+    biz = overpass.find_businesses(area, disc.get("overpass_amenities", []),
                                    disc.get("overpass_tourism"))
-    store.log_event("find", "overpass_sweep", "ok", details_count=len(biz), area=disc["area_name"])
+    store.log_event("find", "overpass_sweep", "ok", details_count=len(biz), area=area, sector=sector)
     no_site = [b for b in biz if b["name"] and not b["website_tag"]]
     leads = []
     for b in no_site[:limit]:
-        lead = find_single(f"{b['name']}, {disc['area_name']}", locale_key)
+        lead = find_single(f"{b['name']}, {area}", locale_key)
         if b.get("phone") and not lead["contact"]["phone"]:
             lead["contact"]["phone"] = b["phone"]
         if b.get("address"):

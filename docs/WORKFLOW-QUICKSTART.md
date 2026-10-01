@@ -1,14 +1,13 @@
-# Run the staff research workflow on the M4
+# Local setup and recovery
 
-Run these commands inside your existing Socialite repository. The working branch is
-`feature/bible-workflow`. Preserve any local edits before switching branches. The project environment is named
-`socialite` and uses Python 3.12. Activate it in each terminal. If it already exists,
-use `conda activate socialite` and `python -m pip install -r requirements.txt` instead
-of recreating it.
+Use Python **3.12** in the Conda environment **socialite**. This is the setup authority;
+README links here rather than repeating installation instructions.
+
+## Start the application
+
+From the repository root:
 
 ```sh
-git fetch origin
-git switch feature/bible-workflow
 conda env create -f environment.yml
 conda activate socialite
 python --version
@@ -16,11 +15,9 @@ python -m unittest discover -s tests -v
 python dashboard/app.py
 ```
 
-Open **http://127.0.0.1:5057**. Saved lead files are indexed automatically on first startup.
-The dashboard remains a local prototype; staff names are recorded rather than authenticated.
-Form submissions have CSRF protection. Do not expose this server publicly.
-
-In a second terminal, from the same repository:
+If the environment already exists, activate it and run
+`python -m pip install -r requirements.txt` instead of recreating it.
+Open http://127.0.0.1:5057. In a second terminal, in the same repository:
 
 ```sh
 conda activate socialite
@@ -28,90 +25,72 @@ claude --version
 python -m socialite.cli worker
 ```
 
-Live synthesis requires the existing Claude CLI installation and a working login. If
-`claude --version` fails, install it using Anthropic's current official instructions.
-If a synthesis call reports an authentication error, resolve the CLI login and retry
-the research job. This branch has no OpenAI, Gemini or Flowith runtime adapter yet.
+Live synthesis needs a working Claude CLI login, not just a version response. Resolve
+authentication using Anthropic's current CLI instructions when needed. OpenAI, Gemini
+and Flowith adapters are not integrated. The dashboard binds to loopback, has CSRF
+protection and records self-reported staff names; it is not an authenticated public service.
 
-## Walk through one prospect
+## Research and review
 
-1. Select a lead on the board. Enter your name and choose **Start research**. A repeat
-   click returns the active job rather than creating another one.
-2. Watch collecting → synthesizing → awaiting review. Failed jobs retain their error
-   and collection counts. To retry, start research again. **Refresh sources** bypasses
-   the 24-hour cache; unchanged business context can reuse fresh captures.
-3. Open the new Bible. Read the summary, coverage, claims and receipts. Unknown,
-   conflicted, inferred or snippet-only claims cannot be approved for public copy.
-4. Approve the supported page fields. Record a permission basis and note for any image
-   you select. Save the review. This creates an immutable revision as well as the latest
-   review record; an outdated form cannot overwrite a newer review silently.
-5. Choose **Generate preview and proposal**. Missing required approvals are reported
-   immediately. The worker builds the real static page and deterministic service proposal.
-   It does not deploy, purchase a domain or send anything to the prospect.
-6. Use **Open printable report → Print / save as PDF** for the report layout inspired
-   by the supplied example. The JSON Bible remains the structured source of truth.
+1. Open ALO's record. Enter your name and choose **Start research**.
+2. Watch collecting → synthesizing → awaiting review. Failures retain their error and
+   collection counts. Retry deliberately; **Refresh sources** bypasses the valid cache.
+3. Inspect coverage, claims and receipts. Unknown, inferred, conflicted and snippet-only
+   claims cannot be approved as public facts.
+4. Approve supported page fields and record permission basis, note and usage for images.
+   Save the review. Missing or changed source/asset files block approval or preview.
+5. Choose **Generate preview and proposal**. The worker renders from approved content.
+   It does not deploy, register a domain or contact the owner.
+6. Use **Open printable report → Print / save as PDF**. The JSON Bible remains the source
+   of truth; the report requires no additional model call.
 
-ALO Soft Play Hire Lancashire is now the first owner-agreed pilot; its lead file and
-[starter dossier](pilots/alo-soft-play-hire-lancashire/README.md) are included. Its discovery
-score is uncalculated (numeric placeholder zero), website unknown, and current Group
-access and owner intake remain pending. The principal-supplied Group share link is saved;
-its canonical URL and current visibility have not been independently verified. This starter dossier is not yet a production Bible;
-screenshots and owner answers need a supported evidence ingestion path. If you already
-started the dashboard before pulling the lead file, run the `reindex` command below.
+The [ALO starter dossier](pilots/alo-soft-play-hire-lancashire/README.md) contains
+screenshots and research notes. It is not automatically ingested production evidence.
+Current Group access and important owner-only facts remain unconfirmed.
 
-Vestry remains a useful second test case. To create its lead if it is not on the board,
-use `python -m socialite.cli find "Vestry, Chorley" --locale uk`. Review its category
-and affiliated website rather than assuming it has no web presence. Existing legacy leads
-derive locality from their IDs if no explicit locality was stored.
-
-The collector is currently bounded requests/BeautifulSoup plus search. It keeps metadata,
-captures and access failures, and stops further requests to a host after HTTP 403/429.
-It does not bypass logins or access challenges. Broader source planning, browser/API
-adapters, domain-wide throttling and richer official-source research remain next steps.
-The synthesis prompt reports those coverage limitations instead of claiming a complete audit.
-
-## Recovery and backups
-
-If lead/event indexes need reconciling:
+## CLI equivalents
 
 ```sh
+python -m socialite.cli research alo-soft-play-hire-lancashire --staff-name Tony
+python -m socialite.cli jobs alo-soft-play-hire-lancashire
+python -m socialite.cli preview alo-soft-play-hire-lancashire --staff-name Tony --bible-version 1
+```
+
+Preview requires a saved valid staff review. `collect` collects receipts only.
+`build` and `pitch` render saved content directly and enforce the review gate for v2.
+The old `run`, `bible` commands and `run.sh` wrapper are retired.
+
+Targeted discovery requires an explicit locality:
+`python -m socialite.cli find "Business Name, Town" --locale uk`.
+Area discovery also needs an explicit sector:
+`python -m socialite.cli find-locale --locale uk --area "Town, UK" --sector hospitality --limit 10`.
+Hospitality is currently the only area-discovery profile; soft-play sources need a
+different plan. A locale does not establish a business's town or category.
+
+## Backups and recovery
+
+```sh
+python -m socialite.cli backup /path/outside/repo/ledger.sqlite
 python -m socialite.cli reindex
 ```
 
-This rebuilds file-backed leads and spend/events without clearing clients, services or jobs.
-Malformed input files cause a visible failure rather than being silently skipped.
+Back up **both the full data directory and SQLite**. Captures, images, Bibles, reviews,
+generated sites, proposals and events are runtime data ignored by Git. Clients, services
+and jobs are durable SQLite records. Reindex only reconciles leads and events; it does
+not erase financial or job history. Git alone is not an operational backup.
 
-Back up the durable SQLite ledger with the supported command:
+If a worker crashed, stop the old process, then start
+`python -m socialite.cli worker --recover`. Interrupted jobs become failed for a
+deliberate retry. An exclusive lock prevents two CLI workers. Cancellation finishes an
+in-flight operation before stopping and cannot undo a billed call.
 
-```sh
-python -m socialite.cli backup ../socialite-backups/ledger.sqlite
-```
+For migration from the old demo data, follow [LOCAL-HANDOVER.md](LOCAL-HANDOVER.md).
+The focus tool takes its own backup and retains all ALO records while deleting other
+lead folders, their agreements/jobs and old demo events. Stop both processes first.
 
-Also back up the entire `data/` artifact tree, including raw captures/images and reviews.
-Git alone is not a backup: SQLite, captures and staff reviews are intentionally ignored.
-Restore the artifact tree and database together. Do not delete an existing ledger to
-recover a board index. Historical duplicate agreements need deliberate reconciliation;
-this change prevents new duplicate signup rows and does not silently remove old ones.
+## Validation boundaries
 
-If a worker crashed while a job was running, stop the old worker first, then run:
-
-```sh
-python -m socialite.cli worker --recover
-```
-
-An exclusive worker lock prevents two CLI workers running together. Interrupted jobs are
-marked failed for a deliberate retry. Cancellation finishes an in-flight operation before
-stopping; it cannot undo an already billed request or an artifact already written.
-Avoid running the legacy CLI pipeline concurrently against a prospect with an active job.
-
-## Current validation and boundaries
-
-Regression tests cover recovery/spend, signup idempotency, image routes/cache, optional
-template fields, research geography/category, contact/site matching, uncertainty, evidence
-references, review conflicts, CSRF, queue deduplication, failure/retry/recovery and the full
-review-to-build/pitch path. External collection/model calls are mocked; live provider
-synthesis has not been tested in this cloud workspace because Claude CLI is unavailable.
-
-The USD 2 setting is an estimated preflight spend gate, not a guaranteed provider billing
-ceiling. The three-AI benchmark is still pending. No Higgsfield generation credits were
-used. Hermes is an idea under discussion; no harness integration has been implemented.
+Regression tests use disposable data, synthetic fixtures and mocked external services.
+The cloud cannot verify the M4's Claude login or control its browser. The first real
+ALO research run and the three-provider benchmark are still pending. No Higgsfield
+credits were spent; no Hermes harness has been built.

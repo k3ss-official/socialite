@@ -1,6 +1,6 @@
 """Synthesis engine: shells out to the local `claude` CLI in print mode.
-Why: already installed, billed to the existing plan, no extra SaaS, and
-`--output-format json` reports total_cost_usd so the per-lead cap is enforceable.
+The CLI must be installed and authenticated locally. Reported usage is recorded;
+preflight estimates are not a guaranteed ceiling on provider billing.
 """
 from __future__ import annotations
 

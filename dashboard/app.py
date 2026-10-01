@@ -1,6 +1,6 @@
 """Socialite internal dashboard — server-rendered Flask, no auth, internal only.
 
-Run from repo root:  .venv/bin/python dashboard/app.py
+Run from repo root in the socialite Conda environment: python dashboard/app.py
 """
 from __future__ import annotations
 
@@ -127,7 +127,8 @@ def board():
         elif r["status"] in cols:
             cols[r["status"]].append({
                 "id": r["id"], "name": r["name"], "locale_key": r["locale_key"],
-                "score": r["score"], "spend": store.spend(r["id"]),
+                "score": None if json.loads(r['json'])['qualification'].get('score_status') == 'not_run' else r["score"],
+                "spend": store.spend(r["id"]),
             })
     return render_template("board.html", cols=cols, rejected=rejected)
 

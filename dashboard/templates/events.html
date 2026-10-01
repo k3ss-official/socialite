@@ -4,7 +4,7 @@
 <div class="page-head"><h1>Events</h1><span class="muted">last 200</span></div>
 <section class="panel">
   {% if events %}
-  <table>
+  <div class="table-scroll" tabindex="0" aria-label="Data table"><table>
     <thead><tr><th>Time</th><th>Lead</th><th>Stage</th><th>Action</th><th>Status</th><th class="num">Cost</th></tr></thead>
     <tbody>
       {% for e in events %}
@@ -18,7 +18,7 @@
       </tr>
       {% endfor %}
     </tbody>
-  </table>
+  </table></div>
   {% else %}<p class="empty">No pipeline activity yet.</p>{% endif %}
 </section>
 {% endblock %}

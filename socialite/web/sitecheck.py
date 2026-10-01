@@ -1,4 +1,4 @@
-"""Is this URL a *real* website? Verdicts: none|dead|broken|template|real.
+"""Website observations, including unknown when access cannot establish a verdict.
 The evidence string this produces goes straight into the lead's qualification record."""
 from __future__ import annotations
 
@@ -10,8 +10,7 @@ UA = ("Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.
 
 PARKED_MARKERS = ("domain is for sale", "buy this domain", "sedoparking", "parked free",
                   "godaddy.com/forsale", "this domain has expired", "hugedomains")
-# our own demo builds carry this credit — finding one means the prospect was
-# already pitched and went cold: a re-engagement lead, not a competitor site
+# A creator credit is an observable marker, not evidence of prior sales history.
 OUR_MARKERS = ("socialite.design", "socialite design")
 TEMPLATE_GENERATORS = ("wix.com", "weebly", "site123", "godaddy website builder",
                        "jimdo", "webnode", "mobirise", "duda")
