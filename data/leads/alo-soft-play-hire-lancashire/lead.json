@@ -1,0 +1,71 @@
+{
+  "id": "alo-soft-play-hire-lancashire",
+  "name": "ALO Soft Play Hire Lancashire",
+  "category": "soft play hire",
+  "locality": "Lancashire",
+  "locale": {
+    "key": "uk",
+    "country": "GB",
+    "language": "en-GB",
+    "currency": "GBP",
+    "contact_channel": "messenger"
+  },
+  "address": null,
+  "contact": {
+    "phone": null,
+    "whatsapp": null,
+    "email": "alosoftplayhirelancs@outlook.com",
+    "messenger": null
+  },
+  "socials": [],
+  "known_surfaces": [
+    {
+      "platform": "facebook",
+      "surface": "group",
+      "url": null,
+      "visibility": "unconfirmed",
+      "evidence_ids": [
+        "ALO-S2",
+        "ALO-S3",
+        "ALO-U2"
+      ]
+    }
+  ],
+  "website": {
+    "verdict": "unknown",
+    "url": null
+  },
+  "qualification": {
+    "score": 0,
+    "score_status": "not_run",
+    "evidence": [
+      {
+        "check": "pilot_selection",
+        "result": "Owner pilot agreement reported by principal; no qualification score calculated.",
+        "url": null,
+        "timestamp": "2026-10-01T14:05:39+00:00"
+      },
+      {
+        "check": "user_screenshot",
+        "result": "ALO-branded Facebook Group description observed; exact URL and current access pending.",
+        "url": null,
+        "timestamp": "2026-10-01T14:05:39+00:00"
+      },
+      {
+        "check": "user_screenshot:contact",
+        "result": "Description supplies email; current preferred route awaits owner confirmation.",
+        "url": null,
+        "timestamp": "2026-10-01T14:05:39+00:00"
+      }
+    ]
+  },
+  "status": "found",
+  "created_at": "2026-10-01T14:05:39+00:00",
+  "updated_at": "2026-10-01T14:05:39+00:00",
+  "pilot": {
+    "status": "intake_pending",
+    "dossier": "docs/pilots/alo-soft-play-hire-lancashire/README.md",
+    "publication_approved": false,
+    "commercial_terms": "not_agreed"
+  }
+}

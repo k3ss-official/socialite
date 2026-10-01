@@ -34,6 +34,11 @@ PDF** exports from your browser. Existing Bible v1 viewers and builds remain ava
 See [M4 setup and recovery](docs/WORKFLOW-QUICKSTART.md),
 [Bible v2 contract](docs/BIBLE-V2.md), and the [baseline gap analysis](docs/GAP-ANALYSIS.md).
 
+The first owner-agreed pilot is [ALO Soft Play Hire Lancashire](docs/pilots/alo-soft-play-hire-lancashire/README.md).
+Its starter dossier and short intake are saved; its Group URL, current access and commercial
+details still need confirmation. After pulling new lead files into an existing checkout,
+run `.venv/bin/python -m socialite.cli reindex` to refresh the board.
+
 ## Legacy one-command run
 
 ```sh

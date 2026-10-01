@@ -46,10 +46,17 @@ the research job. This branch has no OpenAI, Gemini or Flowith runtime adapter y
 6. Use **Open printable report → Print / save as PDF** for the report layout inspired
    by the supplied example. The JSON Bible remains the structured source of truth.
 
-The first test case should be Vestry after a fresh collection. To create its lead if it
-is not on the board, use `.venv/bin/python -m socialite.cli find "Vestry, Chorley" --locale uk`.
-Review its category and affiliated website rather than assuming it has no web presence.
-Existing legacy leads derive locality from their IDs if no explicit locality was stored.
+ALO Soft Play Hire Lancashire is now the first owner-agreed pilot; its lead file and
+[starter dossier](pilots/alo-soft-play-hire-lancashire/README.md) are included. Its discovery
+score is uncalculated (numeric placeholder zero), website unknown, and Group URL/current
+access and owner intake remain pending. This starter dossier is not yet a production Bible;
+screenshots and owner answers need a supported evidence ingestion path. If you already
+started the dashboard before pulling the lead file, run the `reindex` command below.
+
+Vestry remains a useful second test case. To create its lead if it is not on the board,
+use `.venv/bin/python -m socialite.cli find "Vestry, Chorley" --locale uk`. Review its category
+and affiliated website rather than assuming it has no web presence. Existing legacy leads
+derive locality from their IDs if no explicit locality was stored.
 
 The collector is currently bounded requests/BeautifulSoup plus search. It keeps metadata,
 captures and access failures, and stops further requests to a host after HTTP 403/429.

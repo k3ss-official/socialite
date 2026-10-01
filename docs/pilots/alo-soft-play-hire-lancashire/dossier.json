@@ -1,0 +1,223 @@
+{
+  "format": "socialite-pilot-dossier/0.1",
+  "lead_id": "alo-soft-play-hire-lancashire",
+  "prepared_at": "2026-10-01T14:05:39+00:00",
+  "stage": "owner_intake_and_source_verification",
+  "publication_approved": false,
+  "sources": [
+    {
+      "id": "ALO-S1",
+      "source_type": "user_supplied_screenshot",
+      "label": "Facebook Group About description",
+      "public_url": null,
+      "captured_at": null,
+      "received_at": "2026-10-01T14:05:39+00:00",
+      "transcription": [
+        "ALO Soft Play Hire Lancashire",
+        "Your go-to place for beautiful soft play hire for little ones aged under 5",
+        "Birthday parties",
+        "Weddings & special occasions",
+        "Christenings & celebrations",
+        "Indoor & outdoor events",
+        "Stay & Play sessions",
+        "Community events & more",
+        "We’re a small family-run business based in Lancashire"
+      ],
+      "note": "Business description observed in screenshot; availability not independently checked."
+    },
+    {
+      "id": "ALO-S2",
+      "source_type": "user_supplied_screenshot",
+      "label": "Facebook Group About continuation and visibility",
+      "public_url": null,
+      "captured_at": null,
+      "received_at": "2026-10-01T14:05:39+00:00",
+      "transcription": [
+        "supporting Derian House Children’s Hospice through ongoing fundraising activities",
+        "Bookings & enquiries: Please message us directly or email alosoftplayhirelancs@outlook.com",
+        "Little people 🧸 Big memories",
+        "Public",
+        "Visible",
+        "Group created on August 31, 2026"
+      ],
+      "note": "Current access may differ. No formal hospice partnership or logo permission established."
+    },
+    {
+      "id": "ALO-S3",
+      "source_type": "user_supplied_screenshot",
+      "label": "Facebook Group activity",
+      "public_url": null,
+      "captured_at": null,
+      "received_at": "2026-10-01T14:05:39+00:00",
+      "transcription": [
+        "191 total members",
+        "+13 in last week",
+        "774 posts in the last 28 days",
+        "339 comments in the last 28 days",
+        "513 reactions in the last 28 days",
+        "There are Pages in this group."
+      ],
+      "note": "Group-level counts only. Member/admin names and faces deliberately omitted."
+    },
+    {
+      "id": "ALO-S4",
+      "source_type": "user_supplied_screenshot",
+      "label": "DuckDuckGo search",
+      "public_url": null,
+      "captured_at": null,
+      "received_at": "2026-10-01T14:05:39+00:00",
+      "transcription": [
+        "No results found for \"Alo soft play hire Lancashire\" facebook"
+      ],
+      "note": "One engine/query/time; does not establish no website, no Google profile or global non-indexing."
+    },
+    {
+      "id": "ALO-U1",
+      "source_type": "principal_report",
+      "received_at": "2026-10-01T14:05:39+00:00",
+      "public_url": null,
+      "captured_at": null,
+      "statement": "Owner has agreed to participate as a pilot and is busy; work is not urgent.",
+      "note": "Reported pilot participation does not approve publication, account changes, all copy or all assets."
+    },
+    {
+      "id": "ALO-U2",
+      "source_type": "principal_report",
+      "received_at": "2026-10-01T14:05:39+00:00",
+      "public_url": null,
+      "captured_at": null,
+      "statement": "Principal describes the Group as not public, with link to follow.",
+      "note": "Current visibility unresolved against Public/Visible labels in supplied screenshots."
+    }
+  ],
+  "claims": [
+    {
+      "id": "ALO-C1",
+      "field": "trading_name",
+      "value": "ALO Soft Play Hire Lancashire",
+      "status": "observed_in_supplied_screenshot",
+      "evidence_ids": [
+        "ALO-S1"
+      ]
+    },
+    {
+      "id": "ALO-C2",
+      "field": "offer",
+      "value": {
+        "category": "soft play hire",
+        "age": "under 5",
+        "region": "Lancashire",
+        "events": [
+          "birthdays",
+          "weddings",
+          "christenings",
+          "indoor/outdoor events",
+          "Stay & Play",
+          "community events"
+        ]
+      },
+      "status": "business_stated_in_screenshot",
+      "evidence_ids": [
+        "ALO-S1"
+      ],
+      "verification_needed": "Confirm which services are available now and actual delivery coverage."
+    },
+    {
+      "id": "ALO-C3",
+      "field": "contact.email",
+      "value": "alosoftplayhirelancs@outlook.com",
+      "status": "observed_in_supplied_screenshot",
+      "evidence_ids": [
+        "ALO-S2"
+      ],
+      "verification_needed": "Confirm preferred/current enquiry route."
+    },
+    {
+      "id": "ALO-C4",
+      "field": "brand_line",
+      "value": "Little people 🧸 Big memories",
+      "status": "observed_in_supplied_screenshot",
+      "evidence_ids": [
+        "ALO-S2"
+      ]
+    },
+    {
+      "id": "ALO-C5",
+      "field": "fundraising",
+      "value": "Description states support for Derian House Children’s Hospice through ongoing fundraising activities.",
+      "status": "business_stated_in_screenshot",
+      "evidence_ids": [
+        "ALO-S2"
+      ],
+      "verification_needed": "Confirm actual arrangement, approved wording and any logo permission."
+    },
+    {
+      "id": "ALO-C6",
+      "field": "facebook.surface",
+      "value": "group",
+      "status": "observed_in_supplied_screenshot",
+      "evidence_ids": [
+        "ALO-S2",
+        "ALO-S3"
+      ]
+    },
+    {
+      "id": "ALO-C7",
+      "field": "facebook.visibility_now",
+      "value": null,
+      "status": "conflicted_current_status",
+      "evidence_ids": [
+        "ALO-S2",
+        "ALO-U2"
+      ],
+      "verification_needed": "Group URL and current owner-confirmed privacy setting."
+    },
+    {
+      "id": "ALO-C8",
+      "field": "facebook.group_metrics_at_capture",
+      "value": {
+        "members": 191,
+        "new_members_last_week": 13,
+        "posts_28_days": 774,
+        "comments_28_days": 339,
+        "reactions_28_days": 513
+      },
+      "status": "observed_in_supplied_screenshot",
+      "evidence_ids": [
+        "ALO-S3"
+      ],
+      "limitations": "Capture date unknown; group totals do not identify authors or customers."
+    },
+    {
+      "id": "ALO-C9",
+      "field": "digital_presence_elsewhere",
+      "value": null,
+      "status": "unknown",
+      "evidence_ids": [
+        "ALO-S4"
+      ],
+      "verification_needed": "Website, Page, Instagram, TikTok, Google profile and review inventory."
+    },
+    {
+      "id": "ALO-C10",
+      "field": "positioning.community_sessions",
+      "value": "Stay & Play plus local warmth may be a useful angle alongside private event hire.",
+      "status": "hypothesis",
+      "evidence_ids": [
+        "ALO-S1"
+      ],
+      "limitations": "Not established as unique; delivery and operation details pending."
+    }
+  ],
+  "web_source_ledger": "sources.json",
+  "production_bible_status": "not_yet_imported; screenshot/owner provenance requires a supported ingestion path",
+  "unverified_prior_ai_claims": [
+    "no other digital presence",
+    "group is universally invisible to search",
+    "Stay & Play unique among local competitors",
+    "formal hospice affiliation",
+    "universal PIPA/DBS/first-aid requirements",
+    "£250 general price anchor",
+    "courier competitor operation"
+  ]
+}
