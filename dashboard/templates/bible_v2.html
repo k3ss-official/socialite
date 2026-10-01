@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Bible v{{ v }} · {{ lead_id }}{% endblock %}
+{% block content %}
+<p><a href="{{ url_for('lead_detail', lead_id=lead_id) }}">← Back to prospect</a></p>
+<div class="page-head"><h1>Business Bible</h1><span class="tag">v{{ v }} · schema 2.0</span><a href="{{ url_for('bible_report', lead_id=lead_id, v=v) }}">Open printable report</a></div>
+<section class="panel"><h2>Snapshot</h2><p>{{ bible.summary }}</p><p class="muted">{{ bible.generated_at | ts }} · Review revision {{ review.revision }}</p></section>
+<section class="panel"><h2>Research coverage</h2><table><thead><tr><th>Area</th><th>Coverage</th><th>Limitations</th></tr></thead><tbody>
+{% for item in bible.coverage %}<tr><td>{{ item.section | title }}</td><td>{{ item.state | replace('_',' ') }}</td><td>{{ item.note }}</td></tr>{% endfor %}
+</tbody></table></section>
+
+<form method="post" action="{{ url_for('review_bible', lead_id=lead_id, v=v) }}">
+<input type="hidden" name="csrf_token" value="{{ csrf_token }}"><input type="hidden" name="revision" value="{{ review.revision }}">
+<section class="panel"><h2>Facts and questions</h2><p>Inspect receipts before approving. Unknowns, conflicts and hypotheses stay in the Bible and cannot become public copy.</p>
+{% for claim in bible.claims %}
+<article class="claim-card" id="{{ claim.id }}">
+<h3>{{ claim.field }} <span class="tag">{{ claim.section }}</span> <span class="tag">{{ claim.status }}</span></h3>
+<pre class="evidence-text">{{ claim.value | tojson(indent=2) }}</pre><p>{{ claim.note }}</p>
+<p>Confidence: {{ claim.confidence }} · {% for id in claim.evidence_ids %}<a href="{{ url_for('evidence_view', lead_id=lead_id, v=v, evidence_id=id) }}">{{ id }}</a> {% endfor %}</p>
+{% set selected = review.claims.get(claim.id, 'hold') %}
+<label>Public use <select name="claim_{{ claim.id }}"><option value="hold" {{ 'selected' if selected == 'hold' }}>Hold for review</option><option value="approved" {{ 'selected' if selected == 'approved' }} {{ 'disabled' if not approvable[claim.id] }}>Approve for page</option><option value="rejected" {{ 'selected' if selected == 'rejected' }}>Exclude from page</option></select></label>
+{% if not approvable[claim.id] %}<small class="muted">Needs observed evidence captured from a source about this prospect.</small>{% endif %}
+</article>{% endfor %}
+</section>
+
+{% if bible.assets %}<section class="panel"><h2>Visual assets</h2><p>Record permission for each selected image.</p><div class="photo-grid">
+{% for asset in bible.assets %}{% set decision = review.assets.get(asset.id, {}) %}<figure>
+<img src="{{ url_for('raw_image', lead_id=lead_id, p=asset.path.removeprefix('images/')) }}" alt="Collected candidate image">
+<figcaption>{{ asset.id }} · <a href="{{ asset.original_url }}" rel="noopener">Original image</a></figcaption>
+<label><input type="checkbox" name="asset_{{ asset.id }}" value="yes" {{ 'checked' if decision }}>Use this image</label><br>
+<label>Permission <select name="rights_{{ asset.id }}">{% for right in ('owner_supplied','licensed','permission_confirmed') %}<option value="{{ right }}" {{ 'selected' if decision.get('rights') == right }}>{{ right | replace('_',' ') }}</option>{% endfor %}</select></label><br>
+<label>Role <select name="use_{{ asset.id }}">{% for use in ('hero','gallery','menu','about') %}<option value="{{ use }}" {{ 'selected' if decision.get('use',asset.use) == use }}>{{ use }}</option>{% endfor %}</select></label>
+<label>Permission note <input name="note_{{ asset.id }}" value="{{ decision.get('note','') }}" placeholder="Who supplied or approved it, when"></label>
+</figure>{% endfor %}</div></section>{% endif %}
+
+<section class="panel"><h2>Save your review</h2><p>This records your name; the local prototype does not verify staff identity.</p><label>Your name <input name="reviewer" value="{{ review.get('reviewer','') }}" required></label><label>Review note <textarea name="note">{{ review.get('note','') }}</textarea></label><button type="submit" class="btn">Save review</button></section>
+</form>
+
+<section class="panel"><h2>Page inputs</h2><p>Approve the bound fields before generating the preview. Missing required fields are reported when you queue it.</p><table><thead><tr><th>Field</th><th>Source claim</th><th>Review</th></tr></thead><tbody>{% for field, id in bible.site.bindings.items() %}<tr><td>{{ field }}</td><td><a href="#{{ id }}">{{ id }}</a></td><td>{{ review.claims.get(id,'hold') }}</td></tr>{% endfor %}</tbody></table>
+<form method="post" action="{{ url_for('start_preview', lead_id=lead_id, v=v) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token }}"><label>Your name <input name="staff_name" required value="{{ review.get('reviewer','') }}"></label><button class="btn">Generate preview and proposal</button></form></section>
+
+<section class="panel"><h2>Now / next / later</h2>{% for horizon in ('now','next','later') %}<h3>{{ horizon | title }}</h3>{% for item in bible.roadmap if item.horizon == horizon %}<article class="claim-card"><strong>{{ item.action }}</strong> <span class="tag">{{ item.importance }}</span><p>{{ item.benefit }}</p><small>Effort: {{ item.effort }}{% if item.dependencies %} · Depends on {{ item.dependencies | join(', ') }}{% endif %}</small><p>{% for id in item.evidence_ids %}<a href="{{ url_for('evidence_view', lead_id=lead_id, v=v, evidence_id=id) }}">{{ id }}</a> {% endfor %}</p></article>{% else %}<p class="muted">No supported recommendations yet.</p>{% endfor %}{% endfor %}</section>
+{% if bible.comparisons %}<section class="panel"><h2>Competitor comparisons</h2><table><thead><tr><th>Competitor</th><th>Metric</th><th>Comparison</th><th>Basis</th></tr></thead><tbody>{% for item in bible.comparisons %}<tr><td>{{ item.competitor }} · {{ item.locality }}</td><td>{{ item.metric }}</td><td>{{ item.result | replace('_',' ') }}</td><td>{{ item.note }}</td></tr>{% endfor %}</tbody></table></section>{% endif %}
+<section class="panel"><h2>Evidence index</h2><table><thead><tr><th>Receipt</th><th>Source</th><th>Outcome</th><th>Captured</th></tr></thead><tbody>{% for e in bible.evidence %}<tr><td><a href="{{ url_for('evidence_view', lead_id=lead_id, v=v, evidence_id=e.id) }}">{{ e.id }}</a></td><td><a href="{{ e.url }}" rel="noopener">{{ e.kind }}</a></td><td>{{ e.outcome }}</td><td>{{ e.captured_at | ts }}</td></tr>{% endfor %}</tbody></table></section>
+{% endblock %}

@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Receipt {{ entry.id }}{% endblock %}
+{% block content %}
+<p><a href="{{ url_for('bible_view', lead_id=lead_id, v=v) }}">← Back to Bible</a></p>
+<section class="panel"><h1>{{ entry.id }}</h1><p><a href="{{ entry.url }}" rel="noopener">{{ entry.url }}</a></p><p>{{ entry.outcome }} · {{ entry.captured_at | ts }}</p><p class="muted">{{ entry.content_hash or 'No captured-content hash' }}</p><pre class="evidence-text">{{ content or 'This source was unavailable; no content was captured.' }}</pre></section>
+{% endblock %}

@@ -1,9 +1,10 @@
 # Global settings. Locale-specific things live in config/locales/*.yaml — never here.
 
-cost_cap_usd_per_lead: 2.00   # hard cap on LLM + API spend per lead; kill switch fires at this
+cost_cap_usd_per_lead: 2.00   # cumulative spend gate; CLI estimates cannot guarantee actual billing
 data_dir: data
 default_theme: classic
 dashboard_port: 5057
+research_cache_hours: 24
 
 llm:
   cli: claude            # synthesis engine: local claude CLI, no extra SaaS

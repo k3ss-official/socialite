@@ -5,7 +5,9 @@ from __future__ import annotations
 from jinja2 import Environment, FileSystemLoader
 
 from .. import contracts, store
+from .. import bible_v2
 from ..config import ROOT, ladder as load_ladder, locale as load_locale
+from .find import prospect_area
 
 
 def generate(lead_id: str, bible_version: int | None = None) -> dict:
@@ -15,6 +17,8 @@ def generate(lead_id: str, bible_version: int | None = None) -> dict:
     if not bible_version:
         raise SystemExit(f"No bible for {lead_id} — run the bible stage first.")
     bible = store.load_json(bdir / f"v{bible_version}.json")
+    if bible.get('schema_version') == '2.0':
+        bible, lead = bible_v2.project(bible, bible_v2.load_review(lead_id, bible_version))
     lad, loc = load_ladder(), load_locale(lead["locale"]["key"])
 
     open_gaps = [g for g in bible["gap_matrix"] if not g["prospect_has"]]
@@ -34,6 +38,8 @@ def generate(lead_id: str, bible_version: int | None = None) -> dict:
             "rung_key": gap_to_rung.get(g["gap_key"], "r1_foundation"),
             "competitors_with": g["competitors_with"],
         })
+        if g.get('note') and g.get('comparison_verified') is False:
+            gap_summary[-1]['sell_line'] = g['note']
 
     open_keys = {g["gap_key"] for g in gap_summary}
     rungs = []
@@ -88,7 +94,7 @@ def generate(lead_id: str, bible_version: int | None = None) -> dict:
 
     env = Environment(loader=FileSystemLoader(ROOT / "templates" / "pitch"), autoescape=True)
     html = env.get_template("pitch.html.j2").render(
-        pitch=pitch, bible=bible, lead=lead, locale=loc,
+        pitch=pitch, bible=bible, lead=lead, locale=loc, area=prospect_area(lead),
         rung_by_key={r["key"]: r for r in rungs})
     (pdir / f"v{version}.html").write_text(html)
     store.advance_status(lead_id, "pitched")

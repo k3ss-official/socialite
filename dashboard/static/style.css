@@ -168,3 +168,7 @@ blockquote footer { font-size: 13px; color: var(--muted); margin-top: 4px; }
   .board { grid-template-columns: repeat(2, 1fr); }
   .grid-3 { grid-template-columns: 1fr; }
 }
+
+.claim-card { border-top: 1px solid #dddddd40; padding: 1rem 0; }
+.evidence-text { white-space: pre-wrap; overflow-wrap: anywhere; max-width: 100%; font-size: .85rem; }
+textarea { display: block; width: 100%; min-height: 5rem; margin: .5rem 0; }

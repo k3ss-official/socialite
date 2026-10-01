@@ -8,6 +8,7 @@
     "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
     "name": { "type": "string" },
     "category": { "type": "string", "description": "e.g. takeaway, cafe, hotel, trekking-operator" },
+    "locality": { "type": "string" },
     "locale": {
       "type": "object",
       "required": ["key", "country", "language", "currency", "contact_channel"],
@@ -45,7 +46,7 @@
       "type": "object",
       "required": ["verdict"],
       "properties": {
-        "verdict": { "enum": ["none", "dead", "broken", "template", "real"] },
+        "verdict": { "enum": ["unknown", "none", "dead", "broken", "template", "real"] },
         "url": { "type": ["string", "null"] }
       }
     },

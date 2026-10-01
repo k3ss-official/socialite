@@ -5,7 +5,36 @@ Facebook page with no real website → research them deeply → build them a han
 landing page → arm a sales rep with a pitch sheet built on a residual ladder → deploy on
 our own VPS and track the client's recurring services.
 
-## One-command run
+## Staff research workflow
+
+Use the dashboard and local worker for **select prospect → collect → Bible v2 → staff
+review → preview and proposal**. Expanded collectors, three-provider benchmarking and
+the signature design system remain subsequent work.
+
+```sh
+python3 -m venv .venv
+.venv/bin/pip install -r requirements.txt
+.venv/bin/python dashboard/app.py
+```
+
+Open http://127.0.0.1:5057, select a prospect and start research. In a second terminal:
+
+```sh
+claude --version
+.venv/bin/python -m socialite.cli worker
+```
+
+Live synthesis needs a working, logged-in Claude CLI. Other providers are not integrated
+yet. The dashboard is local only and records self-reported staff names; keep it on loopback.
+
+Bible v2 exposes coverage, claim receipts, unknowns/conflicts, roadmap and image permission
+review. **Open printable report** uses the supplied example's structure; **Print / save as
+PDF** exports from your browser. Existing Bible v1 viewers and builds remain available.
+
+See [M4 setup and recovery](docs/WORKFLOW-QUICKSTART.md),
+[Bible v2 contract](docs/BIBLE-V2.md), and the [baseline gap analysis](docs/GAP-ANALYSIS.md).
+
+## Legacy one-command run
 
 ```sh
 ./run.sh "Scran Away, Chorley, UK"          # uk locale (default)
@@ -14,8 +43,8 @@ our own VPS and track the client's recurring services.
 
 That single command runs **FIND → RESEARCH → BIBLE → BUILD → PITCH** plus a **dry-run of
 provisioning**, then prints the local preview path, artifact paths, per-lead spend, and the
-dashboard URL. Re-running is idempotent: cached research is reused, unchanged inputs never
-re-bill or spam new versions, and statuses only move forward.
+dashboard URL. Research uses a freshness window. This legacy path creates the original
+Bible format and does not provide the new staff review step. Use the dashboard for Bible v2.
 
 First-time setup:
 
@@ -65,8 +94,9 @@ Locale-scale discovery: `python -m socialite.cli find-locale --locale np-pokhara
 
 `schemas/*.schema.json` pin the data shapes between stages — every artifact is validated on
 write. `data/events.jsonl` logs every pipeline action (machine-readable, Phase 2 food).
-Costs: every billable action is logged per lead; a kill switch refuses any action that
-would exceed `cost_cap_usd_per_lead` ($2 default in `config/settings.yaml`).
+Costs: reported LLM usage is logged per lead; a preflight gate refuses actions whose
+estimated cost exceeds the remaining `cost_cap_usd_per_lead` ($2 default).
+Actual provider billing can exceed an estimate; this is not a guaranteed hard billing cap.
 
 ## The business config
 
@@ -79,9 +109,9 @@ would exceed `cost_cap_usd_per_lead` ($2 default in `config/settings.yaml`).
 
 ## Key choices (one line each)
 
-- **Python + Flask + SQLite + JSON artifacts on disk** — boring, solo-maintainable, greppable; artifacts are the source of truth, SQLite is just the dashboard index.
+- **Python + Flask + SQLite + JSON artifacts on disk** — lead/event indexes recover from files; clients, services and jobs are durable SQLite data and need database backups too.
 - **Static site output** — zero runtime, deploys anywhere nginx points at a folder.
-- **`claude -p` as synthesis engine** — already installed and billed to the existing plan; reports cost per call so the cap is enforceable.
+- **`claude -p` as synthesis engine** — needs local installation and login; access/billing depend on that account, and reported usage supports spend tracking.
 - **ddgs (DuckDuckGo) + Overpass for discovery** — free, keyless, no quota accounts to babysit.
 - **No LLM in the pitch stage** — sell lines are vetted config; reps get consistency and the cost is zero.
 

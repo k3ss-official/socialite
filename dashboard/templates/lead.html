@@ -13,6 +13,7 @@
   <div class="status-row">
     {% for s in LEAD_STATUSES if s != lead.status %}
     <form method="post" action="{{ url_for('advance_status', lead_id=lead.id) }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
       <input type="hidden" name="status" value="{{ s }}">
       <button class="btn btn-{{ s }}" type="submit">{{ s }}</button>
     </form>
@@ -20,6 +21,48 @@
   </div>
 </section>
 
+<section class="panel">
+  <h2>Research this prospect</h2>
+  <p>Gather public sources, review the Bible, then generate a page from approved facts.</p>
+  <form method="post" action="{{ url_for('start_research', lead_id=lead.id) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <label>Your name <input name="staff_name" required placeholder="Staff name"></label>
+    <label><input type="checkbox" name="force" value="yes"> Refresh sources</label>
+    <button type="submit" class="btn">Start research</button>
+  </form>
+  {% if jobs %}
+  <table><thead><tr><th>Job</th><th>Progress</th><th>Result</th><th></th></tr></thead><tbody>
+    {% for job in jobs %}<tr data-job-id="{{ job.id }}" data-active="{{ 'yes' if job.status in ('queued','running','cancel_requested') else 'no' }}">
+      <td>{{ job.kind }}<br><small>{{ job.requested_by }} · {{ job.created_at | ts }}</small></td>
+      <td>{{ job.status }} · {{ job.stage }}</td>
+      <td>{% if job.error %}<span class="bad">{{ job.error }}</span>{% endif %}
+        {% if job.result.bible_version %}<a href="{{ url_for('bible_view', lead_id=lead.id, v=job.result.bible_version) }}">Review Bible v{{ job.result.bible_version }}</a>{% endif %}
+        {% if job.result.site_version %} · <a href="{{ url_for('preview', lead_id=lead.id, v=job.result.site_version) }}">Open preview</a>{% endif %}
+        {% if job.result.collection_failures %}<br>{{ job.result.collection_failures }} sources incomplete/unavailable{% endif %}
+      </td>
+      <td>{% if job.status in ('queued','running') %}<form method="post" action="{{ url_for('cancel_job', job_id=job.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token }}"><button class="btn">Cancel</button></form>{% endif %}</td>
+    </tr>{% endfor %}
+  </tbody></table>
+  {% endif %}
+</section>
+<script>
+  document.querySelectorAll('[data-active="yes"]').forEach(row => {
+    const poll = async () => {
+      try {
+        const response = await fetch('/job/' + row.dataset.jobId);
+        if (!response.ok) return;
+        const job = await response.json();
+        row.cells[1].textContent = job.status + ' · ' + job.stage;
+        if (!['queued','running','cancel_requested'].includes(job.status)) {
+          const link = document.createElement('a'); link.href = location.href; link.textContent = 'Refresh to view results';
+          row.cells[2].replaceChildren(link); return;
+        }
+      } catch (_) { /* Keep forms usable when polling is unavailable. */ }
+      setTimeout(poll, 3000);
+    };
+    setTimeout(poll, 3000);
+  });
+</script>
 <section class="panel">
   <h2>Spend vs cap</h2>
   <div class="spendbar{% if pct > 80 %} over{% endif %}">
@@ -75,6 +118,7 @@
 <section class="panel sign-panel">
   <h2>Sign client</h2>
   <form method="post" action="{{ url_for('sign', lead_id=lead.id) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
     <table>
       <thead><tr><th></th><th>Rung</th><th>Kind</th><th>Monthly ({{ sign.currency }})</th></tr></thead>
       <tbody>

@@ -32,17 +32,23 @@ ORDER_PLATFORM_DOMAINS = (
 )
 
 
-def search(query: str, max_results: int = 10, retries: int = 2) -> list[dict]:
+class SearchResults(list):
+    def __init__(self, rows=(), outcome='ok', error=None):
+        super().__init__(rows)
+        self.outcome, self.error = outcome, error
+
+
+def search(query: str, max_results: int = 10, retries: int = 1) -> list[dict]:
     """Returns [{title, href, body}]. Retries once on transient ddg hiccups."""
     for attempt in range(retries + 1):
         try:
             with DDGS() as d:
                 rows = list(d.text(query, max_results=max_results))
-            return [{"title": r.get("title", ""), "href": r.get("href") or r.get("link", ""),
-                     "body": r.get("body", "")} for r in rows if r.get("href") or r.get("link")]
-        except Exception:
+            return SearchResults([{"title": r.get("title", ""), "href": r.get("href") or r.get("link", ""),
+                     "body": r.get("body", "")} for r in rows if r.get("href") or r.get("link")])
+        except Exception as exc:
             if attempt == retries:
-                return []
+                return SearchResults(outcome='unavailable', error=type(exc).__name__)
             time.sleep(2 * (attempt + 1))
     return []
 

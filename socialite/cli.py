@@ -6,8 +6,10 @@ import argparse
 import json
 import subprocess
 import sys
+import time
+from pathlib import Path
 
-from . import store
+from . import jobs, store
 from .config import ROOT, settings
 from .stages import bible, build, find, pitch, research
 
@@ -77,6 +79,12 @@ def main() -> None:
             p.add_argument("--theme", default=None)
 
     sub.add_parser("dashboard", help="start the team dashboard")
+    sub.add_parser('reindex', help='recover lead/event indexes; preserve the client and job ledger')
+    p = sub.add_parser('backup', help='back up SQLite client/service/job storage')
+    p.add_argument('destination', type=Path)
+    p = sub.add_parser('worker', help='process selected-prospect research and preview jobs')
+    p.add_argument('--once', action='store_true', help='process at most one job')
+    p.add_argument('--recover', action='store_true', help='mark interrupted running jobs failed after the old worker stopped')
     p = sub.add_parser("status", help="lead pipeline at a glance")
 
     args = ap.parse_args()
@@ -98,6 +106,32 @@ def main() -> None:
         pitch.generate(args.lead_id)
     elif args.cmd == "dashboard":
         subprocess.run([sys.executable, str(ROOT / "dashboard" / "app.py")])
+    elif args.cmd == 'reindex':
+        print(json.dumps(store.rebuild_index()))
+    elif args.cmd == 'backup':
+        print(store.backup_database(args.destination))
+    elif args.cmd == 'worker':
+        import fcntl
+        from .config import data_dir
+        with open(data_dir() / '.worker.lock', 'a') as lock:
+            try:
+                fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except BlockingIOError:
+                raise SystemExit('A Socialite worker is already running')
+            if args.recover:
+                print(f'Recovered {jobs.recover_interrupted()} interrupted jobs')
+            print('Worker ready; Ctrl-C to stop', flush=True)
+            try:
+                while True:
+                    result = jobs.run_next()
+                    if result:
+                        print(json.dumps(result), flush=True)
+                    if args.once:
+                        break
+                    if result is None:
+                        time.sleep(2)
+            except KeyboardInterrupt:
+                pass
     elif args.cmd == "status":
         with store.db() as conn:
             for r in conn.execute("SELECT id, name, status, score FROM leads ORDER BY updated_at DESC"):

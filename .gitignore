@@ -3,5 +3,8 @@ __pycache__/
 *.pyc
 .DS_Store
 data/db.sqlite
+data/db.sqlite-*
+data/.worker.lock
+data/leads/*/review/
 data/leads/*/raw/pages/
 provision/mock/fakevps/

@@ -31,6 +31,21 @@ def _name_matches(name: str, text: str) -> bool:
     return hit >= max(1, needed)
 
 
+def prospect_area(lead: dict) -> str:
+    """Explicit locality for new leads, id-based fallback for legacy artifacts."""
+    if lead.get('locality'):
+        return lead['locality']
+    prefix = slugify(lead['name']) + '-'
+    if lead['id'].startswith(prefix) and lead['id'][len(prefix):]:
+        return lead['id'][len(prefix):].replace('-', ' ').title()
+    return load_locale(lead['locale']['key'])['discovery']['area_name']
+
+
+def research_context(lead: dict) -> dict:
+    return {k: lead.get(k) for k in ('id', 'name', 'category', 'locality', 'locale',
+                                    'address', 'contact', 'socials', 'website')}
+
+
 _CONTENT_PATH = re.compile(r"/(p|reel|posts|photos|videos|albums|story|events)/")
 
 
@@ -69,17 +84,18 @@ def find_single(query: str, locale_key: str) -> dict:
     for r in results:
         kind = websearch.classify(r["href"])
         blob = f"{r['title']} {r['body']}"
-        if kind == "social" and _name_matches(name, blob + " " + r["href"]):
+        matched = _name_matches(name, blob + ' ' + r['href']) and area.split(',')[0].lower() in (blob + ' ' + r['href']).lower()
+        if not matched:
+            continue
+        if kind == "social":
             platform = ("facebook" if "facebook" in r["href"]
                         else "instagram" if "instagram" in r["href"]
                         else "tiktok" if "tiktok" in r["href"] else "other")
             # prefer page roots over posts/albums/group mentions
             if platform not in socials or _social_rank(r["href"]) < _social_rank(socials[platform]):
-                if "/groups/" not in r["href"]:
-                    socials[platform] = r["href"]
-                    evidence.append(_evidence(f"social:{platform}", f"found: {r['title'][:70]}", r["href"]))
-        elif kind == "candidate_website" and _name_matches(name, blob + " " + r["href"]) \
-                and _plausibly_theirs(name, r["href"]):
+                socials[platform] = r["href"]
+                evidence.append(_evidence(f"social:{platform}", f"candidate surface: {r['title'][:70]}", r["href"]))
+        elif kind == "candidate_website":
             candidates.append(r["href"])
         elif kind == "order_platform" and _name_matches(name, blob):
             candidates.append(r["href"])
@@ -91,20 +107,20 @@ def find_single(query: str, locale_key: str) -> dict:
         for m in EMAIL_RE.findall(blob):
             # councils and directories leak their own addresses into snippets
             email_domain = m.split("@")[1].lower()
-            if email_domain.endswith("gov.uk") or email_domain == websearch.domain_of(r["href"]):
+            if email_domain.endswith("gov.uk") or (kind == 'aggregator' and email_domain == websearch.domain_of(r['href'])):
                 continue
             if not contact["email"]:
                 contact["email"] = m
                 evidence.append(_evidence("contact:email", m, r["href"]))
 
     # Judge candidate websites — worst case for us is they already have a real one.
-    website = {"verdict": "none", "url": None}
+    website = {"verdict": "unknown", "url": None}
     for url in candidates[:4]:
         kind = websearch.classify(url)
         if kind == "order_platform":
             verdict = {"verdict": "template", "url": url}
             evidence.append(_evidence("website_check", "white-label ordering platform page — not their own site", url))
-            if website["verdict"] == "none":
+            if website["verdict"] == "unknown":
                 website = verdict
             continue
         chk = sitecheck.check(url)
@@ -114,30 +130,25 @@ def find_single(query: str, locale_key: str) -> dict:
             evidence.append(_evidence("website_check",
                                       f"discarded {url} — page never mentions '{name}'", url))
             continue
-        # their content on a domain sharing no token with their name = freebie/template
-        # deployment (site-builder subdomain, borrowed domain), not a real web presence
-        domain = websearch.domain_of(url)
-        tokens = [t for t in re.split(r"\W+", name.lower()) if len(t) > 2]
-        if chk["verdict"] == "real" and not any(t in domain for t in tokens):
-            chk["verdict"] = "template"
-            chk["signals"].append(f"domain '{domain}' unrelated to business name — template/freebie deployment")
         evidence.append(_evidence("website_check", f"{chk['verdict']}: {'; '.join(chk['signals'])}", url))
         if chk["verdict"] == "real":
             website = {"verdict": "real", "url": url}
             break
-        if website["verdict"] in ("none",):
+        if website["url"] is None:
             website = {"verdict": chk["verdict"], "url": url}
     if not candidates:
-        evidence.append(_evidence("website_check", "no candidate own-domain website in search results"))
+        evidence.append(_evidence("website_check", "no matched website found in this search; existence remains unknown"))
 
     # DDG result variance means a re-run can miss things we already found and
     # verified — never let a rerun silently downgrade known evidence
     status, address, category = "found", None, ""
+    created_at = store.now()
     try:
         prior = store.get_lead(lead_id)
         status = prior["status"]  # re-finding must not regress pipeline position
+        created_at = prior['created_at']
         address, category = prior.get("address"), prior.get("category", "")
-        if website["verdict"] == "none" and prior["website"]["verdict"] != "none":
+        if website["verdict"] == "unknown" and prior["website"]["verdict"] not in ('none', 'unknown'):
             website = prior["website"]
             evidence.append(_evidence(
                 "website_check",
@@ -155,20 +166,21 @@ def find_single(query: str, locale_key: str) -> dict:
     score = 0
     score += 35 if socials.get("facebook") else 0
     score += 10 if socials.get("instagram") else 0
-    score += {"none": 35, "dead": 35, "broken": 30, "template": 25, "real": 0}[website["verdict"]]
+    score += {"unknown": 0, "none": 35, "dead": 35, "broken": 30, "template": 25, "real": 0}[website["verdict"]]
     score += 10 if (contact["phone"] or contact["email"]) else 0
     score += 10 if any(websearch.classify(r["href"]) == "aggregator" and _name_matches(name, r["title"])
                        for r in results) else 0
 
     lead = {
-        "id": lead_id, "name": name, "category": category,
+        "id": lead_id, "name": name, "category": category, "locality": area,
         "locale": {"key": loc["key"], "country": loc["country"], "language": loc["language"],
                    "currency": loc["currency"], "contact_channel": loc["contact_channel"]},
         "address": address, "contact": contact,
-        "socials": [{"platform": p, "url": u, "active": None} for p, u in socials.items()],
+        "socials": [{"platform": p, "url": u, "active": None,
+                     "surface": "group" if '/groups/' in u else "unknown"} for p, u in socials.items()],
         "website": website,
         "qualification": {"score": min(score, 100), "evidence": evidence},
-        "status": status, "created_at": store.now(), "updated_at": store.now(),
+        "status": status, "created_at": created_at, "updated_at": store.now(),
     }
     contracts.validate(lead, "lead")
     store.upsert_lead(lead)

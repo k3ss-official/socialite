@@ -52,7 +52,7 @@
   <div class="head">
     <div>
       <h1>{{ bible.identity.name }}</h1>
-      <div>{{ bible.identity.category | title }} · {{ locale.discovery.area_name }}</div>
+      <div>{{ bible.identity.category | title }} · {{ area }}</div>
     </div>
     <div class="meta">Prepared {{ pitch.generated_at[:10] }}<br>bible v{{ pitch.bible_version }} · internal</div>
   </div>
@@ -64,7 +64,7 @@
   {% endfor %}
   {% endif %}
 
-  <h2>What they're losing right now</h2>
+  <h2>Confirmed opportunities</h2>
   {% for g in pitch.gap_summary %}
   <div class="gap">
     <div class="n">{{ loop.index }}</div>

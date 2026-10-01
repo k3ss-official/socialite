@@ -7,6 +7,7 @@ import json
 from .. import contracts, llm, store
 from ..config import ROOT, ladder, locale as load_locale
 from . import research
+from .find import prospect_area
 
 PROMPT_VERSION = "2"
 
@@ -26,7 +27,7 @@ def _build_prompt(lead: dict, bundle: dict) -> str:
                    )[:settings()["llm"]["max_input_chars"]]
     template = (ROOT / "prompts" / "bible.md").read_text()
     return template.format(
-        name=lead["name"], area=loc["discovery"]["area_name"],
+        name=lead["name"], area=prospect_area(lead),
         language=lead["locale"]["language"], currency=lead["locale"]["currency"],
         contact_channel=lead["locale"]["contact_channel"],
         contact=json.dumps(lead["contact"]), socials=json.dumps(lead["socials"]),

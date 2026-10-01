@@ -11,7 +11,11 @@ Layout per lead:
 from __future__ import annotations
 
 import json
+import math
+import os
+import re
 import sqlite3
+import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -24,12 +28,20 @@ class CostCapExceeded(RuntimeError):
     pass
 
 
+class Connection(sqlite3.Connection):
+    def __exit__(self, *args):
+        try:
+            return super().__exit__(*args)
+        finally:
+            self.close()
+
+
 def now() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
 
 def db() -> sqlite3.Connection:
-    conn = sqlite3.connect(data_dir() / "db.sqlite")
+    conn = sqlite3.connect(data_dir() / "db.sqlite", timeout=30, factory=Connection)
     conn.row_factory = sqlite3.Row
     conn.executescript("""
     CREATE TABLE IF NOT EXISTS leads (
@@ -52,13 +64,83 @@ def db() -> sqlite3.Connection:
       name TEXT, monthly_value REAL, currency TEXT, start_date TEXT,
       renewal_date TEXT, status TEXT DEFAULT 'active', schedule TEXT, state TEXT
     );
+    CREATE TABLE IF NOT EXISTS metadata (key TEXT PRIMARY KEY, value TEXT);
     """)
+    # Serialized migration: a new checkout must recover its file-backed index.
+    conn.execute("BEGIN IMMEDIATE")
+    try:
+        if not conn.execute("SELECT 1 FROM metadata WHERE key='file_index_v1'").fetchone():
+            _rebuild_index(conn)
+            conn.execute("INSERT INTO metadata VALUES ('file_index_v1', ?)", (now(),))
+        conn.commit()
+    except BaseException:
+        conn.rollback()
+        conn.close()
+        raise
     return conn
+
+
+def _index_lead(conn, lead: dict) -> None:
+    conn.execute(
+        "INSERT INTO leads (id,name,locale_key,status,score,created_at,updated_at,json) "
+        "VALUES (?,?,?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET name=excluded.name, "
+        "locale_key=excluded.locale_key,status=excluded.status,score=excluded.score, "
+        "created_at=excluded.created_at,updated_at=excluded.updated_at,json=excluded.json",
+        (lead['id'], lead['name'], lead['locale']['key'], lead['status'],
+         lead['qualification']['score'], lead['created_at'], lead.get('updated_at', now()),
+         json.dumps(lead, ensure_ascii=False)))
+
+
+def _index_event(conn, event: dict) -> None:
+    conn.execute(
+        "INSERT INTO events (ts,lead_id,stage,action,status,cost_usd,artifact,version,details) "
+        "VALUES (?,?,?,?,?,?,?,?,?)",
+        tuple(event.get(k) for k in ('ts','lead_id','stage','action','status')) +
+        (event.get('cost_usd', 0), event.get('artifact'), event.get('version'),
+         json.dumps(event.get('details', {}), ensure_ascii=False)))
+
+
+def _rebuild_index(conn) -> dict:
+    # Parse before replacing either index; corrupt files must not silently vanish.
+    leads = [load_json(p) for p in sorted((data_dir() / 'leads').glob('*/lead.json'))]
+    path = data_dir() / 'events.jsonl'
+    events = [json.loads(s) for s in path.read_text().splitlines() if s.strip()] if path.exists() else []
+    conn.execute('DELETE FROM leads')
+    conn.execute('DELETE FROM events')
+    for lead in leads:
+        _index_lead(conn, lead)
+    for event in events:
+        _index_event(conn, event)
+    return {'leads': len(leads), 'events': len(events)}
+
+
+def rebuild_index() -> dict:
+    """Reconcile file-backed leads/events, preserving clients, services and jobs."""
+    with db() as conn:
+        conn.execute('BEGIN IMMEDIATE')
+        return _rebuild_index(conn)
+
+
+def backup_database(destination: Path) -> Path:
+    """SQLite is durable storage for clients/services/jobs; use its backup API."""
+    if destination.resolve() == (data_dir() / 'db.sqlite').resolve():
+        raise ValueError('Choose a separate backup destination')
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    source = db()
+    target = sqlite3.connect(destination)
+    try:
+        source.backup(target)
+    finally:
+        target.close()
+        source.close()
+    return destination
 
 
 # ---------- artifact paths ----------
 
 def lead_dir(lead_id: str) -> Path:
+    if not re.fullmatch(r'[a-z0-9-]+', lead_id):
+        raise ValueError('Invalid lead id')
     d = data_dir() / "leads" / lead_id
     d.mkdir(parents=True, exist_ok=True)
     return d
@@ -83,7 +165,17 @@ def load_json(path: Path) -> dict:
 
 def save_json(path: Path, obj: dict) -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(obj, indent=2, ensure_ascii=False))
+    content = json.dumps(obj, indent=2, ensure_ascii=False) + '\n'
+    fd, temporary = tempfile.mkstemp(prefix='.write-', dir=path.parent)
+    try:
+        with os.fdopen(fd, 'w') as f:
+            f.write(content)
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(temporary, path)
+    finally:
+        if os.path.exists(temporary):
+            os.unlink(temporary)
     return path
 
 
@@ -95,14 +187,13 @@ def log_event(stage: str, action: str, status: str = "ok", lead_id: str | None =
     event = {"ts": now(), "lead_id": lead_id, "stage": stage, "action": action,
              "status": status, "cost_usd": round(cost_usd, 6), "artifact": artifact,
              "version": version, "details": details}
-    with open(data_dir() / "events.jsonl", "a") as f:
-        f.write(json.dumps(event, ensure_ascii=False) + "\n")
     with db() as conn:
-        conn.execute(
-            "INSERT INTO events (ts, lead_id, stage, action, status, cost_usd, artifact, version, details) "
-            "VALUES (?,?,?,?,?,?,?,?,?)",
-            (event["ts"], lead_id, stage, action, status, event["cost_usd"], artifact, version,
-             json.dumps(details, ensure_ascii=False)))
+        conn.execute('BEGIN IMMEDIATE')
+        with open(data_dir() / "events.jsonl", "a") as f:
+            f.write(json.dumps(event, ensure_ascii=False) + "\n")
+            f.flush()
+            os.fsync(f.fileno())
+        _index_event(conn, event)
 
 
 # ---------- cost ledger / kill switch ----------
@@ -129,15 +220,10 @@ def ensure_budget(lead_id: str, estimated_next_usd: float = 0.25) -> None:
 # ---------- leads ----------
 
 def upsert_lead(lead: dict) -> None:
-    save_json(lead_dir(lead["id"]) / "lead.json", lead)
     with db() as conn:
-        conn.execute(
-            "INSERT INTO leads (id, name, locale_key, status, score, created_at, updated_at, json) "
-            "VALUES (?,?,?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET name=excluded.name, "
-            "status=excluded.status, score=excluded.score, updated_at=excluded.updated_at, json=excluded.json",
-            (lead["id"], lead["name"], lead["locale"]["key"], lead["status"],
-             lead["qualification"]["score"], lead["created_at"], lead.get("updated_at", now()),
-             json.dumps(lead, ensure_ascii=False)))
+        conn.execute('BEGIN IMMEDIATE')
+        save_json(lead_dir(lead["id"]) / "lead.json", lead)
+        _index_lead(conn, lead)
 
 
 def get_lead(lead_id: str) -> dict:
@@ -169,14 +255,29 @@ def sign_lead(lead_id: str, rung_keys: list[str], monthly_values: dict[str, floa
               currency: str, start_date: str | None = None) -> int:
     """Convert a pitched lead into a client with one service row per rung."""
     from .config import ladder
+    get_lead(lead_id)
+    rung_keys = list(dict.fromkeys(rung_keys))
+    for key in rung_keys:
+        if key not in ladder()['rungs']:
+            raise ValueError('Unknown service')
+        value = float(monthly_values.get(key, 0))
+        if not math.isfinite(value) or value < 0:
+            raise ValueError('Monthly value must be a finite nonnegative amount')
     start = start_date or now()[:10]
     renewal = f"{int(start[:4]) + 1}{start[4:]}"
     with db() as conn:
-        cur = conn.execute("INSERT OR IGNORE INTO clients (lead_id, signed_at) VALUES (?,?)",
+        conn.execute('BEGIN IMMEDIATE')
+        conn.execute("INSERT OR IGNORE INTO clients (lead_id, signed_at) VALUES (?,?)",
                            (lead_id, now()))
-        client_id = cur.lastrowid or conn.execute(
+        client_id = conn.execute(
             "SELECT id FROM clients WHERE lead_id=?", (lead_id,)).fetchone()["id"]
         for key in rung_keys:
+            existing = conn.execute("SELECT * FROM services WHERE client_id=? AND rung_key=? AND status='active'",
+                                    (client_id, key)).fetchall()
+            if existing:
+                if len(existing) != 1 or existing[0]['currency'] != currency or float(existing[0]['monthly_value']) != float(monthly_values.get(key, 0)):
+                    raise ValueError('Existing service differs; review it before changing the agreement')
+                continue
             rung = ladder()["rungs"][key]
             schedule = json.dumps({"cadence_per_year": rung.get("cadence_per_year")})
             conn.execute(

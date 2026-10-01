@@ -1,0 +1,182 @@
+[
+  {
+    "check": "schema_definitions",
+    "valid": 5
+  },
+  {
+    "check": "shipped_artifact_validation",
+    "counts": {
+      "lead": 16,
+      "bible": 3,
+      "pitch": 4,
+      "build-manifest": 4
+    },
+    "event_count": 82,
+    "invalid": []
+  },
+  {
+    "check": "fresh_clone_index",
+    "artifact_leads": 16,
+    "dashboard_leads": 0,
+    "recorded_jsonl_spend": 1.286694,
+    "sqlite_spend": 0.0
+  },
+  {
+    "check": "dashboard_read_routes",
+    "status_codes": {
+      "/": 200,
+      "/lead/scran-away-chorley": 200,
+      "/lead/scran-away-chorley/bible/4": 200,
+      "/lead/scran-away-chorley/pitch/4": 200,
+      "/preview/scran-away-chorley/4/": 200,
+      "/preview/scran-away-chorley/4/style.css": 200,
+      "/clients": 200,
+      "/events": 200
+    },
+    "mutating_routes": [
+      {
+        "path": "/lead/<lead_id>/status",
+        "methods": [
+          "POST"
+        ]
+      },
+      {
+        "path": "/lead/<lead_id>/sign",
+        "methods": [
+          "POST"
+        ]
+      }
+    ]
+  },
+  {
+    "check": "bible_image_viewer",
+    "status_codes": {
+      "/lead/scran-away-chorley/raw/images/images/img01.webp": 404,
+      "/lead/scran-away-chorley/raw/images/images/img00.webp": 404,
+      "/lead/scran-away-chorley/raw/images/images/img02.webp": 404,
+      "/lead/scran-away-chorley/raw/images/images/img03.webp": 404,
+      "/lead/scran-away-chorley/raw/images/images/img05.webp": 404,
+      "/lead/scran-away-chorley/raw/images/images/img04.webp": 404,
+      "/lead/scran-away-chorley/raw/images/images/img06.webp": 404,
+      "/lead/scran-away-chorley/raw/images/images/img07.jpg": 404
+    },
+    "correct_route_status": 200
+  },
+  {
+    "check": "local_build_and_pitch",
+    "build_version": 5,
+    "build_reused": true,
+    "pitch_version": 5,
+    "pitch_reused": true,
+    "site_files_exist": true
+  },
+  {
+    "check": "contract_and_template_alignment",
+    "schema_errors": [],
+    "render_error": "UndefinedError: 'dict object' has no attribute 'typography'",
+    "alerts_required": false
+  },
+  {
+    "check": "rating_from_selected_quotes",
+    "badge": "★★★★★ 5.0 from real reviews"
+  },
+  {
+    "check": "duplicate_sign_submission",
+    "mrr_before": {},
+    "mrr_after": {
+      "GBP": {
+        "mrr": 78.0,
+        "active_services": 2,
+        "projection": [
+          78.0,
+          70.2,
+          63.18,
+          56.86
+        ]
+      }
+    }
+  },
+  {
+    "check": "build_cache_image_change",
+    "same_version": true,
+    "same_hash": true,
+    "raw_image_change_included": false
+  },
+  {
+    "check": "cost_cap_reservation",
+    "configured_cap": 2.0,
+    "estimated_action": 0.3,
+    "simulated_reported_cost": 3.0,
+    "accepted_spend": 3.0
+  },
+  {
+    "check": "sister_company_site_qualification",
+    "website": {
+      "verdict": "template",
+      "url": "https://brunchnbubbles.co.uk/vestry/"
+    }
+  },
+  {
+    "check": "unmatched_contact_extraction",
+    "contact": {
+      "phone": "07802 111222",
+      "whatsapp": null,
+      "email": null,
+      "messenger": null
+    }
+  },
+  {
+    "check": "blocked_source_result",
+    "input_http_status": 403,
+    "fetch_return": null
+  },
+  {
+    "check": "research_geography_and_category",
+    "lead_name": "Audit Prospect",
+    "lead_id": "audit-prospect-preston",
+    "research_queries": [
+      "\"Audit Prospect\" Chorley",
+      "\"Audit Prospect\" Chorley reviews",
+      "\"Audit Prospect\" Chorley menu",
+      "best rated takeaway street food Chorley reviews"
+    ]
+  },
+  {
+    "check": "social_metadata_extraction",
+    "fetched": [
+      {
+        "url": "https://brunchnbubbles.co.uk/vestry/",
+        "kind": "own_site",
+        "status": 200,
+        "text_file": null
+      },
+      {
+        "url": "https://www.facebook.com/vestrychorley/",
+        "kind": "social:facebook",
+        "status": 200,
+        "text_file": null
+      }
+    ],
+    "og_description_in_prompt": false
+  },
+  {
+    "check": "vestry_trial_contract",
+    "errors": [
+      "<root>: 'version' is a required property",
+      "<root>: 'generated_at' is a required property",
+      "<root>: 'inputs_hash' is a required property",
+      "<root>: 'brand_voice' is a required property",
+      "<root>: 'palette' is a required property",
+      "<root>: 'usps' is a required property",
+      "<root>: 'competitors' is a required property",
+      "<root>: 'gap_matrix' is a required property",
+      "<root>: 'site_copy' is a required property",
+      "identity: 'name' is a required property",
+      "identity: 'story' is a required property",
+      "identity/category: {'value': 'Cocktail and dance bar', 'status': 'observed', 'evidence_ids': ['E00', 'E01', 'E02', 'E04'], 'note': '', 'ready_for_publication': True} is not of type 'string'",
+      "reviews: {'secondary_signals': [{'source': 'Restaurant Guru', 'attributed_platform': 'Google', 'rating': 4.8, 'count': 13, 'status': 'unverified_secondary', 'evidence_ids': ['E06']}, {'source': 'Restaurant Guru', 'attributed_platform': 'Facebook', 'rating': 4.7, 'count': 297, 'status': 'unverified_secondary', 'evidence_ids': ['E06']}], 'reported_positive_themes': ['Atmosphere', 'Friendly staff', 'DJs and late-night experience', 'Private functions'], 'evidence_ids': ['E06'], 'ready_for_site_testimonials': False, 'note': 'Mixed/incorrect listing destinations and internal rating inconsistencies make this a discovery source. Verify original review text, attribution, date and permission/usage conditions before quoting. No representative complaint or response-rate assessment is supported.'} is not of type 'array'",
+      "services/0: 'name' is a required property",
+      "services/1: 'name' is a required property"
+    ]
+  }
+]

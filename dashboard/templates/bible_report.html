@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ lead.name }} · Business Bible v{{ bible.version }}</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #f2f3f2; color: #172b28; font: 15px/1.65 system-ui, sans-serif; }
+  .report { max-width: 940px; margin: 2rem auto; padding: clamp(1.3rem,5vw,4rem); background: white; }
+  header { border-bottom: 2px solid #173832; padding-bottom: 1.5rem; }
+  .brand { text-transform: uppercase; letter-spacing: .16em; font-size: .75rem; font-weight: 700; }
+  h1 { font-size: clamp(1.8rem,4vw,2.7rem); line-height: 1.15; margin: 1rem 0 .5rem; }
+  h2 { font-size: 1.25rem; margin-top: 2.4rem; break-after: avoid; }
+  h3 { font-size: 1rem; margin-bottom: .3rem; break-after: avoid; }
+  p { margin: .6rem 0; } small,.meta { color: #596763; }
+  a { color: #245b4e; overflow-wrap: anywhere; }
+  .status { font-size: .7rem; border: 1px solid #ccd5d1; border-radius: 4px; padding: .15rem .4rem; }
+  .finding { padding: .5rem 0 1rem; border-bottom: 1px solid #e0e6e2; }
+  table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+  th { text-align: left; border-bottom: 2px solid #173832; }
+  td,th { padding: .6rem; vertical-align: top; overflow-wrap: anywhere; }
+  tbody tr:nth-child(even) { background: #f5f7f5; }
+  .value { margin: .4rem 0; } .value dt { font-weight: 600; } .value dd { margin: 0 0 .4rem 1rem; }
+  .toolbar { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+  button { padding: .6rem 1rem; cursor: pointer; }
+  @page { size: A4; margin: 18mm; }
+  @media print { body { background: white; font-size: 10pt; } .report { max-width: none; padding: 0; margin: 0; } .toolbar { display: none; } tr,.finding { break-inside: avoid; } h1 { font-size: 23pt; } h2 { font-size: 14pt; } }
+</style></head><body>
+{% macro value(item) %}
+  {% if item is mapping %}<dl class="value">{% for key,v in item.items() %}<dt>{{ key | replace('_',' ') | title }}</dt><dd>{{ value(v) }}</dd>{% endfor %}</dl>
+  {% elif item is sequence and item is not string %}<ul>{% for v in item %}<li>{{ value(v) }}</li>{% endfor %}</ul>
+  {% elif item is none %}<span class="meta">Unknown</span>
+  {% elif item is sameas true %}Yes{% elif item is sameas false %}No
+  {% else %}{{ item }}{% endif %}
+{% endmacro %}
+{% macro receipts(ids) %}{% for id in ids %}<a href="#source-{{ id }}">[{{ id }}]</a> {% endfor %}{% endmacro %}
+<main class="report">
+<div class="toolbar"><a href="{{ url_for('bible_view', lead_id=lead.id, v=bible.version) }}">Back to review</a><button onclick="window.print()">Print / save as PDF</button></div>
+<header><div class="brand">Socialite Design · Business intelligence</div><h1>{{ lead.name }}</h1><p>Business Bible · research report</p><p class="meta">Version {{ bible.version }} · Prepared {{ bible.generated_at | ts }} · Internal staff report</p></header>
+
+<h2>Executive summary</h2><p>{{ bible.summary }}</p>
+<p class="meta">Research coverage and uncertainty are shown below. Page approval is recorded separately; this report includes internal hypotheses and unresolved questions.</p>
+
+<h2>Key findings</h2>
+{% for section in sections %}
+{% set coverage = bible.coverage | selectattr('section','equalto',section) | first %}
+<h3>{{ loop.index }}. {{ section | title }} <span class="status">{{ coverage.state | replace('_',' ') }}</span></h3>
+{% for claim in bible.claims if claim.section == section %}<article class="finding"><strong>{{ claim.field | replace('_',' ') | replace('.',' · ') | title }}</strong> <span class="status">{{ claim.status }}</span><div>{{ value(claim.value) }}</div>{% if claim.note %}<p>{{ claim.note }}</p>{% endif %}<small>Confidence: {{ claim.confidence }} · {{ receipts(claim.evidence_ids) }}</small></article>{% endfor %}
+{% if coverage.note %}<p class="meta">{{ coverage.note }} {{ receipts(coverage.evidence_ids) }}</p>{% endif %}
+{% endfor %}
+
+<h2>Priority overview</h2>
+<table><thead><tr><th>Action</th><th>Priority</th><th>When</th><th>Benefit</th><th>Evidence</th></tr></thead><tbody>{% for item in bible.roadmap %}<tr><td>{{ item.action }}</td><td>{{ item.importance }}</td><td>{{ item.horizon }}</td><td>{{ item.benefit }}</td><td>{{ receipts(item.evidence_ids) }}</td></tr>{% else %}<tr><td colspan="5">No evidence-backed actions established yet.</td></tr>{% endfor %}</tbody></table>
+
+<h2>Action roadmap</h2>{% for horizon in ('now','next','later') %}<h3>{{ horizon | title }}</h3><ol>{% for item in bible.roadmap if item.horizon == horizon %}<li><strong>{{ item.action }}</strong><p>{{ item.benefit }}</p><small>Effort: {{ item.effort }}{% if item.dependencies %} · Dependencies: {{ item.dependencies | join(', ') }}{% endif %} · {{ receipts(item.evidence_ids) }}</small></li>{% else %}<li class="meta">No supported action recorded.</li>{% endfor %}</ol>{% endfor %}
+
+<h2>Competitor comparison</h2><table><thead><tr><th>Comparable business</th><th>Measure</th><th>Result</th><th>Evidence basis</th></tr></thead><tbody>{% for item in bible.comparisons %}<tr><td>{{ item.competitor }}<br><small>{{ item.category }} · {{ item.locality }}</small></td><td>{{ item.metric }}</td><td>{{ item.result | replace('_',' ') }}</td><td>{{ item.note }}<br><small>{{ item.prospect_claim_id }} / {{ item.competitor_claim_id }}</small></td></tr>{% else %}<tr><td colspan="4">Comparable competitor evidence is not established.</td></tr>{% endfor %}</tbody></table>
+
+<h2>Questions requiring confirmation</h2><ul>{% for c in bible.claims if c.status in ('unknown','conflicted','inferred') %}<li><strong>{{ c.field }}</strong>: {{ c.note }} {{ receipts(c.evidence_ids) }}</li>{% else %}<li>No additional questions recorded. Check coverage for areas not assessed.</li>{% endfor %}</ul>
+
+<h2>Landing-page readiness</h2><p>Review revision {{ review.revision }}{% if review.get('reviewer') %} · {{ review.reviewer }} · {{ review.reviewed_at | ts }}{% endif %}</p><table><thead><tr><th>Page field</th><th>Claim</th><th>Decision</th></tr></thead><tbody>{% for field,id in bible.site.bindings.items() %}<tr><td>{{ field | replace('_',' ') }}</td><td>{{ id }}</td><td>{{ review.claims.get(id,'hold') }}</td></tr>{% endfor %}</tbody></table><p>{{ review.get('note','') }}</p>
+
+<h2>Appendix: sources and receipts</h2><ol>{% for e in bible.evidence %}<li id="source-{{ e.id }}"><strong>{{ e.id }}</strong> · {{ e.kind }}<br><a href="{{ e.url }}">{{ e.url }}</a><br><small>Captured {{ e.captured_at | ts }} · {{ e.outcome }} · {{ e.scope }}</small><br><a href="{{ url_for('evidence_view', lead_id=lead.id, v=bible.version, evidence_id=e.id) }}">Inspect saved receipt</a></li>{% endfor %}</ol>
+<p class="meta">Generated from the saved Bible. Hypotheses are labelled and unavailable sources remain visible. Client page generation uses only approved facts and permitted assets.</p>
+</main></body></html>

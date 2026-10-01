@@ -1,0 +1,528 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Socialite Bible v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "lead_id",
+    "version",
+    "generated_at",
+    "inputs_hash",
+    "summary",
+    "coverage",
+    "evidence",
+    "claims",
+    "assets",
+    "comparisons",
+    "roadmap",
+    "site"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "2.0"
+    },
+    "lead_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "generated_at": {
+      "type": "string"
+    },
+    "inputs_hash": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "coverage": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "section",
+          "state",
+          "note",
+          "evidence_ids"
+        ],
+        "properties": {
+          "section": {
+            "enum": [
+              "identity",
+              "company",
+              "operators",
+              "audience",
+              "social",
+              "reviews",
+              "services",
+              "brand",
+              "credentials",
+              "competitors"
+            ]
+          },
+          "state": {
+            "enum": [
+              "assessed",
+              "partial",
+              "unavailable",
+              "not_assessed"
+            ]
+          },
+          "note": {
+            "type": "string"
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]+$"
+            },
+            "uniqueItems": true
+          }
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "url",
+          "kind",
+          "scope",
+          "captured_at",
+          "outcome",
+          "capture_file",
+          "content_hash",
+          "excerpt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]+$"
+          },
+          "url": {
+            "type": "string",
+            "pattern": "^https?://"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "scope": {
+            "enum": [
+              "prospect",
+              "competitor",
+              "unmatched"
+            ]
+          },
+          "captured_at": {
+            "type": "string"
+          },
+          "outcome": {
+            "enum": [
+              "captured",
+              "snippet",
+              "access_denied",
+              "rate_limited",
+              "network_unavailable",
+              "domain_stopped",
+              "http_error",
+              "entity_unmatched",
+              "empty_content",
+              "ok"
+            ]
+          },
+          "capture_file": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "content_hash": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "excerpt": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "section",
+          "field",
+          "value",
+          "status",
+          "confidence",
+          "evidence_ids",
+          "note"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]+$"
+          },
+          "section": {
+            "enum": [
+              "identity",
+              "company",
+              "operators",
+              "audience",
+              "social",
+              "reviews",
+              "services",
+              "brand",
+              "credentials",
+              "competitors"
+            ]
+          },
+          "field": {
+            "type": "string",
+            "minLength": 1
+          },
+          "value": {},
+          "status": {
+            "enum": [
+              "observed",
+              "inferred",
+              "unknown",
+              "conflicted"
+            ]
+          },
+          "confidence": {
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ]
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]+$"
+            },
+            "uniqueItems": true
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "path",
+          "source_evidence_id",
+          "original_url",
+          "content_hash",
+          "rights",
+          "use",
+          "caption"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]+$"
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^images/[A-Za-z0-9._-]+$"
+          },
+          "source_evidence_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]+$"
+          },
+          "original_url": {
+            "type": "string",
+            "pattern": "^https?://"
+          },
+          "content_hash": {
+            "type": "string"
+          },
+          "rights": {
+            "enum": [
+              "unknown",
+              "owner_supplied",
+              "licensed",
+              "permission_confirmed"
+            ]
+          },
+          "use": {
+            "enum": [
+              "hero",
+              "gallery",
+              "menu",
+              "about"
+            ]
+          },
+          "caption": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "comparisons": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "competitor",
+          "locality",
+          "category",
+          "metric",
+          "prospect_claim_id",
+          "competitor_claim_id",
+          "result",
+          "note"
+        ],
+        "properties": {
+          "competitor": {
+            "type": "string"
+          },
+          "locality": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "metric": {
+            "type": "string"
+          },
+          "prospect_claim_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]+$"
+          },
+          "competitor_claim_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]+$"
+          },
+          "result": {
+            "enum": [
+              "prospect_advantage",
+              "competitor_advantage",
+              "parity",
+              "unknown"
+            ]
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "roadmap": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "horizon",
+          "importance",
+          "action",
+          "benefit",
+          "effort",
+          "claim_ids",
+          "evidence_ids",
+          "dependencies",
+          "service_key"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]+$"
+          },
+          "horizon": {
+            "enum": [
+              "now",
+              "next",
+              "later"
+            ]
+          },
+          "importance": {
+            "enum": [
+              "critical",
+              "necessary",
+              "optional"
+            ]
+          },
+          "action": {
+            "type": "string"
+          },
+          "benefit": {
+            "type": "string"
+          },
+          "effort": {
+            "enum": [
+              "small",
+              "medium",
+              "large",
+              "unknown"
+            ]
+          },
+          "claim_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]+$"
+            },
+            "uniqueItems": true
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]+$"
+            },
+            "uniqueItems": true
+          },
+          "dependencies": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]+$"
+            },
+            "uniqueItems": true
+          },
+          "service_key": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "site": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "design",
+        "bindings",
+        "asset_ids"
+      ],
+      "properties": {
+        "design": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "palette",
+            "typography"
+          ],
+          "properties": {
+            "palette": {
+              "type": "object",
+              "required": [
+                "primary",
+                "accent",
+                "background",
+                "text"
+              ],
+              "properties": {
+                "primary": {
+                  "type": "string"
+                },
+                "secondary": {
+                  "type": "string"
+                },
+                "accent": {
+                  "type": "string"
+                },
+                "background": {
+                  "type": "string"
+                },
+                "text": {
+                  "type": "string"
+                },
+                "mode": {
+                  "enum": [
+                    "light",
+                    "dark"
+                  ]
+                },
+                "rationale": {
+                  "type": "string"
+                }
+              }
+            },
+            "typography": {
+              "type": "object",
+              "properties": {
+                "heading": {
+                  "type": "string"
+                },
+                "body": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "bindings": {
+          "type": "object",
+          "propertyNames": {
+            "enum": [
+              "name",
+              "category",
+              "story",
+              "tagline",
+              "headline",
+              "subheadline",
+              "about_heading",
+              "about",
+              "menu_heading",
+              "reviews_heading",
+              "visit_heading",
+              "footer_line",
+              "cta_label",
+              "cta_type",
+              "cta_value",
+              "address",
+              "maps_query",
+              "hours",
+              "services",
+              "usps",
+              "reviews",
+              "review_aggregate",
+              "social_links"
+            ]
+          },
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]+$"
+          }
+        },
+        "asset_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]+$"
+          },
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}
